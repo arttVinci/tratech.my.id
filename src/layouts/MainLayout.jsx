@@ -28,7 +28,7 @@ export default function MainLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-800 flex justify-center items-start py-19 px-19">
+    <div className="min-h-screen bg-blue-card flex justify-center items-start py-19 px-19">
       <div className="w-full max-w-400 flex overflow-hidden">
         <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 
@@ -36,9 +36,9 @@ export default function MainLayout() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="flex-1  ml-96"
+          className="flex-1 ml-66"
         >
-          <div className="max-w-4xl mx-auto px-16">{renderPage()}</div>
+          <div className="max-w-5xl mx-auto px-16">{renderPage()}</div>
 
           {/* WhatsApp FAB */}
           <motion.button

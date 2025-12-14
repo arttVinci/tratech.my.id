@@ -10,10 +10,10 @@ export default function MenuItem({ item, isActive, onClick, index }) {
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.4 + index * 0.05 }}
       onClick={onClick}
-      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all cursor-pointer ${
         isActive
           ? "bg-zinc-800 text-white"
-          : "text-gray-400 hover:bg-zinc-900 hover:text-white"
+          : "text-blue-text hover:bg-blue-border hover:text-white"
       }`}
     >
       <div className="flex items-center gap-3">

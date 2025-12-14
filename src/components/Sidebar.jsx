@@ -19,7 +19,6 @@ const menuItems = [
   { icon: Award, label: "Achievements" },
   { icon: Folder, label: "Projects" },
   { icon: LayoutDashboard, label: "Dashboard" },
-  { icon: MessageCircle, label: "Chat Room" },
   { icon: Mail, label: "Contact" },
 ];
 
@@ -28,11 +27,11 @@ export default function Sidebar({ activeMenu, setActiveMenu }) {
     <motion.div
       initial={{ x: -300, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="w-96 flex flex-col fixed top-0 h-screen"
+      className="w-60 ml-20 flex flex-col fixed top-0 h-screen"
     >
       <ProfileHeader />
 
-      <div className="flex-1 px-16 py-4 space-y-1 overflow-y-auto">
+      <div className="flex-1 py-4 space-y-1 overflow-y-auto">
         {menuItems.map((item, index) => (
           <MenuItem
             key={item.label}
@@ -49,18 +48,17 @@ export default function Sidebar({ activeMenu, setActiveMenu }) {
           transition={{ delay: 0.8 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full flex items-center justify-center gap-3 px-5 py-3 mt-3 rounded-2xl from-emerald-600 to-emerald-500 text-white font-medium shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all"
+          className="w-53 relative group mx-auto overflow-hidden flex items-center justify-center gap-3 px-5 py-3 mt-3 rounded-2xl text-white font-medium shadow-md shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all cursor-pointer"
         >
           <MessageSquare className="w-5 h-5" />
           <span>Smart Talk</span>
         </motion.button>
-      </div>
 
-      <div className="px-5 pb-6 pt-4 text-center border-t border-gray-900">
-        <p className="text-gray-500 text-xs">COPYRIGHT © 2025</p>
-        <p className="text-gray-500 text-xs">
-          Satria Bahari. All rights reserved.
-        </p>
+        <div className="px-5 pb-6 pt-2 mt-8 text-center border-t border-zinc-700">
+          <p className="text-gray-500 text-xs">
+            © 2025 Traa Rzkyy. All rights reserved.
+          </p>
+        </div>
       </div>
     </motion.div>
   );
