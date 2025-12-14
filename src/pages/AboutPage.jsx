@@ -18,16 +18,20 @@ export default function AboutPage() {
 
       <div className="space-y-6 text-gray-300 leading-relaxed font-normal text-md">
         <p>
-          Hello there! Thank you for visiting my personal website. I'm Putra
-          Rizky Nugraha, a dedicated student at the Faculty of Science and
-          Technology, Universitas Terbuka, majoring in Information Systems.
+          Hello there! Thank you for visiting my personal website.{" "}
+          <span className="font-mono text-sky-400">
+            I'm Putra Rizky Nugraha,
+          </span>{" "}
+          a dedicated student at the Faculty of Science and Technology,
+          Universitas Terbuka, majoring in Information Systems.
         </p>
 
         <p>
           Currently, I am navigating an exciting career transition to become a
-          professional Software Engineer, with a sharp focus on Web Development.
-          My journey into tech is driven by a genuine passion for building
-          digital solutions that are not only functional but also scalable and
+          professional Software Engineer, with a sharp focus on{" "}
+          <span className="font-mono text-sky-400">Web Development</span> My
+          journey into tech is driven by a genuine passion for building digital
+          solutions that are not only functional but also scalable and
           user-centric. I am deeply committed to mastering the craft of coding,
           moving beyond just writing syntax to engineering robust software
           architectures.
@@ -35,31 +39,41 @@ export default function AboutPage() {
 
         <p>
           As a Fullstack Developer, I have honed my skills across a modern
-          technology stack. On the backend, I leverage the power of PHP
-          (Laravel) and Golang to build secure and efficient APIs, managing data
-          structures with MySQL. On the frontend, I utilize React and Tailwind
-          CSS to create responsive and intuitive user interfaces. My development
-          workflow is disciplined and professional, incorporating Docker for
-          consistent containerized environments and Postman for comprehensive
-          API testing.
+          technology stack. On the backend, I leverage the power of{" "}
+          <span className="font-mono text-sky-400">PHP(Laravel)</span> and{" "}
+          <span className="font-mono text-sky-400">Golang</span> to build secure
+          and efficient APIs, managing data structures with{" "}
+          <span className="font-mono text-sky-400">MySQL</span>. On the
+          frontend, I utilize{" "}
+          <span className="font-mono text-sky-400">React</span> and{" "}
+          <span className="font-mono text-sky-400">Tailwind CSS</span> to create
+          responsive and intuitive user interfaces. My development workflow is
+          disciplined and professional, incorporating{" "}
+          <span className="font-mono text-sky-400">Docker</span> for consistent
+          containerized environments and{" "}
+          <span className="font-mono text-sky-400">Postman</span> for
+          comprehensive API testing.
         </p>
 
         <p>
-          I am a staunch believer in Clean Code principles. For me, writing code
-          is a form of communication; it must be clear, maintainable, and
-          efficient to ensure long-term success. Whether I'm architecting a new
-          feature or optimizing an existing system, I strive for excellence and
-          clarity in every layer of the application.
+          I am a staunch believer in{" "}
+          <span className="font-mono text-sky-400">Clean Code</span> principles.
+          For me, writing code is a form of communication; it must be clear,
+          maintainable, and efficient to ensure long-term success. Whether I'm
+          architecting a new feature or optimizing an existing system, I strive
+          for excellence and clarity in every layer of the application.
         </p>
 
         <p>
-          Beyond my personal projects, I am an active member of the Google
-          Developers Group (GDG) community. Engaging with this vibrant network
-          allows me to stay ahead of the latest industry trends, share
-          knowledge, and collaborate with like-minded innovators. I am a fast
-          learner who thrives in dynamic environments, and I am eager to bring
-          my technical skills and fresh perspective to contribute to impactful
-          projects.
+          Beyond my personal projects, I am an active member of the{" "}
+          <span className="font-mono text-sky-400">
+            Google Developers Group (GDG) community.
+          </span>{" "}
+          Engaging with this vibrant network allows me to stay ahead of the
+          latest industry trends, share knowledge, and collaborate with
+          like-minded innovators. I am a fast learner who thrives in dynamic
+          environments, and I am eager to bring my technical skills and fresh
+          perspective to contribute to impactful projects.
         </p>
 
         <p className="text-gray-400">Thank You.</p>

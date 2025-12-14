@@ -54,7 +54,7 @@ export default function Sidebar({ activeMenu, setActiveMenu }) {
           transition={{ delay: 0.8 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-fit relative group mx-auto overflow-hidden flex items-center justify-center gap-3 px-5 py-3 mt-3 rounded-2xl text-white font-medium shadow-md shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all cursor-pointer"
+          className="w-56 relative group mx-auto overflow-hidden flex items-center justify-center gap-3 px-5 py-3 mt-4 rounded-2xl text-white font-medium shadow-md shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all cursor-pointer"
         >
           <MessageSquare className="w-5 h-5" />
           <span>Smart Talk</span>
