@@ -1,0 +1,45 @@
+import React from "react";
+import { motion } from "framer-motion";
+
+export default function MenuItem({ item, isActive, onClick, index }) {
+  const Icon = item.icon;
+
+  return (
+    <motion.button
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.4 + index * 0.05 }}
+      onClick={onClick}
+      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+        isActive
+          ? "bg-zinc-800 text-white"
+          : "text-gray-400 hover:bg-zinc-900 hover:text-white"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <Icon className="w-4.5 h-4.5" />
+        <span className="font-medium text-sm">{item.label}</span>
+      </div>
+      {isActive && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </motion.div>
+      )}
+    </motion.button>
+  );
+}
