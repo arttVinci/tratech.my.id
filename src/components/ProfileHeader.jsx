@@ -12,11 +12,13 @@ export default function ProfileHeader() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.2, type: "spring" }}
-        className="w-22 h-22 mb-3 mx-auto rounded-full overflow-hidden border-4 border-blue-100"
+        className="w-22 h-22 mb-3 mx-auto rounded-full overflow-hidden border border-blue-100"
       >
-        <div className="w-full h-full from-blue-500 to-blue-700 flex items-center justify-center">
-          <User className="w-14 h-14 text-white" />
-        </div>
+        <img
+          src="/images/profile3.jpg"
+          alt="Putra Rizky"
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+        />
       </motion.div>
 
       <motion.div

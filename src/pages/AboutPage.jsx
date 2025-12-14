@@ -62,7 +62,7 @@ export default function AboutPage() {
           projects.
         </p>
 
-        <p className="text-gray-400">Best regards, and Thank You.</p>
+        <p className="text-gray-400">Thank You.</p>
       </div>
 
       <div className="mt-16">

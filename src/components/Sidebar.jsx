@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import MenuItem from "./MenuItem";
 import {
@@ -8,21 +9,26 @@ import {
   Award,
   Folder,
   LayoutDashboard,
-  MessageCircle,
   Mail,
   MessageSquare,
 } from "lucide-react";
 
 const menuItems = [
-  { icon: Home, label: "Home" },
-  { icon: User, label: "About" },
-  { icon: Award, label: "Achievements" },
-  { icon: Folder, label: "Projects" },
-  { icon: LayoutDashboard, label: "Dashboard" },
-  { icon: Mail, label: "Contact" },
+  { icon: Home, label: "Home", route: "/" },
+  { icon: User, label: "About", route: "/about" },
+  { icon: Award, label: "Achievements", route: "/achievements" },
+  { icon: Folder, label: "Projects", route: "/projects" },
+  { icon: Mail, label: "Contact", route: "/contact" },
 ];
 
 export default function Sidebar({ activeMenu, setActiveMenu }) {
+  const navigate = useNavigate();
+
+  const handleMenuClick = (item) => {
+    setActiveMenu(item.label);
+    navigate(item.route);
+  };
+
   return (
     <motion.div
       initial={{ x: -300, opacity: 0 }}
@@ -37,7 +43,7 @@ export default function Sidebar({ activeMenu, setActiveMenu }) {
             key={item.label}
             item={item}
             isActive={activeMenu === item.label}
-            onClick={() => setActiveMenu(item.label)}
+            onClick={() => handleMenuClick(item)}
             index={index}
           />
         ))}
@@ -48,7 +54,7 @@ export default function Sidebar({ activeMenu, setActiveMenu }) {
           transition={{ delay: 0.8 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-53 relative group mx-auto overflow-hidden flex items-center justify-center gap-3 px-5 py-3 mt-3 rounded-2xl text-white font-medium shadow-md shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all cursor-pointer"
+          className="w-fit relative group mx-auto overflow-hidden flex items-center justify-center gap-3 px-5 py-3 mt-3 rounded-2xl text-white font-medium shadow-md shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all cursor-pointer"
         >
           <MessageSquare className="w-5 h-5" />
           <span>Smart Talk</span>

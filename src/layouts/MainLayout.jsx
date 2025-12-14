@@ -1,31 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import HomePage from "../pages/HomePage";
-import AboutPage from "../pages/AboutPage";
-import AchievementsPage from "../pages/AchievementsPage";
-import ProjectsPage from "../pages/ProjectsPage";
-import ContactPage from "../pages/ContactPage";
 
 export default function MainLayout() {
-  const [activeMenu, setActiveMenu] = useState("About");
+  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState("Home");
 
-  const renderPage = () => {
-    switch (activeMenu) {
-      case "Home":
-        return <HomePage />;
-      case "About":
-        return <AboutPage />;
-      case "Achievements":
-        return <AchievementsPage />;
-      case "Projects":
-        return <ProjectsPage />;
-      case "Contact":
-        return <ContactPage />;
-      default:
-        return <HomePage />;
-    }
-  };
+  useEffect(() => {
+    const path = location.pathname.slice(1) || "home";
+    const menuName = path.charAt(0).toUpperCase() + path.slice(1);
+    setActiveMenu(menuName);
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-blue-card flex justify-center items-start py-19 px-19">
@@ -38,7 +24,9 @@ export default function MainLayout() {
           transition={{ delay: 0.3 }}
           className="flex-1 ml-66"
         >
-          <div className="max-w-5xl mx-auto px-16">{renderPage()}</div>
+          <div className="max-w-5xl mx-auto px-16">
+            <Outlet />
+          </div>
 
           {/* WhatsApp FAB */}
           <motion.button
