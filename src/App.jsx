@@ -6,7 +6,6 @@ import AboutPage from "./pages/AboutPage";
 import AchievementsPage from "./pages/AchievementsPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
-import Test from "./components/motion/spotlight";
 
 export default function App() {
   return (
@@ -18,7 +17,6 @@ export default function App() {
           <Route path="achievements" element={<AchievementsPage />} />
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="test" element={<Test />} />
         </Route>
       </Routes>
     </BrowserRouter>
