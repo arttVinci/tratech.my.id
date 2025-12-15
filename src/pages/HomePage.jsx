@@ -2,34 +2,48 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Briefcase } from "lucide-react";
 import {
-  SiPhp,
-  SiLaravel,
-  SiGo,
-  SiReact,
-  SiJavascript,
-  SiMysql,
+  SiBootstrap,
+  SiComposer,
+  SiCss,
   SiDocker,
-  SiTailwindcss,
-  SiHtml5,
-  SiPostman,
+  SiFilament,
   SiGit,
+  SiGithub,
+  SiGo,
+  SiHtml5,
+  SiJavascript,
+  SiLaravel,
+  SiLivewire,
+  SiMysql,
+  SiOpenai,
+  SiPhp,
+  SiPostman,
+  SiReact,
+  SiTailwindcss,
+  SiDependabot,
 } from "@icons-pack/react-simple-icons";
 
 const techStack = [
+  { name: "HTML5", Icon: SiHtml5, color: "#E34F26" },
+  { name: "CSS", Icon: SiCss, color: "#1572B6" },
+  { name: "Bootstrap", Icon: SiBootstrap, color: "#7952B3" },
+  { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "Golang", Icon: SiGo, color: "#00ADD8" },
+  { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
+  { name: "React", Icon: SiReact, color: "#61DAFB" },
   { name: "PHP", Icon: SiPhp, color: "#777BB4" },
   { name: "Laravel", Icon: SiLaravel, color: "#FF2D20" },
-  { name: "Golang", Icon: SiGo, color: "#00ADD8" },
-  { name: "React", Icon: SiReact, color: "#61DAFB" },
-  { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
+  { name: "Livewire", Icon: SiLivewire, color: "#4E56A6" },
+  { name: "Filament", Icon: SiFilament, color: "#F59E0B" },
+  { name: "Composer", Icon: SiComposer, color: "#885630" },
   { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+  { name: "AI", Icon: SiDependabot, color: "#412991" },
   { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-  { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "HTML5", Icon: SiHtml5, color: "#E34F26" },
   { name: "Postman", Icon: SiPostman, color: "#FF6C37" },
+  { name: "GitHub", Icon: SiGithub, color: "#f7f7f7" },
   { name: "Git", Icon: SiGit, color: "#F05032" },
 ];
 
-// Component TechStackCard dengan manual spotlight
 function TechStackCard({ tech, index }) {
   const cardRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -67,37 +81,43 @@ function TechStackCard({ tech, index }) {
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      whileHover={{ scale: 1.05 }}
       transition={{ delay: index * 0.05 }}
-      whileHover={{ scale: 1.05, x: 5 }}
-      className="relative flex items-center gap-3 p-3 bg-zinc-800/50 rounded-xl hover:bg-zinc-800 transition-all cursor-pointer group overflow-hidden"
+      className="relative flex items-center bg-zinc-800/50 rounded-xl hover:bg-zinc-800 transition-all cursor-pointer group overflow-hidden w-fit"
     >
-      {/* Manual Spotlight Effect */}
       <div
         className="absolute pointer-events-none transition-opacity duration-300"
         style={{
           opacity: isHovered ? 1 : 0,
-          left: mousePos.x - 120,
-          top: mousePos.y - 120,
-          width: 240,
-          height: 240,
+          left: mousePos.x - 100,
+          top: mousePos.y - 100,
+          width: 200,
+          height: 200,
           background:
-            "radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)",
-          filter: "blur(60px)",
+            "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(59, 130, 246, 0.3) 40%, transparent 70%)",
+          filter: "blur(40px)",
         }}
       />
-      {/* Border glow saat hover */}
       <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-cyan-500/30 transition-all duration-300 z-10" />
+      <div className="flex shrink-0 p-2 w-15 h-15 items-center justify-center relative z-10">
+        <Icon size={35} color={tech.color} />
+      </div>
 
-      <Icon
-        size={32}
-        color={tech.color}
-        className="flex shrink-0 relative z-10"
-      />
-
-      <span className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors relative z-10">
-        {tech.name}
-      </span>
+      <div
+        className="relative z-10 overflow-hidden transition-all duration-300 ease-out"
+        style={{
+          width: isHovered ? "75px" : "0px",
+          opacity: isHovered ? 1 : 0,
+        }}
+      >
+        <span className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors whitespace-nowrap block pr-3">
+          {tech.name}
+        </span>
+      </div>
     </motion.div>
   );
 }
@@ -145,15 +165,16 @@ export default function HomePage() {
       </div>
 
       <div className="mt-16">
+        <div className="border-b border-zinc-700 mt-3 mb-6"></div>
         <div className="flex items-center gap-3 mb-4">
-          <Briefcase className="w-6 h-6 text-cyan-400" />
           <h3 className="text-xl font-semibold text-white">
-            {"< /> Tech Stack"}
+            <span className="text-cyan-400">{"< />"}</span>
+            {" Tech Stack"}
           </h3>
         </div>
         <p className="text-gray-400 text-sm mb-6">My professional journey.</p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="flex flex-wrap gap-2.5">
           {techStack.map((tech, index) => (
             <TechStackCard key={tech.name} tech={tech} index={index} />
           ))}
