@@ -37,7 +37,7 @@ export default function Sidebar({ activeMenu, setActiveMenu }) {
     >
       <ProfileHeader />
 
-      <div className="flex-1 py-4 space-y-1 overflow-y-auto">
+      <div className="flex-1 py-4 space-y-1">
         {menuItems.map((item, index) => (
           <MenuItem
             key={item.label}

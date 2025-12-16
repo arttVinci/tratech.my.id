@@ -10,7 +10,7 @@ export default function FeaturedSection() {
           Featured
         </h3>
         <p className="text-gray-400 text-sm mt-1">
-          Highlighted sections of my work & profile
+          Highlighted sections of my work & profile.
         </p>
       </div>
 

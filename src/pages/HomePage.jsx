@@ -58,7 +58,7 @@ export default function HomePage() {
           Hi, I'm Putra Rizky
         </h2>
         <p className="text-gray-300">
-          I live in Indonesia, Jawa Barat, Bekasi Utara
+          I live in Indonesia, Jawa Barat, Bekasi Utara.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
       </div>
@@ -95,7 +95,9 @@ export default function HomePage() {
             {" Tech Stack"}
           </h3>
         </div>
-        <p className="text-gray-400 text-sm mb-6">My professional journey.</p>
+        <p className="text-gray-400 text-sm mb-6">
+          this is the technology i used to build an application.
+        </p>
 
         <div className="flex flex-wrap gap-2.5 pb-1">
           {techStack.map((tech, index) => (
