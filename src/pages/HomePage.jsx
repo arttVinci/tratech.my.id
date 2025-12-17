@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import { Briefcase, CodeXml } from "lucide-react";
 import TechStackCard from "../components/TechStackCard";
 import FeaturedSection from "../components/FeaturedSection";
 import {
@@ -54,10 +54,10 @@ export default function HomePage() {
       className="space-y-6 font-body"
     >
       <div>
-        <h2 className="text-2xl font-bold text-gray-200 mb-2 font-sans">
+        <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
           Hi, I'm Putra Rizky
         </h2>
-        <p className="text-gray-300">
+        <p className="text-gray-400 mt-1 font-sans text-md">
           I live in Indonesia, Jawa Barat, Bekasi Utara.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
@@ -89,15 +89,15 @@ export default function HomePage() {
 
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <div className="flex items-center gap-3 mb-4">
-          <h3 className="text-2xl font-semibold text-white">
-            <span className="text-cyan-400">{"< />"}</span>
-            {" Tech Stack"}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
+            <CodeXml className="w-7 h-7 text-cyan-400" />
+            Tech Stack
           </h3>
+          <p className="text-gray-400 mt-1 font-sans text-md">
+            This is the technology i used to build an application.
+          </p>
         </div>
-        <p className="text-gray-300 mb-6">
-          This is the technology i used to build an application.
-        </p>
 
         <div className="flex flex-wrap gap-2.5 pb-1">
           {techStack.map((tech, index) => (

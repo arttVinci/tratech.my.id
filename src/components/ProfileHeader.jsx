@@ -31,8 +31,8 @@ export default function ProfileHeader() {
         </div>
         <p className="text-gray-400 text-xs mb-4">@traa_rzkyy</p>
 
-        <p className="text-gray-300 text-sm max-w-md mx-auto font-normal">
-          Full Stack Dev | Tech Enthusiast | Clean Code | Docker
+        <p className="text-gray-400 text-sm max-w-md mx-auto font-mono tracking-wide">
+          Full Stack Dev | Tech Enthusiast | Clean Code
         </p>
       </motion.div>
     </div>

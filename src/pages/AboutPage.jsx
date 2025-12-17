@@ -2,6 +2,67 @@ import React from "react";
 import { motion } from "framer-motion";
 import CareerCard from "../components/CareerCard";
 
+const experiences = [
+  {
+    id: 1,
+    logo: "🏢",
+    title: "IT Support",
+    company: "PT Akebono Brake Astra Indonesia",
+    location: "Jakarta Utara, Jakarta Raya, Indonesia",
+    period: "Desember 2021 - April 2022",
+    duration: "5 Months",
+    type: "Internship",
+    mode: "Onsite",
+    responsibilities: [
+      "Create an RFID-based field operator attendance project with a mentor.",
+      "Wiring the HMI to be installed in the field where the operators work.",
+      "Registering/signing up kanbans so they can be counted by the system.",
+      "Counting incoming and outgoing data via kanbans.",
+      "Maintaining the work area to ensure occupational safety and health.",
+      "Implementing troubleshooting processes.",
+    ],
+  },
+  {
+    id: 2,
+    logo: "🌐",
+    title: "Back-end Developer",
+    company: "PT Evermos",
+    location: "Bandung, Jawa Barat, Indonesia",
+    period: "November 2025 - Desember 2025",
+    duration: "2 Months",
+    type: "Project Based Internship",
+    mode: "Remote",
+    responsibilities: [
+      "High-Performance API: Engineered a robust REST API using Go Fiber and GORM, implementing Clean Architecture to ensure code modularity and testability.",
+      "Containerization: Fully containerized the application, database, and migration services using Docker and Docker Compose, streamlining the deployment process across environments.",
+      "Complex Transactions: Implemented atomic database transactions (ACID compliance) for the checkout process, ensuring inventory accuracy and data integrity by creating historical product snapshots (log_products).",
+      "Security & Auth: Secured API endpoints using JWT (JSON Web Token) authentication and custom Middleware for Role-Based Access Control (Admin vs Customer).",
+      "Database Management: Designed relational database schemas in MySQL and managed version control using Golang-Migrate.",
+      " Features Delivered: User Management, Store Creation, Product Inventory with Image Upload, Address Management, and Transaction History.",
+    ],
+  },
+];
+
+const education = [
+  {
+    id: 1,
+    logo: "🏢",
+    edu: true,
+    title: "Universitas Terbuka",
+    company: "Bachelor's degree - Information Systems, (FST)",
+    location: "Tangerang Selatan, Banten, Indonesia",
+    period: "2024 - 2028",
+    responsibilities: [
+      "Create an RFID-based field operator attendance project with a mentor.",
+      "Wiring the HMI to be installed in the field where the operators work.",
+      "Registering/signing up kanbans so they can be counted by the system.",
+      "Counting incoming and outgoing data via kanbans.",
+      "Maintaining the work area to ensure occupational safety and health.",
+      "Implementing troubleshooting processes.",
+    ],
+  },
+];
+
 export default function AboutPage() {
   return (
     <motion.div
@@ -11,8 +72,12 @@ export default function AboutPage() {
       className="space-y-6 font-body"
     >
       <div>
-        <h2 className="text-2xl font-bold text-white mb-2 font-sans">About</h2>
-        <p className="text-gray-300">A brief introduction to who I am.</p>
+        <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
+          About
+        </h2>
+        <p className="text-gray-400 mt-1 font-sans text-md">
+          A brief introduction to who I am.
+        </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
       </div>
 
@@ -81,7 +146,12 @@ export default function AboutPage() {
 
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <CareerCard />
+        <CareerCard experiences={experiences} type="work" />
+      </div>
+
+      <div className="mt-16">
+        <div className="border-b border-zinc-700 mt-3 mb-6"></div>
+        <CareerCard experiences={education} type="edu" />
       </div>
     </motion.div>
   );

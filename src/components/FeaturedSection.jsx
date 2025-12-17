@@ -5,11 +5,11 @@ export default function FeaturedSection() {
   return (
     <section className="mt-7 pb-3">
       <div className="mb-8">
-        <h3 className="text-2xl font-semibold text-white flex items-center gap-2">
-          <LayoutGrid className="w-5 h-5 text-cyan-400" />
+        <h3 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
+          <LayoutGrid className="w-7 h-7 text-cyan-400" />
           Featured
         </h3>
-        <p className="text-gray-300 mt-1">
+        <p className="text-gray-400 mt-1 font-sans text-md">
           Highlighted sections of my work & profile
         </p>
       </div>

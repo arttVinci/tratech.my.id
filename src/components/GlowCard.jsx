@@ -42,11 +42,11 @@ export default function GlowCard({ children, className = "", delay = 0 }) {
       <div
         className="pointer-events-none absolute transition-opacity duration-300"
         style={{
-          opacity: hovered ? 1 : 0,
-          left: pos.x - 140,
-          top: pos.y - 140,
-          width: 280,
-          height: 280,
+          opacity: hovered ? 0.7 : 0,
+          left: pos.x - 240,
+          top: pos.y - 240,
+          width: 480,
+          height: 480,
           background:
             "radial-gradient(circle, rgba(34,211,238,0.35) 0%, rgba(59,130,246,0.25) 40%, transparent 70%)",
           filter: "blur(50px)",
