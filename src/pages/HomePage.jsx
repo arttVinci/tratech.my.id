@@ -90,13 +90,13 @@ export default function HomePage() {
       <div className="mt-16">
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
         <div className="flex items-center gap-3 mb-4">
-          <h3 className="text-xl font-semibold text-white">
+          <h3 className="text-2xl font-semibold text-white">
             <span className="text-cyan-400">{"< />"}</span>
             {" Tech Stack"}
           </h3>
         </div>
-        <p className="text-gray-400 text-sm mb-6">
-          this is the technology i used to build an application.
+        <p className="text-gray-300 mb-6">
+          This is the technology i used to build an application.
         </p>
 
         <div className="flex flex-wrap gap-2.5 pb-1">

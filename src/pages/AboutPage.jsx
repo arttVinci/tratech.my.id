@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import CareerCard from "../components/CareerCard";
 
 export default function AboutPage() {
   return (
@@ -80,12 +80,8 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-16">
-        <div className="flex items-center gap-3 mb-3">
-          <Briefcase className="w-7 h-7 text-white" />
-          <h3 className="text-3xl font-bold text-white">Career</h3>
-        </div>
-        <p className="text-gray-400">My professional journey.</p>
-        <div className="border-b border-gray-800 mt-4"></div>
+        <div className="border-b border-zinc-700 mt-3 mb-6"></div>
+        <CareerCard />
       </div>
     </motion.div>
   );
