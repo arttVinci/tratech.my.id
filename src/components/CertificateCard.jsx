@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Award, X } from "lucide-react";
+import { X, ExternalLink } from "lucide-react";
 import GlowCard from "./GlowCard";
 
 const certificates = [
@@ -12,6 +12,7 @@ const certificates = [
     organization: "Bangkit Academy",
     issuedLabel: "Issued on",
     issuedDate: "January 2025",
+    credentialUrl: "https://www.dicoding.com/certificates/XXXXX",
   },
   {
     id: 2,
@@ -72,12 +73,12 @@ const CertificateCard = ({ certificate, index, onClick }) => {
         delay: index * 0.1,
         ease: [0.25, 0.1, 0.25, 1],
       }}
-      className="group cursor-pointer"
+      className="group cursor-pointer h-full"
       onClick={onClick}
     >
-      <div className="relative border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 transition-all duration-300">
+      <div className="relative border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 transition-all duration-300 h-full flex flex-col">
         <div
-          className="relative aspect-4/3 overflow-hidden bg-zinc-800"
+          className="relative aspect-4/3 overflow-hidden bg-zinc-800 shrink-0"
           onMouseEnter={() => setIsImageHovered(true)}
           onMouseLeave={() => setIsImageHovered(false)}
         >
@@ -124,7 +125,7 @@ const CertificateCard = ({ certificate, index, onClick }) => {
 
         {/* Content */}
         <GlowCard certi={true}>
-          <h3 className="text-base font-semibold text-white mb-2 line-clamp-2">
+          <h3 className="text-base font-semibold text-white mb-2 line-clamp-2 min-h-12">
             {certificate.title}
           </h3>
 
@@ -132,7 +133,7 @@ const CertificateCard = ({ certificate, index, onClick }) => {
             {certificate.organization}
           </p>
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 mt-auto">
             <span className="text-xs text-zinc-500">
               {certificate.issuedLabel}
             </span>
@@ -166,6 +167,7 @@ const CertificateModal = ({ certificate, onClose }) => {
         className="relative max-w-4xl w-150 bg-zinc-900 rounded-xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
@@ -173,24 +175,73 @@ const CertificateModal = ({ certificate, onClose }) => {
           <X className="w-6 h-6 text-white" />
         </button>
 
+        {/* Image */}
         <img
           src={certificate.image}
           alt={certificate.title}
           className="w-full h-auto"
         />
 
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-white mb-2">
-            {certificate.title}
-          </h2>
-          <p className="text-lg text-zinc-300 mb-4">
-            {certificate.organization}
-          </p>
-          <div className="flex items-center gap-2 text-zinc-400">
-            <span>{certificate.issuedLabel}</span>
-            <span>•</span>
-            <span className="text-white">{certificate.issuedDate}</span>
+        {/* Content */}
+        <div className="p-6 space-y-4">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight text-white mb-1">
+              {certificate.title}
+            </h2>
+            <p className="font-['Inter'] text-lg text-zinc-300">
+              {certificate.organization}
+            </p>
+            <p className="text-sm text-zinc-400 mt-1">ID Credentials</p>
           </div>
+
+          <div className="flex items-center gap-2 text-sm text-zinc-400">
+            <span>Published</span>
+            <span>•</span>
+            <span className="font-medium text-white">
+              {certificate.issuedDate}
+            </span>
+            {certificate.credentialUrl && (
+              <a
+                href={certificate.credentialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2
+                        px-4 py-2 ml-auto
+                        rounded-full
+                        border border-zinc-600
+                        text-sm font-medium
+                        text-zinc-200
+                        hover:border-cyan-400
+                        hover:text-cyan-400
+                        transition-colors
+                        font-sans
+                        "
+              >
+                Tampilkan kredensial
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14 3h7v7m0-7L10 14"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 5v14h14"
+                  />
+                </svg>
+              </a>
+            )}
+          </div>
+
+          {/* Credential Link */}
         </div>
       </motion.div>
     </motion.div>

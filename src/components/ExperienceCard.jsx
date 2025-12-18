@@ -75,22 +75,26 @@ export default function ExperienceCard({ experience, index }) {
               ) : null}
             </div>
 
-            <motion.button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-1 text-zinc-400 cursor-pointer font-mono text-xs"
-              whileHover={{ color: "#ffffff" }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.div
-                animate={{ rotate: isExpanded ? 180 : 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+            {experience.edu ? null : (
+              <motion.button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="flex items-center gap-1 text-zinc-400 cursor-pointer font-mono text-xs"
+                whileHover={{ color: "#ffffff" }}
+                transition={{ duration: 0.2 }}
               >
-                <ChevronDown className="w-4 h-4" />
-              </motion.div>
-              <span className="text-sm">
-                {isExpanded ? "Hide responsibilities" : "Show responsibilities"}
-              </span>
-            </motion.button>
+                <motion.div
+                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  <ChevronDown className="w-4 h-4" />
+                </motion.div>
+                <span className="text-sm">
+                  {isExpanded
+                    ? "Hide responsibilities"
+                    : "Show responsibilities"}
+                </span>
+              </motion.button>
+            )}
 
             <AnimatePresence initial={false}>
               {isExpanded && (

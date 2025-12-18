@@ -36,7 +36,7 @@ export default function GlowCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className={`relative overflow-hidden p-6
+      className={`relative overflow-hidden p-4
       bg-zinc-900/80 backdrop-blur-xl
       border border-white/10
       hover:border-cyan-400/40
