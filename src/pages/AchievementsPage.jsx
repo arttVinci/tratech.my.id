@@ -17,7 +17,8 @@ export default function AchievementsPage() {
           Certificates
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">
-          A brief introduction to who I am.
+          The following are the certificates and badges that I have obtained
+          throughout my journey, which are academic or other categories.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
         <CertificateCard />

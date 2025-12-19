@@ -6,58 +6,87 @@ import GlowCard from "./GlowCard";
 const certificates = [
   {
     id: 1,
-    image:
-      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=300&fit=crop",
-    title: "Best Team Bangkit Company Track Capstone Project",
-    organization: "Bangkit Academy",
-    issuedLabel: "Issued on",
-    issuedDate: "January 2025",
-    credentialUrl: "https://www.dicoding.com/certificates/XXXXX",
+    image: "/images/certificate/serti2.jpg",
+    title: "Invoasi AI For UMKN, IMPHNEN x Kolosal.ai Hackathon",
+    organization: "IMPHNEN & Kolosal.ai",
+    issuedDate: "Desember 2025",
+    credentialUrl:
+      "https://hackathon.imphnen.dev/certificate/O%2BKb4xLLc%2BtQ2B40jl5Nh6rnwBwm4JYuO2qYas1k%2BjQNstTxIRHEbzJhCtMdYdaD4e9kiQTx6Id4%2FADGwEkEH5tEY5Twk1FhtUIot30RvnI3ZtcJTn%2FdFzGT2h%2Fgb6WzNVPkyYANtGr1BRCIEzu0AOk8sJqsm8XTYLl3FsjOYc7dh4TL4krQT6xZw7r6lSrfr8BMSO5mMi8xPQZf",
+    IdCredential: "hackathon.imphnen.dev-certificate-O2BKb4xLLc",
   },
   {
     id: 2,
-    image:
-      "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=400&h=300&fit=crop",
-    title: "Certificate of Completion Bangkit Academy",
-    organization: "Bangkit Academy",
-    issuedLabel: "Issued on",
-    issuedDate: "January 2025",
+    image: "/images/certificate/serti1.jpg",
+    title:
+      "Programming With PHP: Fundamental, Object Oriented Programming, PHP Web, Composer, Unit Test, MVC",
+    organization: "Udemy",
+    issuedDate: "Juni 2025",
+    IdCredential: "UC-ab92d8b2-24f4-4152-bd8c-05e7abc868ae",
   },
   {
     id: 3,
-    image:
-      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=300&fit=crop",
-    title: "Sertifikat Kepesertaan Studi Independen Bersertifikat Angkatan 7",
-    organization: "Kampus Merdeka",
-    issuedLabel: "Issued on",
+    image: "/images/certificate/serti3.jpg",
+    title: "Project-Based Internship, Evermos Backend Developer",
+    organization: "Rakamin Academy & Evermos",
     issuedDate: "December 2024",
+    IdCredential: "240169IAPPGIE26112025",
   },
   {
     id: 4,
-    image:
-      "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=400&h=300&fit=crop",
-    title: "Belajar Dasar Git dengan Github",
-    organization: "Dicoding",
-    issuedLabel: "Issued on",
-    issuedDate: "December 2024",
+    image: "/images/certificate/serti4.jpg",
+    title: "Programming With Laravel",
+    organization: "WPU Course",
+    issuedDate: "November 2025",
+    IdCredential: "VVR9QAL4",
   },
   {
     id: 5,
-    image:
-      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=300&fit=crop",
-    title: "Memulai Dasar Programming Untuk Menjadi Pengembang Software",
-    organization: "Dicoding",
-    issuedLabel: "Issued on",
-    issuedDate: "December 2024",
+    image: "/images/certificate/serti5.jpg",
+    title: "Fundamental Database MySQL",
+    organization: "Coding Studio",
+    issuedDate: "Juli 2025",
+    IdCredential: "QEVUZERQAR",
   },
   {
     id: 6,
-    image:
-      "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=400&h=300&fit=crop",
-    title: "Pengenalan ke Logika Pemrograman (Programming Logic 101)",
+    image: "/images/certificate/serti6.jpg",
+    title: "Introduction to Financial Literacy",
     organization: "Dicoding",
-    issuedLabel: "Issued on",
-    issuedDate: "September 2024",
+    issuedDate: "Oktober 2025",
+    IdCredential: "N9ZO2RMO6PG5",
+  },
+  {
+    id: 7,
+    image: "/images/certificate/serti7.jpg",
+    title: "Fundamental Front-End Web For Beginner",
+    organization: "Dicoding",
+    issuedDate: "Oktober 2025",
+    IdCredential: "N9ZO509LYPG5",
+  },
+  {
+    id: 8,
+    image: "/images/certificate/serti10.jpg",
+    title: "Fundamental Programming Web",
+    organization: "Dicoding",
+    issuedDate: "Oktober 2025",
+    IdCredential: "2VX36K113XYQ",
+  },
+  {
+    id: 9,
+    image: "/images/certificate/serti9.png",
+    title:
+      "pass the selection and participate in the Event Badan EKRAF Developer Day 2025",
+    organization: "Dicoding",
+    issuedDate: "November 2025",
+    IdCredential: "2VX36K113XYQ",
+  },
+  {
+    id: 10,
+    image: "/images/certificate/serti8.jpg",
+    title: "ReactJS Bootcamp",
+    organization: "WPU Course",
+    issuedDate: "November 2025",
+    IdCredential: "IAE14ID5",
   },
 ];
 
@@ -191,7 +220,9 @@ const CertificateModal = ({ certificate, onClose }) => {
             <p className="font-['Inter'] text-lg text-zinc-300">
               {certificate.organization}
             </p>
-            <p className="text-sm text-zinc-400 mt-1">ID Credentials</p>
+            <p className="text-sm text-zinc-400 mt-1">
+              ID Credentials : #{certificate.IdCredential}
+            </p>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-zinc-400">
