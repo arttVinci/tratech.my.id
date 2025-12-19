@@ -75,8 +75,8 @@ const certificates = [
     id: 9,
     image: "/images/certificate/serti9.png",
     title:
-      "pass the selection and participate in the Event Badan EKRAF Developer Day 2025",
-    organization: "Dicoding",
+      "Pass the selection and participate in the Event Badan EKRAF Developer Day 2025",
+    organization: "Dicoding & Kementrian Ekonomi Kreatif",
     issuedDate: "November 2025",
     IdCredential: "2VX36K113XYQ",
   },
