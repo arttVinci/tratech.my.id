@@ -28,7 +28,7 @@ const certificates = [
     image: "/images/certificate/serti3.jpg",
     title: "Project-Based Internship, Evermos Backend Developer",
     organization: "Rakamin Academy & Evermos",
-    issuedDate: "December 2024",
+    issuedDate: "December 2025",
     IdCredential: "240169IAPPGIE26112025",
   },
   {
