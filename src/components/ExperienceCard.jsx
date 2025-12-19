@@ -31,15 +31,23 @@ export default function ExperienceCard({ experience, index }) {
           <div className="flex-1 min-w-0">
             <motion.h3
               className="text-lg font-semibold text-white mb-1 cursor-pointer font-mono tracking-tight"
-              whileHover={{ color: "#22d3ee" }}
               transition={{ duration: 0.2 }}
             >
               {experience.title ?? null}
             </motion.h3>
 
-            <p className="text-sm text-zinc-300 mb-1 font-sans">
-              {experience.company ?? null}
-            </p>
+            <motion.p
+              whileHover={{ color: "#22d3ee" }}
+              className="text-sm text-zinc-300 mb-1 font-sans"
+            >
+              <a
+                href={experience.urlCompany}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {experience.company ?? null}
+              </a>
+            </motion.p>
 
             <p className="text-xs text-zinc-400 mb-2 font-sans">
               {experience.location ?? null}

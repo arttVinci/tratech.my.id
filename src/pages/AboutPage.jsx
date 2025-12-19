@@ -13,6 +13,8 @@ const experiences = [
     duration: "5 Months",
     type: "Internship",
     mode: "Onsite",
+    urlCompany:
+      "https://www.linkedin.com/company/pt-akebono-brake-astra-indonesia/",
     responsibilities: [
       "Create an RFID-based field operator attendance project with a mentor.",
       "Wiring the HMI to be installed in the field where the operators work.",
@@ -32,6 +34,7 @@ const experiences = [
     duration: "2 Months",
     type: "Project Based Internship",
     mode: "Remote",
+    urlCompany: "https://www.linkedin.com/company/evermos/posts/?feedView=all",
     responsibilities: [
       "High-Performance API: Engineered a robust REST API using Go Fiber and GORM, implementing Clean Architecture to ensure code modularity and testability.",
       "Containerization: Fully containerized the application, database, and migration services using Docker and Docker Compose, streamlining the deployment process across environments.",
@@ -52,6 +55,8 @@ const education = [
     company: "Bachelor's degree - Information Systems, (FST)",
     location: "Tangerang Selatan, Banten, Indonesia",
     period: "2024 - 2028",
+    urlCompany:
+      "https://www.linkedin.com/school/universitas-terbuka/posts/?feedView=all",
     responsibilities: [
       "Create an RFID-based field operator attendance project with a mentor.",
       "Wiring the HMI to be installed in the field where the operators work.",
