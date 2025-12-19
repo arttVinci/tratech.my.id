@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink } from "lucide-react";
 import GlowCard from "./GlowCard";
-import TechStackCard from "./TechStackCard";
+import ProjectTechStack from "./ProjectTechStack";
 
 import {
   SiTypescript,
@@ -41,44 +41,18 @@ const techStack = [
 const projects = [
   {
     id: 1,
-    image: "/images/projects/project1.jpg",
-    title: "Satriabahari.my.id",
+    image: "/images/projects/project1.png",
+    title: "Dekatku",
     description:
-      "Personal website & portfolio, built from scratch using Next.js, TypeScript, Tailwind...",
+      "Dekatku adalah platform direktori berbasis lokasi yang menghubungkan masyarakat (wisatawan/pengunjung) dengan UMKM dan Penyedia Jasa Lokal. Aplikasi ini membantu menemukan usaha rumahan yang biasanya sulit ditemukan di mesin pencari umum. Dengan integrasi Geolocation dan AI, Dekatku memberikan rekomendasi usaha terdekat secara cerdas dan akurat.",
     tags: ["TypeScript", "Next.js", "React", "Tailwind", "Framer", "Node.js"],
     githubUrl: "https://github.com/username/project1",
     liveUrl: "https://satriabahari.my.id",
-    featured: true,
-  },
-  {
-    id: 2,
-    image: "/images/projects/project2.jpg",
-    title: "Berbagi.link",
-    description:
-      "Berbagi.link is a mini-website platform for online businesses but lacks mobile functi...",
-    tags: ["Kotlin"],
-    githubUrl: "https://github.com/username/project2",
-    liveUrl: "https://berbagi.link",
-    featured: true,
-  },
-  {
-    id: 3,
-    image: "/images/projects/project3.jpg",
-    title: "Presensi Internal System",
-    description:
-      "Employee attendance management system with real-time tracking and reporting",
-    tags: ["PHP", "Laravel", "MySQL", "Bootstrap"],
-    githubUrl: "https://github.com/username/project3",
-  },
-  {
-    id: 4,
-    image: "/images/projects/project4.jpg",
-    title: "Robust Fitness",
-    description:
-      "Fitness tracking application with workout plans and progress monitoring",
-    tags: ["React", "Node.js", "MongoDB", "Express"],
-    githubUrl: "https://github.com/username/project4",
-    liveUrl: "https://robust-fitness.com",
+    techStack: [
+      { name: "Typescript", Icon: SiTypescript, color: "#00ADD8" },
+      { name: "React", Icon: SiReact, color: "#61DAFB" },
+      { name: "Golang", Icon: SiGo, color: "#00ADD8" },
+    ],
     featured: true,
   },
 ];
@@ -159,18 +133,18 @@ const ProjectCard = ({ project, index, onClick }) => {
 
         {/* Content */}
         <GlowCard certi={true}>
-          <h3 className="text-base font-semibold text-white mb-2 line-clamp-2 min-h-12">
+          <h3 className="text-xl font-semibold text-white line-clamp-2 min-h-12">
             {project.title}
           </h3>
 
-          <p className="text-sm text-zinc-400 mb-3 line-clamp-2">
+          <p className="text-md text-zinc-400 mb-3 line-clamp-2">
             {project.description}
           </p>
 
           {/* Tech Stack Icons */}
           <div className="flex flex-wrap gap-2 mt-auto">
-            {techStack.map((tech, index) => (
-              <TechStackCard key={tech.name} tech={tech} index={index} />
+            {project.techStack.map((tech, index) => (
+              <ProjectTechStack key={tech.name} tech={tech} index={index} />
             ))}
           </div>
         </GlowCard>
