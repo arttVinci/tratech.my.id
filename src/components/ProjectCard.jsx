@@ -19,6 +19,7 @@ import {
   SiReact,
   SiTailwindcss,
   SiDependabot,
+  SiLeaflet,
 } from "@icons-pack/react-simple-icons";
 
 const techStack = [
@@ -49,9 +50,14 @@ const projects = [
     githubUrl: "https://github.com/username/project1",
     liveUrl: "https://satriabahari.my.id",
     techStack: [
-      { name: "Typescript", Icon: SiTypescript, color: "#00ADD8" },
+      { name: "Typescript", Icon: SiTypescript, color: "#61DAFB" },
       { name: "React", Icon: SiReact, color: "#61DAFB" },
-      { name: "Golang", Icon: SiGo, color: "#00ADD8" },
+      { name: "Laravel", Icon: SiLaravel, color: "#FF2D20" },
+      { name: "Filament", Icon: SiFilament, color: "#F59E0B" },
+      { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+      { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "AI", Icon: SiDependabot, color: "#412991" },
+      { name: "Leaflet.js", Icon: SiLeaflet, color: "#412991" },
     ],
     featured: true,
   },
@@ -142,7 +148,7 @@ const ProjectCard = ({ project, index, onClick }) => {
           </p>
 
           {/* Tech Stack Icons */}
-          <div className="flex flex-wrap gap-2 mt-auto">
+          <div className="flex flex-wrap mt-auto">
             {project.techStack.map((tech, index) => (
               <ProjectTechStack key={tech.name} tech={tech} index={index} />
             ))}

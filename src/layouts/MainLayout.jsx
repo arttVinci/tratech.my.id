@@ -14,7 +14,7 @@ export default function MainLayout() {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-blue-card flex justify-center items-start py-19 px-19">
+    <div className="min-h-screen bg-blue-card flex justify-center items-start py-14 px-19">
       <div className="w-full max-w-400 flex overflow-hidden">
         <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 

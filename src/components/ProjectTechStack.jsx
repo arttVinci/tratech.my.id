@@ -1,80 +1,36 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function TechStackCard({ tech, index }) {
-  const cardRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+export default function ProjectTechStack({ tech, index }) {
   const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    const handleMove = (e) => {
-      const rect = card.getBoundingClientRect();
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    };
-
-    const handleEnter = () => setIsHovered(true);
-    const handleLeave = () => setIsHovered(false);
-
-    card.addEventListener("mousemove", handleMove);
-    card.addEventListener("mouseenter", handleEnter);
-    card.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      card.removeEventListener("mousemove", handleMove);
-      card.removeEventListener("mouseenter", handleEnter);
-      card.removeEventListener("mouseleave", handleLeave);
-    };
-  }, []);
-
   const Icon = tech.Icon;
 
   return (
     <motion.div
-      ref={cardRef}
       initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-      }}
-      whileHover={{ scale: 1.05 }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: index * 0.05 }}
-      className="relative flex items-center bg-zinc-800/50 rounded-xl hover:bg-zinc-800 transition-all cursor-pointer group overflow-hidden w-fit"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative group"
     >
-      <div
-        className="absolute pointer-events-none transition-opacity duration-300"
-        style={{
-          opacity: isHovered ? 1 : 0,
-          left: mousePos.x - 100,
-          top: mousePos.y - 100,
-          width: 200,
-          height: 200,
-          background:
-            "radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(59, 130, 246, 0.3) 40%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
-      <div className="absolute inset-0 rounded-xl border border-transparent z-10" />
-      <div className="flex shrink-0 p-2 w-10 h-10 items-center justify-center relative z-10">
-        <Icon size={35} color={tech.color} />
-      </div>
-
-      <div
-        className="relative z-10 overflow-hidden transition-all duration-300 ease-out"
-        style={{
-          width: isHovered ? "75px" : "0px",
-          opacity: isHovered ? 1 : 0,
-        }}
+      <motion.div
+        whileHover={{ scale: 1.1, y: -2 }}
+        className="flex items-center justify-center w-12 h-12 cursor-pointer"
       >
-        <span className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors whitespace-nowrap block pr-3">
+        <Icon size={28} color={tech.color} />
+      </motion.div>
+
+      {isHovered && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute -top-10 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg whitespace-nowrap border border-zinc-700 z-50"
+        >
           {tech.name}
-        </span>
-      </div>
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-zinc-900 border-r border-b border-zinc-700 rotate-45" />
+        </motion.div>
+      )}
     </motion.div>
   );
 }
