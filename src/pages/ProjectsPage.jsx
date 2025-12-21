@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "../components/ProjectCard";
-import { Award } from "lucide-react";
+import { FolderOpen } from "lucide-react";
 
 export default function ProjectsPage() {
   return (
@@ -13,7 +13,7 @@ export default function ProjectsPage() {
     >
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
-          <Award className="w-7 h-7 text-cyan-400" />
+          <FolderOpen className="w-7 h-7 text-cyan-400" />
           Projects
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">

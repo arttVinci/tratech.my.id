@@ -2,93 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink } from "lucide-react";
 import GlowCard from "./GlowCard";
-
-const certificates = [
-  {
-    id: 1,
-    image: "/images/certificate/serti2.jpg",
-    title: "Invoasi AI For UMKN, IMPHNEN x Kolosal.ai Hackathon",
-    organization: "IMPHNEN & Kolosal.ai",
-    issuedDate: "Desember 2025",
-    credentialUrl:
-      "https://hackathon.imphnen.dev/certificate/O%2BKb4xLLc%2BtQ2B40jl5Nh6rnwBwm4JYuO2qYas1k%2BjQNstTxIRHEbzJhCtMdYdaD4e9kiQTx6Id4%2FADGwEkEH5tEY5Twk1FhtUIot30RvnI3ZtcJTn%2FdFzGT2h%2Fgb6WzNVPkyYANtGr1BRCIEzu0AOk8sJqsm8XTYLl3FsjOYc7dh4TL4krQT6xZw7r6lSrfr8BMSO5mMi8xPQZf",
-    IdCredential: "hackathon.imphnen.dev-certificate-O2BKb4xLLc",
-  },
-  {
-    id: 2,
-    image: "/images/certificate/serti1.jpg",
-    title:
-      "Programming With PHP: Fundamental, Object Oriented Programming, PHP Web, Composer, Unit Test, MVC",
-    organization: "Udemy",
-    issuedDate: "Juni 2025",
-    IdCredential: "UC-ab92d8b2-24f4-4152-bd8c-05e7abc868ae",
-  },
-  {
-    id: 3,
-    image: "/images/certificate/serti3.jpg",
-    title: "Project-Based Internship, Evermos Backend Developer",
-    organization: "Rakamin Academy & Evermos",
-    issuedDate: "December 2025",
-    IdCredential: "240169IAPPGIE26112025",
-  },
-  {
-    id: 4,
-    image: "/images/certificate/serti4.jpg",
-    title: "Programming With Laravel",
-    organization: "WPU Course",
-    issuedDate: "November 2025",
-    IdCredential: "VVR9QAL4",
-  },
-  {
-    id: 5,
-    image: "/images/certificate/serti5.jpg",
-    title: "Fundamental Database MySQL",
-    organization: "Coding Studio",
-    issuedDate: "Juli 2025",
-    IdCredential: "QEVUZERQAR",
-  },
-  {
-    id: 6,
-    image: "/images/certificate/serti6.jpg",
-    title: "Introduction to Financial Literacy",
-    organization: "Dicoding",
-    issuedDate: "Oktober 2025",
-    IdCredential: "N9ZO2RMO6PG5",
-  },
-  {
-    id: 7,
-    image: "/images/certificate/serti7.jpg",
-    title: "Fundamental Front-End Web For Beginner",
-    organization: "Dicoding",
-    issuedDate: "Oktober 2025",
-    IdCredential: "N9ZO509LYPG5",
-  },
-  {
-    id: 8,
-    image: "/images/certificate/serti10.jpg",
-    title: "Fundamental Programming Web",
-    organization: "Dicoding",
-    issuedDate: "Oktober 2025",
-    IdCredential: "2VX36K113XYQ",
-  },
-  {
-    id: 9,
-    image: "/images/certificate/serti9.png",
-    title:
-      "Pass the selection and participate in the Event Badan EKRAF Developer Day 2025",
-    organization: "Dicoding & Kementrian Ekonomi Kreatif",
-    issuedDate: "November 2025",
-    IdCredential: "2VX36K113XYQ",
-  },
-  {
-    id: 10,
-    image: "/images/certificate/serti8.jpg",
-    title: "ReactJS Bootcamp",
-    organization: "WPU Course",
-    issuedDate: "November 2025",
-    IdCredential: "IAE14ID5",
-  },
-];
+import { certificatesData } from "../data/CertificatesData";
 
 const CertificateCard = ({ certificate, index, onClick }) => {
   const [isImageHovered, setIsImageHovered] = useState(false);
@@ -287,13 +201,13 @@ export default function CertificateCards() {
       <div className="mb-4">
         <div className="flex items-center justify-between">
           <div className="text-gray-400 font-sans text-md">
-            Total: {certificates.length}
+            Total: {certificatesData.length}
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {certificates.map((cert, index) => (
+        {certificatesData.map((cert, index) => (
           <CertificateCard
             key={cert.id}
             certificate={cert}

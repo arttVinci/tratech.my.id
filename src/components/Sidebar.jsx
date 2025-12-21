@@ -7,9 +7,8 @@ import {
   Home,
   User,
   Award,
-  Folder,
-  LayoutDashboard,
-  Mail,
+  FolderOpen,
+  Send,
   MessageSquare,
 } from "lucide-react";
 
@@ -17,8 +16,8 @@ const menuItems = [
   { icon: Home, label: "Home", route: "/" },
   { icon: User, label: "About", route: "/about" },
   { icon: Award, label: "Achievements", route: "/achievements" },
-  { icon: Folder, label: "Projects", route: "/projects" },
-  { icon: Mail, label: "Contact", route: "/contact" },
+  { icon: FolderOpen, label: "Projects", route: "/projects" },
+  { icon: Send, label: "Contact", route: "/contact" },
 ];
 
 export default function Sidebar({ activeMenu, setActiveMenu }) {

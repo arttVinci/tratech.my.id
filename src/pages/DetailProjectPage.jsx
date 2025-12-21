@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Award, MoveLeft, ExternalLink } from "lucide-react";
+import { MoveLeft, ExternalLink, FolderOpen } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { projectsData } from "../data/ProjectsData";
 import ProjectTechStack from "../components/ProjectTechStack";
@@ -33,7 +33,7 @@ export default function DetailProjectPage() {
         </Link>
 
         <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
-          <Award className="w-7 h-7 text-cyan-400" />
+          <FolderOpen className="w-7 h-7 text-cyan-400" />
           {project.title}
         </h2>
         <p className="text-gray-400 mt-3 font-sans text-md">
