@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { GraduationCap, Briefcase } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import ExperienceCard from "./ExperienceCard";
 
 export default function CareerCard({ experiences, type }) {
