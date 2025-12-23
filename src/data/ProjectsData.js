@@ -111,4 +111,100 @@ export const projectsData = [
       "Implemented efficient caching strategies, optimized database queries, and used lazy loading for images to ensure smooth user experience.",
     featured: true,
   },
+  {
+    id: 2,
+    image: "/images/projects/golang-api-ecommerce/1.png",
+    title: "RESTful API E-Commerce berbasis Go (Golang)",
+    description:
+      "A robust and production-ready RESTful API for an E-Commerce platform, built with Golang (Fiber) using Clean Architecture principles. This project features secure authentication, transaction handling with data snapshots, and is fully containerized with Docker.",
+    tags: [
+      "Golang",
+      "Clean Architecture",
+      "REST API",
+      "MySQL",
+      "Docker",
+      "Microservices",
+    ],
+    githubUrl: "https://github.com/username/project-golang-ecommerce",
+    liveUrl: "",
+    techStack: [
+      { name: "Golang 1.25", Icon: SiGo, color: "#00ADD8" },
+      { name: "MySQL 8.0", Icon: SiMysql, color: "#4479A1" },
+      { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+    ],
+    gallery: [
+      {
+        id: 1,
+        url: "/images/projects/golang-api-ecommerce/1.png",
+        caption: "docker-compose up --build",
+      },
+      {
+        id: 2,
+        url: "/images/projects/golang-api-ecommerce/2.png",
+        caption: "Docker Container Status",
+      },
+      {
+        id: 3,
+        url: "/images/projects/golang-api-ecommerce/3.png",
+        caption: "Login Endpoint Test",
+      },
+      {
+        id: 4,
+        url: "/images/projects/golang-api-ecommerce/4.png",
+        caption: "Products Endpoint Test",
+      },
+      {
+        id: 5,
+        url: "/images/projects/golang-api-ecommerce/5.png",
+        caption: "Transaction Endpoint Test",
+      },
+      {
+        id: 6,
+        url: "/images/projects/golang-api-ecommerce/6.png",
+        caption: "Project Structure (Tree View)",
+      },
+    ],
+    features: [
+      {
+        title: "Clean Architecture Implementation",
+        key: [
+          "Pemisahan layer yang ketat (Handler, Usecase, Repository, Domain).",
+          "Mudah ditesting dan di-maintenace (Separation of Concerns).",
+          "Dependency Injection untuk fleksibilitas kode.",
+        ],
+      },
+      {
+        title: "Robust Authentication & Security",
+        key: [
+          "Sistem Login & Register menggunakan JWT (JSON Web Token).",
+          "Middleware untuk validasi Role (Admin vs User/Customer).",
+          "Hashing password aman menggunakan Bcrypt.",
+        ],
+      },
+      {
+        title: "Transactional Order Management",
+        key: [
+          "Mendukung transaksi atomic database (ACID compliant).",
+          "Validasi stok real-time saat checkout.",
+          "Manajemen status pesanan (Pending, Paid, Sent).",
+        ],
+      },
+      {
+        title: "DevOps & Tooling",
+        key: [
+          "Containerization penuh menggunakan Docker & Docker Compose.",
+          "Database Migration menggunakan Golang-Migrate.",
+          "Centralized Configuration menggunakan Viper.",
+          "Structured Logging dengan Logrus.",
+        ],
+      },
+    ],
+    // Challenge disesuaikan ke backend context
+    challenges:
+      "Mengimplementasikan Clean Architecture yang benar-benar modular tanpa menyebabkan 'Circular Dependency' antar package, serta memastikan konsistensi data transaksi saat terjadi request yang bersamaan (Concurrency).",
+    // Solution disesuaikan ke teknikal
+    solution:
+      "Menerapkan Dependency Injection secara disiplin untuk memutus ketergantungan antar layer, menggunakan Database Transaction (tx) untuk rollback otomatis jika terjadi kegagalan order, dan membungkus aplikasi dalam Docker container untuk lingkungan development yang konsisten.",
+    featured: true,
+  },
 ];
