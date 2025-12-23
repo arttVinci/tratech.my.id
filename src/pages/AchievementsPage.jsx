@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import CertificateCard from "../components/CertificateCard";
+import CertificateCards from "../components/CertificateCards";
 import { Award } from "lucide-react";
 
 export default function AchievementsPage() {
@@ -21,7 +21,7 @@ export default function AchievementsPage() {
           throughout my journey, which are academic or other categories.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <CertificateCard />
+        <CertificateCards />
       </div>
     </motion.div>
   );

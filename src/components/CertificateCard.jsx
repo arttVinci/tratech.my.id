@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { certificatesData } from "../data/CertificatesData";
-import CertificateModal from "./CertificateModal";
 import GlowCard from "./GlowCard";
 
-const CertificateCard = ({ certificate, index, onClick }) => {
+export default function CertificateCard({ certificate, index, onClick }) {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   return (
@@ -90,41 +88,5 @@ const CertificateCard = ({ certificate, index, onClick }) => {
         <div className="absolute -inset-0.5 bg-linear-to-r from-cyan-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 blur transition duration-300 -z-10" />
       </div>
     </motion.div>
-  );
-};
-
-export default function CertificateCards() {
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
-
-  return (
-    <section className="mt-4 pb-3">
-      <div className="mb-4">
-        <div className="flex items-center justify-between">
-          <div className="text-gray-400 font-sans text-md">
-            Total: {certificatesData.length}
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {certificatesData.map((cert, index) => (
-          <CertificateCard
-            key={cert.id}
-            certificate={cert}
-            index={index}
-            onClick={() => setSelectedCertificate(cert)}
-          />
-        ))}
-      </div>
-
-      <AnimatePresence>
-        {selectedCertificate && (
-          <CertificateModal
-            certificate={selectedCertificate}
-            onClose={() => setSelectedCertificate(null)}
-          />
-        )}
-      </AnimatePresence>
-    </section>
   );
 }
