@@ -214,6 +214,25 @@ export default function DetailProjectPage() {
         <ImageGallery images={project.gallery} />
       </motion.div>
 
+      {/* Challenges & Solution */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <GlowCard>
+          <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
+            <span className="text-orange-400">⚡</span>
+            Challenges
+          </h3>
+          <p className="text-gray-300 leading-relaxed">{project.challenges}</p>
+        </GlowCard>
+
+        <GlowCard>
+          <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
+            <span className="text-green-400">💡</span>
+            Solution
+          </h3>
+          <p className="text-gray-300 leading-relaxed">{project.solution}</p>
+        </GlowCard>
+      </div>
+
       {/* Features Section */}
       <GlowCard certi={true} className={"rounded-3xl"}>
         <h3 className="text-xl font-bold text-white flex items-center gap-2 mb-6">
@@ -275,35 +294,6 @@ export default function DetailProjectPage() {
           ))}
         </div>
       </GlowCard>
-
-      {/* Challenges & Solution */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-3"
-        >
-          <h3 className="text-xl font-bold text-white flex items-center gap-2">
-            <span className="text-orange-400">⚡</span>
-            Challenges
-          </h3>
-          <p className="text-gray-300 leading-relaxed">{project.challenges}</p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white/5 border border-white/10 rounded-lg p-6 space-y-3"
-        >
-          <h3 className="text-xl font-bold text-white flex items-center gap-2">
-            <span className="text-green-400">💡</span>
-            Solution
-          </h3>
-          <p className="text-gray-300 leading-relaxed">{project.solution}</p>
-        </motion.div>
-      </div>
     </motion.div>
   );
 }

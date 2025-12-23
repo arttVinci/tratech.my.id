@@ -19,7 +19,7 @@ import {
 export const projectsData = [
   {
     id: 1,
-    image: "/images/projects/project1.png",
+    image: "/images/projects/dekatku/project1.png",
     title: "Dekatku",
     description:
       "Dekatku adalah platform direktori berbasis lokasi yang menghubungkan masyarakat (wisatawan/pengunjung) dengan UMKM dan Penyedia Jasa Lokal. Aplikasi ini membantu menemukan usaha rumahan yang biasanya sulit ditemukan di mesin pencari umum. Dengan integrasi Geolocation dan AI, Dekatku memberikan rekomendasi usaha terdekat secara cerdas dan akurat.",
@@ -39,33 +39,33 @@ export const projectsData = [
     gallery: [
       {
         id: 1,
-        url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
-        caption: "Dashboard Overview",
+        url: "/images/projects/dekatku/1.png",
+        caption: "User View",
       },
       {
         id: 2,
-        url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-        caption: "Analytics Page",
+        url: "/images/projects/dekatku/2.png",
+        caption: "Chat Bot/AI View",
       },
       {
         id: 3,
-        url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800",
-        caption: "Map Integration",
+        url: "/images/projects/dekatku/3.png",
+        caption: "Dashboard Admin",
       },
       {
         id: 4,
-        url: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800",
-        caption: "Mobile View",
+        url: "/images/projects/dekatku/4.png",
+        caption: "Dashboard Product Admin",
       },
       {
         id: 5,
-        url: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=800",
-        caption: "User Profile",
+        url: "/images/projects/dekatku/5.png",
+        caption: "Dashboard Super Admin",
       },
       {
         id: 6,
-        url: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800",
-        caption: "Business Listing",
+        url: "/images/projects/dekatku/6.png",
+        caption: "Search Toko Terdekat",
       },
     ],
     features: [
