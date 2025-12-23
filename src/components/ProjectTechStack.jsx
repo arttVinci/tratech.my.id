@@ -12,13 +12,13 @@ export default function ProjectTechStack({ tech, index }) {
       transition={{ delay: index * 0.05 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative group"
+      className="relative group mt-2"
     >
       <motion.div
         whileHover={{ scale: 1.1, y: -2 }}
-        className="flex items-center justify-center w-12 h-12 cursor-pointer"
+        className="flex items-center w-9 h-9 cursor-pointer"
       >
-        <Icon size={28} color={tech.color} />
+        <Icon size={27} color={tech.color} />
       </motion.div>
 
       {isHovered && (
