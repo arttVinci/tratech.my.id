@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { User, CheckCircle, Sun, Moon } from "lucide-react";
 
 export default function ProfileHeader() {
-  const [activeTab, setActiveTab] = useState("US");
-  const [theme, setTheme] = useState("dark");
-
   return (
     <div className="pt-12 pb-4 px-5 text-center border-b border-zinc-700 font-sans">
       <motion.div

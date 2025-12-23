@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ProjectCard from "../components/ProjectCard";
+import ProjectCards from "../components/ProjectCards";
 import { FolderOpen } from "lucide-react";
 
 export default function ProjectsPage() {
@@ -21,7 +21,7 @@ export default function ProjectsPage() {
           throughout my journey, which are academic or other categories.
         </p>
         <div className="border-b border-zinc-700 mt-3 mb-6"></div>
-        <ProjectCard />
+        <ProjectCards />
       </div>
     </motion.div>
   );

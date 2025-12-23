@@ -4,9 +4,8 @@ import { Pin } from "lucide-react";
 import GlowCard from "./GlowCard";
 import ProjectTechStack from "./ProjectTechStack";
 import { useNavigate } from "react-router-dom";
-import { projectsData } from "../data/ProjectsData";
 
-const ProjectCard = ({ project, index }) => {
+export default function ProjectCard({ project, index }) {
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   const navigate = useNavigate();
@@ -103,25 +102,5 @@ const ProjectCard = ({ project, index }) => {
         </GlowCard>
       </div>
     </motion.div>
-  );
-};
-
-export default function ProjectCards() {
-  return (
-    <section className="mt-4 pb-3">
-      <div className="mb-4">
-        <div className="flex items-center justify-between">
-          <div className="text-gray-400 font-sans text-md">
-            Total: {projectsData.length}
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-        {projectsData.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
-        ))}
-      </div>
-    </section>
   );
 }
