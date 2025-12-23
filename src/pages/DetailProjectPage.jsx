@@ -183,7 +183,9 @@ export default function DetailProjectPage() {
           {/* Right side - Links */}
           <div className="flex items-center gap-3">
             <a
-              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={project.githubUrl}
               className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
             >
               <SiGithub className="w-5 h-5 text-gray-300" />
@@ -191,7 +193,9 @@ export default function DetailProjectPage() {
             </a>
             <span className="text-gray-600">|</span>
             <a
-              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={project.liveUrl}
               className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
             >
               <ExternalLink className="w-5 h-5 text-gray-300" />

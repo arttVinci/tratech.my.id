@@ -24,8 +24,8 @@ export const projectsData = [
     description:
       "Dekatku adalah platform direktori berbasis lokasi yang menghubungkan masyarakat (wisatawan/pengunjung) dengan UMKM dan Penyedia Jasa Lokal. Aplikasi ini membantu menemukan usaha rumahan yang biasanya sulit ditemukan di mesin pencari umum. Dengan integrasi Geolocation dan AI, Dekatku memberikan rekomendasi usaha terdekat secara cerdas dan akurat.",
     tags: ["TypeScript", "Next.js", "React", "Tailwind", "Framer", "Node.js"],
-    githubUrl: "https://github.com/username/project1",
-    liveUrl: "https://satriabahari.my.id",
+    githubUrl: "https://github.com/alfandy12/dekatku.git",
+    liveUrl: "https://origin.web.id/",
     techStack: [
       { name: "Typescript", Icon: SiTypescript, color: "#61DAFB" },
       { name: "React", Icon: SiReact, color: "#61DAFB" },
@@ -125,7 +125,7 @@ export const projectsData = [
       "Docker",
       "Microservices",
     ],
-    githubUrl: "https://github.com/username/project-golang-ecommerce",
+    githubUrl: "https://github.com/arttVinci/Golang-API-Ecommerce",
     liveUrl: "",
     techStack: [
       { name: "Golang 1.25", Icon: SiGo, color: "#00ADD8" },
