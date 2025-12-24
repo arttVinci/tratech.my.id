@@ -3,19 +3,13 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import MenuItem from "./MenuItem";
-import {
-  Home,
-  User,
-  Award,
-  FolderOpen,
-  Send,
-  MessageSquare,
-} from "lucide-react";
+import { PiCertificate } from "react-icons/pi";
+import { Home, User, FolderOpen, Send, MessageSquare } from "lucide-react";
 
 const menuItems = [
   { icon: Home, label: "Home", route: "/" },
   { icon: User, label: "About", route: "/about" },
-  { icon: Award, label: "Achievements", route: "/achievements" },
+  { icon: PiCertificate, label: "Achievements", route: "/achievements" },
   { icon: FolderOpen, label: "Projects", route: "/projects" },
   { icon: Send, label: "Contact", route: "/contact" },
 ];

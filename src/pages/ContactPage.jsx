@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Contact } from "lucide-react";
 import ContactSection from "../components/ContactSection";
+import { MdOutlineContacts } from "react-icons/md";
 
 export default function ContactPage() {
   return (
@@ -13,7 +13,7 @@ export default function ContactPage() {
     >
       <div>
         <h2 className="text-2xl font-bold text-white flex items-center gap-2 font-mono tracking-tight">
-          <Contact className="w-7 h-7 text-cyan-400" />
+          <MdOutlineContacts className="w-7 h-7 text-cyan-400" />
           Contact
         </h2>
         <p className="text-gray-400 mt-1 font-sans text-md">

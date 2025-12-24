@@ -26,20 +26,21 @@ export default function ContactSection() {
   };
 
   return (
-    <div>
+    <div className="font-sans">
+      {" "}
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="bg-linear-to-r from-red-600 to-red-700 rounded-xl p-8 relative overflow-hidden">
+        <div className="bg-linear-to-r from-red-600 to-red-700 rounded-xl p-8 relative overflow-hidden shadow-lg">
           <div className="flex justify-between items-start">
-            <div>
-              <h2 className="text-white text-3xl font-bold mb-2">
+            <div className="relative z-10">
+              <h2 className="text-white text-3xl font-bold font-sans tracking-tight mb-2">
                 Stay in Touch
               </h2>
-              <p className="text-red-100 mb-6">
+              <p className="text-red-100 mb-6 font-body text-base">
                 Reach out via email for inquiries or collaborations.
               </p>
               <motion.button
-                className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
-                whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
+                className="bg-white/90 text-red-700 px-6 py-3 rounded-lg font-bold font-sans flex items-center gap-2 cursor-pointer shadow-sm"
+                whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
@@ -47,127 +48,116 @@ export default function ContactSection() {
                 <ExternalLink size={18} />
               </motion.button>
             </div>
-            <div className="border-white/40 border-4 p-4 rounded-2xl">
+            <div className="border-white/30 border-4 p-4 rounded-2xl rotate-3">
               <TbMail size={48} className="text-white" />
             </div>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 rounded-xl p-8 relative overflow-hidden">
+          <div className="bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 rounded-xl p-8 relative overflow-hidden shadow-lg">
             <div className="flex justify-between h-30">
-              <div>
-                <h2 className="text-white text-xl font-bold mb-2">
+              <div className="relative z-10">
+                <h2 className="text-white text-xl font-bold font-sans tracking-tight mb-2">
                   Follow My Journey
                 </h2>
-                <p className="text-white text-opacity-90 mb-6">
+                <p className="text-white/90 mb-6 font-body text-sm">
                   Follow my creative journey.
                 </p>
                 <motion.button
-                  className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundColor: "#9ca3af",
-                  }}
+                  className="bg-white/90 text-pink-600 px-5 py-2.5 rounded-lg font-bold font-sans text-sm flex items-center gap-2 cursor-pointer shadow-sm"
+                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  Go to Instagram
-                  <ExternalLink size={18} />
+                  Instagram
+                  <ExternalLink size={16} />
                 </motion.button>
               </div>
-              <div>
-                <div className="border-white/40 border-4 p-1 rounded-2xl">
-                  <FaInstagram size={60} className="text-white" />
-                </div>
+              <div className="w-20 h-20 border-white/30 border-4 rounded-xl flex items-center justify-center -rotate-6">
+                <FaInstagram size={60} className="text-white" />
               </div>
             </div>
           </div>
 
-          <div className="bg-linear-to-br from-blue-700 to-blue-900 rounded-xl p-8 relative overflow-hidden">
+          <div className="bg-linear-to-br from-blue-700 to-blue-900 rounded-xl p-8 relative overflow-hidden shadow-lg">
             <div className="flex justify-between h-30">
-              <div>
-                <h2 className="text-white text-2xl font-bold mb-2">
+              <div className="relative z-10">
+                <h2 className="text-white text-xl font-bold font-sans tracking-tight mb-2">
                   Let's Connect
                 </h2>
-                <p className="text-blue-100 mb-6">
+                <p className="text-blue-100 mb-6 font-body text-sm">
                   Connect with me professionally.
                 </p>
                 <motion.button
-                  className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
-                  whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
+                  className="bg-white/90 text-blue-800 px-5 py-2.5 rounded-lg font-bold font-sans text-sm flex items-center gap-2 cursor-pointer shadow-sm"
+                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  Go to Linkedin
-                  <ExternalLink size={18} />
+                  LinkedIn
+                  <ExternalLink size={16} />
                 </motion.button>
               </div>
-              <div>
-                <div className="border-white/40 border-4 p-1 rounded-2xl">
-                  <FaLinkedin size={60} className="text-white" />
-                </div>
+              <div className="w-20 h-20 border-white/30 border-4 rounded-xl flex items-center justify-center rotate-6">
+                <FaLinkedin size={60} className="text-white" />
               </div>
             </div>
           </div>
 
-          <div className="bg-linear-to-br from-gray-800 to-gray-900 rounded-xl p-8 relative overflow-hidden">
+          <div className="bg-linear-to-br from-gray-800 to-gray-900 rounded-xl p-8 relative overflow-hidden shadow-lg">
             <div className="flex justify-between h-30">
-              <div>
-                <h2 className="text-white text-2xl font-bold mb-2">
+              <div className="relative z-10">
+                <h2 className="text-white text-xl font-bold font-sans tracking-tight mb-2">
                   Join the Fun
                 </h2>
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-300 mb-6 font-body text-sm">
                   Watch engaging and fun content.
                 </p>
                 <motion.button
-                  className="bg-white/50 text-zinc-800  px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
-                  whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
+                  className="bg-white/90 text-gray-900 px-5 py-2.5 rounded-lg font-bold font-sans text-sm flex items-center gap-2 cursor-pointer shadow-sm"
+                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  Go to Tiktok
-                  <ExternalLink size={18} />
+                  TikTok
+                  <ExternalLink size={16} />
                 </motion.button>
               </div>
-              <div>
-                <div className="border-white/40 border-4 p-1 rounded-2xl">
-                  <AiFillTikTok size={60} className="text-white" />
-                </div>
+              <div className="w-20 h-20 border-white/30 border-4 rounded-xl flex items-center justify-center -rotate-3">
+                <AiFillTikTok size={60} className="text-white" />
               </div>
             </div>
           </div>
 
-          <div className="bg-linear-to-br from-gray-900 to-black rounded-xl p-8 relative overflow-hidden border border-gray-800">
+          <div className="bg-linear-to-br from-gray-900 to-black rounded-xl p-8 relative overflow-hidden border border-gray-800 shadow-lg">
             <div className="flex justify-between h-30">
-              <div>
-                <h2 className="text-white text-2xl font-bold mb-2">
-                  Explore the Code
+              <div className="relative z-10">
+                <h2 className="text-white text-xl font-bold font-sans tracking-tight mb-2">
+                  Explore Code
                 </h2>
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-400 mb-6 font-body text-sm">
                   Explore my open-source work.
                 </p>
                 <motion.button
-                  className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
-                  whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
+                  className="bg-white/90 text-black px-5 py-2.5 rounded-lg font-bold font-sans text-sm flex items-center gap-2 cursor-pointer shadow-sm"
+                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  Go to Github
-                  <ExternalLink size={18} />
+                  GitHub
+                  <ExternalLink size={16} />
                 </motion.button>
               </div>
-              <div>
-                <div className="border-white/40 border-4 p-1 rounded-2xl">
-                  <FaGithub size={60} className="text-white" />
-                </div>
+              <div className="w-20 h-20 border-white/30 border-4 rounded-xl flex items-center justify-center rotate-3">
+                <FaGithub size={60} className="text-white" />
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-12">
-          <h2 className="text-white text-2xl font-semibold mb-6">
+          <h2 className="text-white text-2xl font-bold font-sans tracking-tight mb-6">
             Or send me a message
           </h2>
           <div className="space-y-4">
@@ -177,14 +167,14 @@ export default function ContactSection() {
                 placeholder="Name"
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
-                className="bg-transparent border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 transition-colors"
+                className="bg-zinc-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 font-body focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
               />
               <input
                 type="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
-                className="bg-transparent border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 transition-colors"
+                className="bg-zinc-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 font-body focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
               />
             </div>
             <textarea
@@ -192,12 +182,12 @@ export default function ContactSection() {
               value={formData.message}
               onChange={(e) => handleChange("message", e.target.value)}
               rows={4}
-              className="w-full bg-transparent border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 transition-colors resize-none"
+              className="w-full bg-zinc-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 font-body focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all resize-none"
             />
             <motion.button
               onClick={handleSubmit}
-              className="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold"
-              whileHover={{ scale: 1.02, backgroundColor: "#374151" }}
+              className="w-full bg-white text-black py-3 rounded-lg font-bold font-sans tracking-wide"
+              whileHover={{ scale: 1.01, backgroundColor: "#e5e7eb" }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
