@@ -29,7 +29,7 @@ export default function ContactSection() {
     <div>
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Gmail Card */}
-        <div className="bg-linear-to-r from-red-600 to-red-700 rounded-2xl p-8 relative overflow-hidden">
+        <div className="bg-linear-to-r from-red-600 to-red-700 rounded-xl p-8 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-white text-3xl font-bold mb-2">
@@ -39,8 +39,8 @@ export default function ContactSection() {
                 Reach out via email for inquiries or collaborations.
               </p>
               <motion.button
-                className="bg-red-200 text-red-900 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
-                whileHover={{ scale: 1.05, backgroundColor: "#fecaca" }}
+                className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
+                whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
@@ -56,7 +56,7 @@ export default function ContactSection() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Instagram Card */}
-          <div className="bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 rounded-2xl p-8 relative overflow-hidden">
+          <div className="bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 rounded-xl p-8 relative overflow-hidden">
             <div className="flex justify-between h-30">
               <div>
                 <h2 className="text-white text-xl font-bold mb-2">
@@ -66,10 +66,10 @@ export default function ContactSection() {
                   Follow my creative journey.
                 </p>
                 <motion.button
-                  className="bg-white bg-opacity-90 text-purple-900 px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
+                  className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
                   whileHover={{
                     scale: 1.05,
-                    backgroundColor: "rgba(255, 255, 255, 1)",
+                    backgroundColor: "#9ca3af",
                   }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -87,7 +87,7 @@ export default function ContactSection() {
           </div>
 
           {/* LinkedIn Card */}
-          <div className="bg-linear-to-br from-blue-700 to-blue-900 rounded-2xl p-8 relative overflow-hidden">
+          <div className="bg-linear-to-br from-blue-700 to-blue-900 rounded-xl p-8 relative overflow-hidden">
             <div className="flex justify-between h-30">
               <div>
                 <h2 className="text-white text-2xl font-bold mb-2">
@@ -97,8 +97,8 @@ export default function ContactSection() {
                   Connect with me professionally.
                 </p>
                 <motion.button
-                  className="bg-blue-200 text-blue-900 px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
-                  whileHover={{ scale: 1.05, backgroundColor: "#bfdbfe" }}
+                  className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
+                  whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -115,7 +115,7 @@ export default function ContactSection() {
           </div>
 
           {/* TikTok Card */}
-          <div className="bg-linear-to-br from-gray-800 to-gray-900 rounded-2xl p-8 relative overflow-hidden">
+          <div className="bg-linear-to-br from-gray-800 to-gray-900 rounded-xl p-8 relative overflow-hidden">
             <div className="flex justify-between h-30">
               <div>
                 <h2 className="text-white text-2xl font-bold mb-2">
@@ -125,8 +125,8 @@ export default function ContactSection() {
                   Watch engaging and fun content.
                 </p>
                 <motion.button
-                  className="bg-gray-300 text-gray-900 px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
-                  whileHover={{ scale: 1.05, backgroundColor: "#e5e5e5" }}
+                  className="bg-white/50 text-zinc-800  px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
+                  whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -143,7 +143,7 @@ export default function ContactSection() {
           </div>
 
           {/* GitHub Card */}
-          <div className="bg-linear-to-br from-gray-900 to-black rounded-2xl p-8 relative overflow-hidden border border-gray-800">
+          <div className="bg-linear-to-br from-gray-900 to-black rounded-xl p-8 relative overflow-hidden border border-gray-800">
             <div className="flex justify-between h-30">
               <div>
                 <h2 className="text-white text-2xl font-bold mb-2">
@@ -153,8 +153,8 @@ export default function ContactSection() {
                   Explore my open-source work.
                 </p>
                 <motion.button
-                  className="bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
-                  whileHover={{ scale: 1.05, backgroundColor: "#4b5563" }}
+                  className="bg-white/50 text-zinc-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 cursor-pointer"
+                  whileHover={{ scale: 1.05, backgroundColor: "#9ca3af" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >

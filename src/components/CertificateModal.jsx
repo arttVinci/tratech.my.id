@@ -94,8 +94,6 @@ export default function CertificateModal({ certificate, onClose }) {
               </a>
             )}
           </div>
-
-          {/* Credential Link */}
         </div>
       </motion.div>
     </motion.div>
