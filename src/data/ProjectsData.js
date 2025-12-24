@@ -114,7 +114,7 @@ export const projectsData = [
   {
     id: 2,
     image: "/images/projects/golang-api-ecommerce/1.png",
-    title: "RESTful API E-Commerce berbasis Go (Golang)",
+    title: "RESTful API E-Commerce Golang",
     description:
       "A robust and production-ready RESTful API for an E-Commerce platform, built with Golang (Fiber) using Clean Architecture principles. This project features secure authentication, transaction handling with data snapshots, and is fully containerized with Docker.",
     tags: [

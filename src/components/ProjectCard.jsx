@@ -91,7 +91,7 @@ export default function ProjectCard({ project, index }) {
             {project.description}
           </p>
 
-          <div className="flex flex-wrapcd mt-auto">
+          <div className="flex flex-wrap mt-auto">
             {project.techStack.map((tech, index) => (
               <ProjectTechStack key={tech.name} tech={tech} index={index} />
             ))}
