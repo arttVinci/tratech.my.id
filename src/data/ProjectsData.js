@@ -128,8 +128,8 @@ export const projectsData = [
     githubUrl: "https://github.com/arttVinci/Golang-API-Ecommerce",
     liveUrl: "",
     techStack: [
-      { name: "Golang 1.25", Icon: SiGo, color: "#00ADD8" },
-      { name: "MySQL 8.0", Icon: SiMysql, color: "#4479A1" },
+      { name: "Golang", Icon: SiGo, color: "#00ADD8" },
+      { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
       { name: "Docker", Icon: SiDocker, color: "#2496ED" },
     ],
     gallery: [
