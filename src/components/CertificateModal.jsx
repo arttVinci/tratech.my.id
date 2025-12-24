@@ -19,7 +19,6 @@ export default function CertificateModal({ certificate, onClose }) {
         className="relative max-w-4xl w-150 bg-zinc-900 rounded-xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors cursor-pointer"
@@ -27,14 +26,12 @@ export default function CertificateModal({ certificate, onClose }) {
           <X className="w-6 h-6 text-white" />
         </button>
 
-        {/* Image */}
         <img
           src={certificate.image}
           alt={certificate.title}
           className="w-full h-auto"
         />
 
-        {/* Content */}
         <div className="p-6 space-y-4">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-white mb-1">

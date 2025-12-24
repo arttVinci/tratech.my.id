@@ -199,10 +199,8 @@ export const projectsData = [
         ],
       },
     ],
-    // Challenge disesuaikan ke backend context
     challenges:
       "Mengimplementasikan Clean Architecture yang benar-benar modular tanpa menyebabkan 'Circular Dependency' antar package, serta memastikan konsistensi data transaksi saat terjadi request yang bersamaan (Concurrency).",
-    // Solution disesuaikan ke teknikal
     solution:
       "Menerapkan Dependency Injection secara disiplin untuk memutus ketergantungan antar layer, menggunakan Database Transaction (tx) untuk rollback otomatis jika terjadi kegagalan order, dan membungkus aplikasi dalam Docker container untuk lingkungan development yang konsisten.",
     featured: true,

@@ -27,7 +27,6 @@ export default function ProjectCard({ project, index }) {
       onClick={handleViewDetail}
     >
       <div className="relative border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 transition-all duration-300 h-full flex flex-col">
-        {/* Featured Badge */}
         {project.featured && (
           <div className="absolute top-3 right-3 z-10">
             <div className="bg-cyan-400 text-black px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
@@ -83,7 +82,6 @@ export default function ProjectCard({ project, index }) {
           </AnimatePresence>
         </div>
 
-        {/* Content */}
         <GlowCard certi={true}>
           <h3 className="text-xl font-semibold text-white line-clamp-2 min-h-12">
             {project.title}
@@ -93,7 +91,6 @@ export default function ProjectCard({ project, index }) {
             {project.description}
           </p>
 
-          {/* Tech Stack Icons */}
           <div className="flex flex-wrapcd mt-auto">
             {project.techStack.map((tech, index) => (
               <ProjectTechStack key={tech.name} tech={tech} index={index} />

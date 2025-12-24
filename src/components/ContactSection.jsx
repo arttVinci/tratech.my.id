@@ -28,7 +28,6 @@ export default function ContactSection() {
   return (
     <div>
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Gmail Card */}
         <div className="bg-linear-to-r from-red-600 to-red-700 rounded-xl p-8 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
@@ -55,7 +54,6 @@ export default function ContactSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Instagram Card */}
           <div className="bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 rounded-xl p-8 relative overflow-hidden">
             <div className="flex justify-between h-30">
               <div>
@@ -86,7 +84,6 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* LinkedIn Card */}
           <div className="bg-linear-to-br from-blue-700 to-blue-900 rounded-xl p-8 relative overflow-hidden">
             <div className="flex justify-between h-30">
               <div>
@@ -114,7 +111,6 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* TikTok Card */}
           <div className="bg-linear-to-br from-gray-800 to-gray-900 rounded-xl p-8 relative overflow-hidden">
             <div className="flex justify-between h-30">
               <div>
@@ -142,7 +138,6 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* GitHub Card */}
           <div className="bg-linear-to-br from-gray-900 to-black rounded-xl p-8 relative overflow-hidden border border-gray-800">
             <div className="flex justify-between h-30">
               <div>
@@ -171,7 +166,6 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* Contact Form */}
         <div className="mt-12">
           <h2 className="text-white text-2xl font-semibold mb-6">
             Or send me a message

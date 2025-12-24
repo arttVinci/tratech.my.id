@@ -28,7 +28,6 @@ export default function MainLayout() {
             <Outlet />
           </div>
 
-          {/* WhatsApp FAB */}
           <motion.button
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
