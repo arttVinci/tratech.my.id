@@ -155,46 +155,6 @@ export default function ContactSection() {
             </div>
           </div>
         </div>
-
-        <div className="mt-12">
-          <h2 className="text-white text-2xl font-bold font-sans tracking-tight mb-6">
-            Or send me a message
-          </h2>
-          <div className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Name"
-                value={formData.name}
-                onChange={(e) => handleChange("name", e.target.value)}
-                className="bg-zinc-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 font-body focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                className="bg-zinc-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 font-body focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
-              />
-            </div>
-            <textarea
-              placeholder="Message"
-              value={formData.message}
-              onChange={(e) => handleChange("message", e.target.value)}
-              rows={4}
-              className="w-full bg-zinc-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 font-body focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all resize-none"
-            />
-            <motion.button
-              onClick={handleSubmit}
-              className="w-full bg-white text-black py-3 rounded-lg font-bold font-sans tracking-wide"
-              whileHover={{ scale: 1.01, backgroundColor: "#e5e7eb" }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              Send Email
-            </motion.button>
-          </div>
-        </div>
       </div>
     </div>
   );
