@@ -1,16 +1,71 @@
-# React + Vite
+# 🚀 TraTech: Personal Portfolio & CMS Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Status](https://img.shields.io/badge/Status-Under%20Development-orange?style=for-the-badge)](https://github.com/yourusername)
+[![Backend](https://img.shields.io/badge/Backend-Golang-blue?style=for-the-badge&logo=go)](https://go.dev/)
+[![Docker](https://img.shields.io/badge/Container-Docker-blue?style=for-the-badge&logo=docker)](https://www.docker.com/)
 
-Currently, two official plugins are available:
+Aplikasi sistem informasi portofolio pribadi yang dinamis, memungkinkan manajemen konten melalui dashboard administratif tanpa harus menyentuh kode program.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📌 Tentang Proyek
 
-## React Compiler
+Proyek ini dibangun dengan tujuan akhir sebagai platform portofolio yang sepenuhnya dapat dikelola sendiri (Self-Managed). Anda dapat menambahkan sertifikat, pengalaman kerja, hingga mengubah detail profil secara instan melalui panel dashboard.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Fitur Utama (Tahap Pengembangan):
 
-## Expanding the ESLint configuration
+- **Dynamic Portfolio**: Menampilkan proyek, pengalaman, dan edukasi secara otomatis dari database.
+- **Admin Dashboard**: Panel kendali untuk manajemen data (CRUD).
+- **Certificate & Badge Management**: Menambah dan mengkategorikan pencapaian terbaru.
+- **Experience & Career Roadmap**: Mengelola riwayat profesional dengan mudah.
+- **Profile Customization**: Edit nama, alamat, bio, dan sosial media secara langsung.
+- **Smart Talk (WIP)**: Fitur interaksi yang sedang dalam tahap pengembangan.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **Frontend**: React.js, Tailwind CSS, Framer Motion (Animasi UI).
+- **Backend**: Golang (Go) - Untuk performa API yang tinggi dan efisien.
+- **Database**: PostgreSQL / MySQL.
+- **Infrastructure**: Docker & Docker Compose (Containerization untuk konsistensi environment).
+
+## 🐳 Panduan Instalasi (Docker)
+
+Aplikasi ini sudah dibungkus menggunakan Docker untuk mempermudah proses deployment.
+
+1.  **Clone Repositori**
+
+    ```bash
+    git clone [https://github.com/username/tratech-portfolio.git](https://github.com/username/tratech-portfolio.git)
+    cd tratech-portfolio
+    ```
+
+2.  **Jalankan dengan Docker Compose**
+
+    ```bash
+    docker-compose up --build
+    ```
+
+3.  **Akses Aplikasi**
+    - **Frontend**: `http://localhost:3000`
+    - **Backend API**: `http://localhost:8080`
+
+## 🚧 Status Proyek
+
+Aplikasi ini saat ini berada dalam tahap **75% Pengembangan**.
+
+- [x] UI/UX Responsif (Mobile First)
+- [x] Sidebar & Navigation Logic
+- [x] Project Detail & Gallery System
+- [ ] Integrasi API Backend (Golang)
+- [ ] Fitur Authentication & Dashboard CRUD
+- [ ] Deployment ke Server Produksi
+
+## 👨‍💻 Developer
+
+**Putra Rizky** Reach me on:
+
+- **Instagram**: [@artt\_\_r](https://www.instagram.com/artt__r)
+- **LinkedIn**: [Putra Rizky](https://linkedin.com/in/yourprofile)
+- **Email**: [traarzkyy97@gmail.com](mailto:traarzkyy97@gmail.com)
+
+---
+
+© 2025 Traa Rzkyy. All rights reserved.
