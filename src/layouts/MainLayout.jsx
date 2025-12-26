@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import { Menu, BadgeCheck, Cloud, Sun } from "lucide-react";
 
 export default function MainLayout() {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState("Home");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const path = location.pathname.slice(1) || "home";
@@ -14,17 +16,67 @@ export default function MainLayout() {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-blue-card flex justify-center items-start py-14 px-19">
+    <div className="min-h-screen bg-blue-card flex justify-center items-start p-0 lg:py-14 lg:px-19">
+      <header className="lg:hidden w-full fixed top-0 left-0 right-0 bg-zinc-900/95 backdrop-blur-md border-b border-zinc-800 z-50 px-4 h-16 flex items-center justify-between">
+        {/* BAGIAN KIRI: Profil & Nama */}
+        <div className="flex items-center gap-3">
+          {/* Avatar / Foto Profil */}
+          <div className="relative">
+            <img
+              src="https://github.com/shadcn.png" // Ganti dengan URL foto profil Anda
+              alt="Avatar"
+              className="w-9 h-9 rounded-full border border-zinc-700 object-cover"
+            />
+            {/* Indikator Online (Opsional) */}
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-zinc-900 rounded-full"></span>
+          </div>
+
+          {/* Nama & Centang Biru */}
+          <div className="flex items-center gap-1">
+            <h1 className="text-white font-semibold text-sm tracking-wide">
+              Putra Rizky
+            </h1>
+            <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10" />
+          </div>
+        </div>
+
+        {/* BAGIAN KANAN: Action Buttons & Menu */}
+        <div className="flex items-center gap-3">
+          {/* Badge Bahasa (ID) - Hijau */}
+          <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center cursor-pointer hover:bg-emerald-500 transition-colors">
+            <span className="text-white text-xs font-bold">ID</span>
+          </div>
+
+          {/* Tombol Tema (Opsional - Contoh pakai icon Cloud/Sun) */}
+          <button className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors">
+            <Cloud className="w-4 h-4" />
+          </button>
+
+          {/* Tombol Hamburger Menu */}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="text-white hover:bg-zinc-800 p-1.5 rounded-lg transition-colors"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
+      </header>
+
       <div className="w-full max-w-400 flex overflow-hidden">
-        <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+        <Sidebar
+          activeMenu={activeMenu}
+          setActiveMenu={setActiveMenu}
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+        />
 
         <motion.main
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="flex-1 ml-66"
+          className="flex-1 ml-0 lg:ml-66 pt-16 lg:pt-0"
         >
-          <div className="max-w-5xl mx-auto px-16">
+          <div className="max-w-5xl mx-auto py-6 px-6 lg:px-16">
             <Outlet />
           </div>
 
@@ -34,7 +86,7 @@ export default function MainLayout() {
             transition={{ delay: 1 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="fixed bottom-8 right-8 w-14 h-14 bg-gray-700 hover:bg-gray-600 rounded-full flex items-center justify-center shadow-lg transition-colors"
+            className="fixed bottom-4 right-4 lg:bottom-8 lg:right-8 w-12 h-12 lg:w-14 lg:h-14 bg-gray-700 hover:bg-gray-600 rounded-full flex items-center justify-center shadow-lg transition-colors"
           >
             <svg
               className="w-6 h-6 text-white"
