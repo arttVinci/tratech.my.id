@@ -6,25 +6,6 @@ import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    alert("Message sent! (This is a demo)");
-    setFormData({ name: "", email: "", message: "" });
-  };
-
-  const handleChange = (field, value) => {
-    setFormData({
-      ...formData,
-      [field]: value,
-    });
-  };
-
   return (
     <div className="font-sans">
       {" "}

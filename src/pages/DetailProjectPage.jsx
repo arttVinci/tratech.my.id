@@ -170,7 +170,6 @@ export default function DetailProjectPage() {
         <div className="border-b border-zinc-700 mt-5 mb-6"></div>
 
         <div className="text-white flex items-center justify-between">
-          {/* Left side - Tech Stack */}
           <div className="flex items-center gap-1">
             <span className="text-gray-400 font-medium">Tech Stack :</span>
             <div className="flex flex-wrapcd mt-auto ml-2">
@@ -180,7 +179,6 @@ export default function DetailProjectPage() {
             </div>
           </div>
 
-          {/* Right side - Links */}
           <div className="flex items-center gap-3">
             <a
               target="_blank"
@@ -218,7 +216,6 @@ export default function DetailProjectPage() {
         <ImageGallery images={project.gallery} />
       </motion.div>
 
-      {/* Challenges & Solution */}
       <div className="grid md:grid-cols-2 gap-6">
         <GlowCard>
           <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
@@ -237,7 +234,6 @@ export default function DetailProjectPage() {
         </GlowCard>
       </div>
 
-      {/* Features Section */}
       <GlowCard certi={true} className={"rounded-3xl"}>
         <h3 className="text-xl font-bold text-white flex items-center gap-2 mb-6">
           <span className="text-cyan-400 animate-pulse">✨</span>
@@ -278,7 +274,6 @@ export default function DetailProjectPage() {
                 group/item
               "
                   >
-                    {/* Arrow */}
                     <span
                       className="
                 text-cyan-400 mt-1
@@ -289,7 +284,6 @@ export default function DetailProjectPage() {
                       ▹
                     </span>
 
-                    {/* Text */}
                     <span className="leading-relaxed">{item}</span>
                   </motion.li>
                 ))}
