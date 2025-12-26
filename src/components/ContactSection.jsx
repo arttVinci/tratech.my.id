@@ -20,6 +20,12 @@ export default function ContactSection() {
                 Reach out via email for inquiries or collaborations.
               </p>
               <motion.button
+                onClick={() =>
+                  window.open(
+                    "https://mail.google.com/mail/?view=cm&fs=1&to=traarzkyy97@gmail.com",
+                    "_blank"
+                  )
+                }
                 className="bg-white/90 text-red-700 px-6 py-3 rounded-lg font-bold font-sans flex items-center gap-2 cursor-pointer shadow-sm"
                 whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                 whileTap={{ scale: 0.95 }}
@@ -48,6 +54,9 @@ export default function ContactSection() {
                 </p>
 
                 <motion.button
+                  onClick={() =>
+                    window.open("https://www.instagram.com/artt__r", "_blank")
+                  }
                   className="bg-white/90 text-pink-600 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
                   whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
@@ -75,6 +84,12 @@ export default function ContactSection() {
                 </p>
 
                 <motion.button
+                  onClick={() =>
+                    window.open(
+                      "https://www.linkedin.com/in/putra-rizky-nugraha",
+                      "_blank"
+                    )
+                  }
                   className="bg-white/90 text-blue-800 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
                   whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
@@ -102,6 +117,9 @@ export default function ContactSection() {
                 </p>
 
                 <motion.button
+                  onClick={() =>
+                    window.open("https://www.tiktok.com/@artt_rzky", "_blank")
+                  }
                   className="bg-white/90 text-gray-900 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
                   whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
@@ -129,6 +147,9 @@ export default function ContactSection() {
                 </p>
 
                 <motion.button
+                  onClick={() =>
+                    window.open("https://github.com/arttVinci", "_blank")
+                  }
                   className="bg-white/90 text-black px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold font-sans text-xs md:text-sm flex items-center gap-2 cursor-pointer shadow-sm"
                   whileHover={{ scale: 1.05, backgroundColor: "#ffffff" }}
                   whileTap={{ scale: 0.95 }}
