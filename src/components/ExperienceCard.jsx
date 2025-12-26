@@ -17,20 +17,20 @@ export default function ExperienceCard({ experience, index }) {
       }}
     >
       <GlowCard>
-        <div className="flex gap-6">
+        <div className="flex gap-3 md:gap-6">
           <motion.div
             className="flex shrink-0"
             whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-2xl cursor-pointer">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg flex items-center justify-center text-xl md:text-2xl cursor-pointer">
               {experience.logo ?? null}
             </div>
           </motion.div>
 
           <div className="flex-1 min-w-0">
             <motion.h3
-              className="text-lg font-semibold text-white mb-1 cursor-pointer font-mono tracking-tight"
+              className="text-base md:text-lg font-semibold text-white mb-1 cursor-pointer font-mono tracking-tight leading-snug"
               transition={{ duration: 0.2 }}
             >
               {experience.title ?? null}
@@ -53,7 +53,7 @@ export default function ExperienceCard({ experience, index }) {
               {experience.location ?? null}
             </p>
 
-            <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-400 mb-3 font-mono">
+            <div className="flex flex-wrap items-center gap-2 text-[10px] md:text-xs text-zinc-400 mb-3 font-mono">
               <span>{experience.period}</span>
               {experience.period && experience.duration ? "•" : null}
 
@@ -62,7 +62,7 @@ export default function ExperienceCard({ experience, index }) {
 
               {experience.type ? (
                 <motion.span
-                  className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300 text-xs"
+                  className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300"
                   whileHover={{ backgroundColor: "#3f3f46", scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -74,7 +74,7 @@ export default function ExperienceCard({ experience, index }) {
 
               {experience.mode ? (
                 <motion.span
-                  className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300 text-xs"
+                  className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300"
                   whileHover={{ backgroundColor: "#3f3f46", scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -86,7 +86,7 @@ export default function ExperienceCard({ experience, index }) {
             {experience.edu ? null : (
               <motion.button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-1 text-zinc-400 cursor-pointer font-mono text-xs"
+                className="flex items-center gap-1 text-zinc-400 cursor-pointer font-mono text-xs group"
                 whileHover={{ color: "#ffffff" }}
                 transition={{ duration: 0.2 }}
               >
@@ -94,9 +94,9 @@ export default function ExperienceCard({ experience, index }) {
                   animate={{ rotate: isExpanded ? 180 : 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <ChevronDown className="w-4 h-4" />
+                  <ChevronDown className="w-4 h-4 group-hover:text-cyan-400" />
                 </motion.div>
-                <span className="text-sm">
+                <span className="text-xs md:text-sm group-hover:underline decoration-cyan-400/50 underline-offset-4">
                   {isExpanded
                     ? "Hide responsibilities"
                     : "Show responsibilities"}
@@ -113,8 +113,8 @@ export default function ExperienceCard({ experience, index }) {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="mt-4 pt-4 border-t border-zinc-800">
-                    <ul className="space-y-1">
+                  <div className="mt-3 pt-3 md:mt-4 md:pt-4 border-t border-zinc-800">
+                    <ul className="space-y-2">
                       {experience.responsibilities.map((resp, idx) => (
                         <motion.li
                           key={idx}
@@ -124,9 +124,11 @@ export default function ExperienceCard({ experience, index }) {
                             duration: 0.3,
                             delay: idx * 0.05,
                           }}
-                          className="text-sm text-zinc-300 flex gap-2 font-sans"
+                          className="text-xs md:text-sm text-zinc-300 flex gap-2 font-sans leading-relaxed"
                         >
-                          <span className="text-zinc-500 flex shrink-0">•</span>
+                          <span className="text-cyan-500/70 flex shrink-0 mt-0.5">
+                            •
+                          </span>
                           <span>{resp}</span>
                         </motion.li>
                       )) ?? null}

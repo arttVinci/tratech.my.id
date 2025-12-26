@@ -84,7 +84,6 @@ export default function CertificateCard({ certificate, index, onClick }) {
           </div>
         </GlowCard>
 
-        {/* Hover Glow Effect */}
         <div className="absolute -inset-0.5 bg-linear-to-r from-cyan-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 blur transition duration-300 -z-10" />
       </div>
     </motion.div>

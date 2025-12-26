@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { MdVerified } from "react-icons/md";
 
 export default function ProfileHeader() {
   return (
@@ -22,8 +23,9 @@ export default function ProfileHeader() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        <div className="flex items-center justify-center gap-2 mb-1">
+        <div className="flex items-center justify-center gap-1 mb-1">
           <h1 className="text-xl font-semibold text-gray-300">Putra Rizky</h1>
+          <MdVerified className="w-4 h-4 text-blue-400 mt-1" />
         </div>
         <p className="text-gray-400 text-xs mb-4">@traa_rzkyy</p>
 
