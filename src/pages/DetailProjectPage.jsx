@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  MoveLeft,
-  ExternalLink,
-  FolderOpen,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Maximize2,
-} from "lucide-react";
+import { MoveLeft, ExternalLink, FolderOpen } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { projectsData } from "../data/ProjectsData";
 import ProjectTechStack from "../components/ProjectTechStack";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import GlowCard from "../components/GlowCard";
+import ImageGallery from "../components/ImageGallery";
 
 export default function DetailProjectPage() {
   const { id } = useParams();
