@@ -17,21 +17,18 @@ export default function ExperienceCard({ experience, index }) {
       }}
     >
       <GlowCard>
-        {/* PERUBAHAN 1: gap-3 di mobile, gap-6 di desktop */}
         <div className="flex gap-3 md:gap-6">
           <motion.div
             className="flex shrink-0"
             whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            {/* PERUBAHAN 2: Ukuran logo w-10 (40px) di mobile, w-12 (48px) di desktop */}
             <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg flex items-center justify-center text-xl md:text-2xl cursor-pointer">
               {experience.logo ?? null}
             </div>
           </motion.div>
 
           <div className="flex-1 min-w-0">
-            {/* PERUBAHAN 3: Font size title responsif */}
             <motion.h3
               className="text-base md:text-lg font-semibold text-white mb-1 cursor-pointer font-mono tracking-tight leading-snug"
               transition={{ duration: 0.2 }}
@@ -56,7 +53,6 @@ export default function ExperienceCard({ experience, index }) {
               {experience.location ?? null}
             </p>
 
-            {/* Bagian Badges/Tags */}
             <div className="flex flex-wrap items-center gap-2 text-[10px] md:text-xs text-zinc-400 mb-3 font-mono">
               <span>{experience.period}</span>
               {experience.period && experience.duration ? "•" : null}
