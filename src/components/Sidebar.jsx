@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import MenuItem from "./MenuItem";
@@ -19,6 +19,7 @@ export default function Sidebar({
   setActiveMenu,
   isOpen,
   onClose,
+  onOpenSmartTalk,
 }) {
   const navigate = useNavigate();
 
@@ -75,6 +76,7 @@ export default function Sidebar({
           ))}
 
           <motion.button
+            onClick={onOpenSmartTalk}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}

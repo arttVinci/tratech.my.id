@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { Menu, BadgeCheck, Cloud, Sun } from "lucide-react";
+import { Menu, Hammer, X } from "lucide-react";
 import { MdVerified } from "react-icons/md";
 
 export default function MainLayout() {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState("Home");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSmartTalkOpen, setIsSmartTalkOpen] = useState(false);
 
   useEffect(() => {
     const path = location.pathname.slice(1) || "home";
@@ -61,6 +62,7 @@ export default function MainLayout() {
           setActiveMenu={setActiveMenu}
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
+          onOpenSmartTalk={() => setIsSmartTalkOpen(true)}
         />
 
         <motion.main
@@ -74,6 +76,58 @@ export default function MainLayout() {
           </div>
         </motion.main>
       </div>
+
+      <AnimatePresence>
+        {isSmartTalkOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSmartTalkOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-60"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-sm bg-zinc-900 border border-zinc-700 p-6 rounded-2xl shadow-2xl z-70 text-center"
+            >
+              <button
+                onClick={() => setIsSmartTalkOpen(false)}
+                className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex flex-col items-center justify-center gap-4 py-4">
+                <div className="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center mb-2">
+                  <Hammer className="w-8 h-8 text-cyan-400 animate-pulse" />
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Under Development
+                  </h3>
+                  <p className="text-zinc-400 text-sm leading-relaxed">
+                    Fitur ini sedang dalam pengembangan oleh developers.
+                    <br />
+                    Nantikan update selanjutnya! 🚀
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsSmartTalkOpen(false)}
+                className="w-full mt-4 bg-cyan-600 hover:bg-cyan-500 text-white py-2.5 rounded-xl font-medium transition-colors cursor-pointer"
+              >
+                Siap, Ditunggu!
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
