@@ -1,8 +1,27 @@
-APP_NAME=Gctech
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=webstore
-DB_USERNAME=root
-DB_PASSWORD=
+{
+  "app": {
+    "name": "tratech"
+  },
+  "web": {
+    "prefork": false,
+    "port": 3000
+  },
+  "log": {
+    "level": 6
+  },
+  "database": {
+    "username": "mysql",
+    "password": "secret",
+    "host": "127.0.0.1",
+    "port": 3307,
+    "name": "tratech",
+    "pool": {
+      "idle": 10,
+      "max": 100,
+      "lifetime": 300
+    }
+  },
+  "jwt": {
+    "secret": "tokenjwtapiecommerce"
+  }
+}
