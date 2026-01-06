@@ -10,7 +10,7 @@ type Project struct {
 	Description string `gorm:"column:description"`
 	GithubUrl   string `gorm:"column:github_url"`
 	LiveUrl     string `gorm:"column:live_url"`
-	Challange   string `gorm:"column:challange"`
+	Challenge   string `gorm:"column:challenge"`
 	Solution    string `gorm:"column:solution"`
 	IsFeatured  bool   `gorm:"column:is_featured"`
 
