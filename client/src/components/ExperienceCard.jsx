@@ -20,12 +20,13 @@ export default function ExperienceCard({ experience, index }) {
         <div className="flex gap-3 md:gap-6">
           <motion.div
             className="flex shrink-0"
-            whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg flex items-center justify-center text-xl md:text-2xl cursor-pointer">
-              {experience.logo ?? null}
-            </div>
+            <img
+              src={experience.logo}
+              alt="Company Logo"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover p-1 cursor-pointer"
+            />
           </motion.div>
 
           <div className="flex-1 min-w-0">

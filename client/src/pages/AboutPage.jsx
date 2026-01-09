@@ -5,7 +5,7 @@ import CareerCard from "../components/CareerCard";
 const experiences = [
   {
     id: 1,
-    logo: "🏢",
+    logo: "/images/akebono.jpg",
     title: "IT Support",
     company: "PT Akebono Brake Astra Indonesia",
     location: "Jakarta Utara, Jakarta Raya, Indonesia",
@@ -26,7 +26,7 @@ const experiences = [
   },
   {
     id: 2,
-    logo: "🌐",
+    logo: "/images/evermos.jpg",
     title: "Back-end Developer",
     company: "PT Evermos",
     location: "Bandung, Jawa Barat, Indonesia",
@@ -49,7 +49,7 @@ const experiences = [
 const education = [
   {
     id: 1,
-    logo: "🏢",
+    logo: "/images/universitas_terbuka.jpg",
     edu: true,
     title: "Universitas Terbuka",
     company: "Bachelor's degree - Information Systems, (FST)",
