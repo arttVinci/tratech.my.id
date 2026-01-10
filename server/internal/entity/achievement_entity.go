@@ -4,7 +4,7 @@ import "time"
 
 type Achievement struct {
 	ID            string     `gorm:"column:id;primaryKey"`
-	UserId        uint       `gorm:"column:user_id"`
+	UserId        string     `gorm:"column:user_id"`
 	Title         string     `gorm:"column:title"`
 	ImageUrl      string     `gorm:"column:image_url"`
 	Organization  string     `gorm:"column:organization"`
