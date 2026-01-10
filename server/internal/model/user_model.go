@@ -15,7 +15,7 @@ type VerifyUserRequest struct {
 }
 
 type RegisterUserRequest struct {
-	ID       uint   `json:"id" validate:"required,max=100"`
+	ID       string `json:"id" validate:"required,max=100"`
 	Password string `json:"password" validate:"required,max=100"`
 	Name     string `json:"name" validate:"required,max=100"`
 	NoTelp   string `json:"no_telp,omitempty"`
