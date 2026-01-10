@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func newViper() *viper.Viper {
+func NewViper() *viper.Viper {
 	config := viper.New()
 
 	config.SetConfigName("config")

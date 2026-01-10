@@ -13,7 +13,7 @@ type AchievementController struct {
 	Log     *logrus.Logger
 }
 
-func NewContactController(useCase *usecase.AchievementUseCase, log *logrus.Logger) *AchievementController {
+func NewAchievementController(useCase *usecase.AchievementUseCase, log *logrus.Logger) *AchievementController {
 	return &AchievementController{
 		UseCase: useCase,
 		Log:     log,

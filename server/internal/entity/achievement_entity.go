@@ -14,5 +14,5 @@ type Achievement struct {
 }
 
 func (u *Achievement) TableName() string {
-	return "achievments"
+	return "achievements"
 }

@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-func newDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
+func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 	username := viper.GetString("database.username")
 	password := viper.GetString("database.password")
 	databaseName := viper.GetString("database.name")
