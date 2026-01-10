@@ -3,7 +3,7 @@ package model
 import "time"
 
 type AchievementResponse struct {
-	ID            uint       `json:"id"`
+	ID            string     `json:"id"`
 	Title         string     `json:"title"`
 	ImageUrl      string     `json:"image_url"`
 	Organization  string     `json:"organization"`
@@ -13,7 +13,7 @@ type AchievementResponse struct {
 }
 
 type CreateAchievementRequest struct {
-	UserId        string     `json:"-" validate:"required"`
+	UserId        uint       `json:"-" validate:"required"`
 	Title         string     `json:"title" validate:"required,max=100"`
 	ImageUrl      string     `json:"image_url"`
 	Organization  string     `json:"organization" validate:"required,max=100"`

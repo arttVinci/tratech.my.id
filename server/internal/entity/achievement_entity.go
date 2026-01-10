@@ -3,7 +3,7 @@ package entity
 import "time"
 
 type Achievement struct {
-	ID            uint       `gorm:"column:id;primaryKey"`
+	ID            string     `gorm:"column:id;primaryKey"`
 	UserId        uint       `gorm:"column:id_user"`
 	Title         string     `gorm:"column:title"`
 	ImageUrl      string     `gorm:"column:image_url"`

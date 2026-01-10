@@ -5,9 +5,12 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"tratech.my.id/server/internal/entity"
 	"tratech.my.id/server/internal/model"
+	"tratech.my.id/server/internal/model/converter"
 	"tratech.my.id/server/internal/repository"
 )
 
@@ -36,4 +39,27 @@ func (c AchievementUseCase) Create(ctx context.Context, request model.CreateAchi
 		c.Log.Warnf("Invalid request body : %+v", err)
 		return nil, fiber.ErrBadRequest
 	}
+
+	achievement := &entity.Achievement{
+		ID:            uuid.NewString(),
+		UserId:        request.UserId,
+		Title:         request.Title,
+		ImageUrl:      request.ImageUrl,
+		Organization:  request.Organization,
+		IssuedDate:    request.IssuedDate,
+		CredentialId:  *request.CredentialId,
+		CredentialUrl: *request.CredentialUrl,
+	}
+
+	if err := c.AchievRepo.Create(tx, achievement); err != nil {
+		c.Log.Warnf("Failed create Achievement to database : %+v", err)
+		return nil, fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.Warnf("Failed commit transaction : %+v", err)
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.AchievementToResponse(achievement), nil
 }
