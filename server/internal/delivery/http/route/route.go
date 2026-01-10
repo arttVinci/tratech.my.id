@@ -21,3 +21,10 @@ func (c *RouteConfig) SetupGuestRoute() {
 	c.App.Post("/api/users", c.UserController.Register)
 	c.App.Post("/api/users/_login", c.UserController.Login)
 }
+
+func (c *RouteConfig) SetupAuthRoute() {
+	c.App.Use(c.AuthMiddleware)
+
+	c.App.Post("/api/contacts", c.AchievementController.Create)
+
+}
