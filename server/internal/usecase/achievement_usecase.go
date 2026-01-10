@@ -41,6 +41,7 @@ func (c AchievementUseCase) Create(ctx context.Context, request model.CreateAchi
 	}
 
 	achievement := &entity.Achievement{
+
 		ID:            uuid.NewString(),
 		UserId:        request.UserId,
 		Title:         request.Title,
@@ -58,6 +59,29 @@ func (c AchievementUseCase) Create(ctx context.Context, request model.CreateAchi
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.AchievementToResponse(achievement), nil
+}
+
+func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) (*model.AchievementResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	achievement := new(entity.Achievement)
+	if err := c.AchievRepo.FindAllByUserId(tx, achievement, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
 		return nil, fiber.ErrInternalServerError
 	}
 

@@ -21,3 +21,7 @@ type CreateAchievementRequest struct {
 	CredentialUrl *string    `json:"credential_url"`
 	CredentialId  *string    `json:"credential_id"`
 }
+
+type GetAchievementRequest struct {
+	UserId string `json:"-" validate:"required"`
+}

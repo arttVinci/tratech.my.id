@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"gorm.io/gorm"
 	"tratech.my.id/server/internal/entity"
 )
 
@@ -10,4 +11,8 @@ type AchievementRepository struct {
 
 func NewAchievementRepository() *AchievementRepository {
 	return &AchievementRepository{}
+}
+
+func (r *AchievementRepository) FindAllByUserId(db *gorm.DB, achievement *entity.Achievement, userId string) error {
+	return db.Where("user_id = ?", userId).Find(achievement).Error
 }
