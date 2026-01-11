@@ -27,7 +27,7 @@ func Bootstrap(config *BootstrapConfig) {
 	achievementRepository := repository.NewAchievementRepository()
 
 	//Setup UseCase
-	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository)
+	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
 
 	//Setup Controller
@@ -35,7 +35,7 @@ func Bootstrap(config *BootstrapConfig) {
 	achievementController := http.NewAchievementController(achievementUseCase, config.Log)
 
 	//Setup Middleware
-	authMiddleware := middleware.NewAuth(userUseCase)
+	authMiddleware := middleware.AuthMiddleware(config.Config)
 
 	routeConfig := route.RouteConfig{
 		App:                   config.App,

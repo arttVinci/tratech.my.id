@@ -2,11 +2,14 @@ package usecase
 
 import (
 	"context"
+	"errors"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"tratech.my.id/server/internal/entity"
@@ -20,14 +23,16 @@ type UserUseCase struct {
 	Log            *logrus.Logger
 	Validate       *validator.Validate
 	UserRepository *repository.UserRepository
+	Viper          *viper.Viper
 }
 
-func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validate, UserRepo *repository.UserRepository) *UserUseCase {
+func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validate, UserRepo *repository.UserRepository, Viper *viper.Viper) *UserUseCase {
 	return &UserUseCase{
 		DB:             DB,
 		Log:            Log,
 		Validate:       validate,
 		UserRepository: UserRepo,
+		Viper:          Viper,
 	}
 }
 
@@ -104,7 +109,7 @@ func (c *UserUseCase) Create(ctx context.Context, request model.RegisterUserRequ
 	return converter.UserToResponse(user), nil
 }
 
-func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest) (*model.UserResponse, error) {
+func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest) (*model.LoginUserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -124,9 +129,9 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 		return nil, fiber.ErrUnauthorized
 	}
 
-	user.Token = uuid.New().String()
-	if err := c.UserRepository.Update(tx, user); err != nil {
-		c.Log.Warnf("Failed save user : %+v", err)
+	token, err := c.generateJWT(user)
+	if err != nil {
+		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
 		return nil, fiber.ErrInternalServerError
 	}
 
@@ -135,5 +140,35 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 		return nil, fiber.ErrInternalServerError
 	}
 
-	return converter.UserToTokenResponse(user), nil
+	userResponse := converter.UserToResponse(user)
+
+	loginResponse := model.LoginUserResponse{
+		User:  *userResponse,
+		Token: token,
+	}
+	return &loginResponse, nil
+}
+
+func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
+	jwtSecret := c.Viper.GetString("jwt.secret")
+	if jwtSecret == "" {
+		c.Log.Error("JWT_SECRET not found in config")
+		return "", errors.New("JWT secret not configured")
+	}
+
+	claims := jwt.MapClaims{
+		"user_id": user.ID,
+		"email":   user.Email,
+		"exp":     time.Now().Add(time.Hour * 72).Unix(),
+		"iat":     time.Now().Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	t, err := token.SignedString([]byte(jwtSecret))
+	if err != nil {
+		return "", err
+	}
+
+	return t, nil
 }

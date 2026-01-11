@@ -9,13 +9,9 @@ func UserToResponse(user *entity.User) *model.UserResponse {
 	return &model.UserResponse{
 		ID:        user.ID,
 		Name:      user.Name,
+		Email:     user.Email,
+		NoTelp:    user.Notelp,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
-	}
-}
-
-func UserToTokenResponse(user *entity.User) *model.UserResponse {
-	return &model.UserResponse{
-		Token: user.Token,
 	}
 }

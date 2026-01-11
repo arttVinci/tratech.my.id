@@ -3,7 +3,6 @@ package http
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
-	"tratech.my.id/server/internal/delivery/http/middleware"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/usecase"
 )
@@ -21,14 +20,14 @@ func NewAchievementController(useCase *usecase.AchievementUseCase, log *logrus.L
 }
 
 func (c *AchievementController) Create(ctx *fiber.Ctx) error {
-	auth := middleware.GetUser(ctx)
+	authID := ctx.Locals("auth").(string)
 
 	request := new(model.CreateAchievementRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing request body")
 		return fiber.ErrBadRequest
 	}
-	request.UserId = auth.ID
+	request.UserId = authID
 
 	response, err := c.UseCase.Create(ctx.UserContext(), request)
 	if err != nil {
