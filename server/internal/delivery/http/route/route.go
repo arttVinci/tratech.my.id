@@ -28,7 +28,8 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Patch("/api/users/_current", c.UserController.Update)
 	c.App.Get("/api/users/_current", c.UserController.Current)
 
-	c.App.Get("/api/achievement", c.AchievementController.GetAll)
-	c.App.Post("/api/achievement", c.AchievementController.Create)
+	c.App.Get("/api/achievements", c.AchievementController.GetAll)
+	c.App.Post("/api/achievements", c.AchievementController.Create)
+	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
 
 }

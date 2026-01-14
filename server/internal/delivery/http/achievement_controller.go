@@ -49,7 +49,7 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 	}
 
 	request.UserId = auth.ID
-	request.ID = ctx.Params("contactId")
+	request.ID = ctx.Params("achievementId")
 
 	response, err := c.UseCase.Update(ctx.UserContext(), request)
 	if err != nil {
