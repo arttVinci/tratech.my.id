@@ -7,38 +7,20 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 	"tratech.my.id/server/internal/model"
-	"tratech.my.id/server/internal/usecase"
 )
 
-func NewAuth(userUserCase *usecase.UserUseCase) fiber.Handler {
-	return func(ctx *fiber.Ctx) error {
-		request := &model.VerifyUserRequest{Token: ctx.Get("Authorization", "NOT_FOUND")}
-		userUserCase.Log.Debugf("Authorization : %s", request.Token)
-
-		auth, err := userUserCase.Verify(ctx.UserContext(), request)
-		if err != nil {
-			userUserCase.Log.Warnf("Failed find user by token : %+v", err)
-			return fiber.ErrUnauthorized
-		}
-
-		userUserCase.Log.Debugf("User : %+v", auth.ID)
-		ctx.Locals("auth", auth)
-		return ctx.Next()
-	}
-}
-
 func AuthMiddleware(viper *viper.Viper) fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		authHeader := c.Get("Authorization")
+	return func(ctx *fiber.Ctx) error {
+		authHeader := ctx.Get("Authorization")
 		if authHeader == "" {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"errors": "Unauthorized",
 			})
 		}
 
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"errors": "Unauthorized",
 			})
 		}
@@ -54,22 +36,23 @@ func AuthMiddleware(viper *viper.Viper) fiber.Handler {
 		})
 
 		if err != nil || !token.Valid {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"errors": "Unauthorized",
 			})
 		}
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"errors": "Unauthorized",
 			})
 		}
 
-		userID := (claims["user_id"].(string))
-		c.Locals("auth", userID)
+		userID := claims["id"].(string)
 
-		return c.Next()
+		ctx.Locals("auth", &model.Auth{ID: userID})
+
+		return ctx.Next()
 	}
 }
 

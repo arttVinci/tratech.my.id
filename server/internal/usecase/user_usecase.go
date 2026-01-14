@@ -36,30 +36,6 @@ func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validat
 	}
 }
 
-func (c *UserUseCase) Verify(ctx context.Context, request *model.VerifyUserRequest) (*model.Auth, error) {
-	tx := c.DB.WithContext(ctx).Begin()
-	defer tx.Rollback()
-
-	err := c.Validate.Struct(request)
-	if err != nil {
-		c.Log.Warnf("Invalid request body : %+v", err)
-		return nil, fiber.ErrBadRequest
-	}
-
-	user := new(entity.User)
-	if err := c.UserRepository.FindByToken(tx, user, request.Token); err != nil {
-		c.Log.Warnf("Failed find user by token : %+v", err)
-		return nil, fiber.ErrNotFound
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
-	}
-
-	return &model.Auth{ID: user.ID}, nil
-}
-
 func (c *UserUseCase) Create(ctx context.Context, request model.RegisterUserRequest) (*model.UserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
@@ -206,10 +182,10 @@ func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
 	}
 
 	claims := jwt.MapClaims{
-		"user_id": user.ID,
-		"email":   user.Email,
-		"exp":     time.Now().Add(time.Hour * 72).Unix(),
-		"iat":     time.Now().Unix(),
+		"id":    user.ID,
+		"email": user.Email,
+		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+		"iat":   time.Now().Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
