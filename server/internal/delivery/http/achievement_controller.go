@@ -39,6 +39,27 @@ func (c *AchievementController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
+func (c *AchievementController) Update(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.UpdateAchievementRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.ErrBadRequest
+	}
+
+	request.UserId = auth.ID
+	request.ID = ctx.Params("contactId")
+
+	response, err := c.UseCase.Update(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error update achievement")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
+}
+
 func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
