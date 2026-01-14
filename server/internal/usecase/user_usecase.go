@@ -199,6 +199,12 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 	return &loginResponse, nil
 }
 
+func (c *UserUseCase) Logout(ctx context.Context, request *model.LogoutUserRequest) (bool, error) {
+	c.Log.Infof("User %s logout processed successfully", request.ID)
+
+	return true, nil
+}
+
 func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
 	jwtSecret := c.Viper.GetString("jwt.secret")
 	if jwtSecret == "" {
