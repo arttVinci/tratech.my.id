@@ -36,7 +36,7 @@ type LoginUserRequest struct {
 }
 
 type LogoutUserRequest struct {
-	ID uint `json:"id" validate:"required,max=100"`
+	ID string `json:"id" validate:"required,max=100"`
 }
 
 type GetUserRequest struct {
