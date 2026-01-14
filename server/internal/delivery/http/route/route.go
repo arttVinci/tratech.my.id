@@ -25,6 +25,7 @@ func (c *RouteConfig) SetupGuestRoute() {
 func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Use(c.AuthMiddleware)
 
+	c.App.Get("/api/achievement", c.AchievementController.GetAll)
 	c.App.Post("/api/achievement", c.AchievementController.Create)
 
 }
