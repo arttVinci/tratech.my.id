@@ -14,10 +14,6 @@ type LoginUserResponse struct {
 	Token string       `json:"token"`
 }
 
-type VerifyUserRequest struct {
-	Token string `validate:"required,max=100"`
-}
-
 type RegisterUserRequest struct {
 	ID       string `json:"id" validate:"required,max=100"`
 	Password string `json:"password" validate:"required,max=100"`

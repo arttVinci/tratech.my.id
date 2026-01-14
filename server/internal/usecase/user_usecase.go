@@ -36,7 +36,32 @@ func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validat
 	}
 }
 
-func (c *UserUseCase) Create(ctx context.Context, request model.RegisterUserRequest) (*model.UserResponse, error) {
+func (c *UserUseCase) Current(ctx context.Context, request *model.GetUserRequest) (*model.UserResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	err := c.Validate.Struct(request)
+	if err != nil {
+		c.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.ErrBadRequest
+	}
+
+	user := new(entity.User)
+
+	if err := c.UserRepository.FindById(tx, user, request.ID); err != nil {
+		c.Log.Warnf("Failed find user by id : %+v", err)
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.Warnf("Failed commit transaction : %+v", err)
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.UserToResponse(user), nil
+}
+
+func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserRequest) (*model.UserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
