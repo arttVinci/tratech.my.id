@@ -52,5 +52,7 @@ func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
+	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
+		Data: response,
+	})
 }

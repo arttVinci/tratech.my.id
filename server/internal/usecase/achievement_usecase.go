@@ -100,7 +100,7 @@ func (c AchievementUseCase) Update(ctx context.Context, request *model.UpdateAch
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) (*model.AchievementResponse, error) {
+func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) ([]model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -109,8 +109,8 @@ func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchiev
 		return nil, fiber.ErrBadRequest
 	}
 
-	achievement := new(entity.Achievement)
-	if err := c.AchievRepo.FindAllByUserId(tx, achievement, request.UserId); err != nil {
+	achievements := new([]entity.Achievement)
+	if err := c.AchievRepo.FindAllByUserId(tx, achievements, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
 		return nil, fiber.ErrNotFound
 	}
@@ -120,5 +120,10 @@ func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchiev
 		return nil, fiber.ErrInternalServerError
 	}
 
-	return converter.AchievementToResponse(achievement), nil
+	responses := make([]model.AchievementResponse, len(*achievements))
+	for i, achiev := range *achievements {
+		responses[i] = *converter.AchievementToResponse(&achiev)
+	}
+
+	return responses, nil
 }
