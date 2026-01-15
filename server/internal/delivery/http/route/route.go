@@ -15,6 +15,7 @@ type RouteConfig struct {
 func (c *RouteConfig) Setup() {
 	c.SetupGuestRoute()
 	c.SetupAuthRoute()
+	c.SetupPublicRoute()
 }
 
 func (c *RouteConfig) SetupGuestRoute() {
@@ -29,7 +30,12 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Get("/api/users/_current", c.UserController.Current)
 
 	c.App.Get("/api/achievements", c.AchievementController.GetAll)
+	c.App.Get("/api/achievement/:achievementId", c.AchievementController.Get)
 	c.App.Post("/api/achievements", c.AchievementController.Create)
 	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
+
+}
+
+func (c *RouteConfig) SetupPublicRoute() {
 
 }
