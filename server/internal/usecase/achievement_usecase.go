@@ -93,7 +93,7 @@ func (c AchievementUseCase) Update(ctx context.Context, request *model.UpdateAch
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error updating contact")
+		c.Log.WithError(err).Error("error updating achievement")
 		return nil, fiber.ErrInternalServerError
 	}
 
@@ -126,4 +126,27 @@ func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchiev
 	}
 
 	return responses, nil
+}
+
+func (c *AchievementUseCase) Get(ctx context.Context, request *model.GetByIdAchievementRequest) (*model.AchievementResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	achievement := new(entity.Achievement)
+	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.AchievementToResponse(achievement), nil
 }
