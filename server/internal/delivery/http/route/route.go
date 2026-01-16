@@ -37,5 +37,5 @@ func (c *RouteConfig) SetupAuthRoute() {
 }
 
 func (c *RouteConfig) SetupPublicRoute() {
-
+	c.App.Get("/api/public/:username/achievements", c.AchievementController.GetAllByUsername)
 }
