@@ -8,9 +8,6 @@ type User struct {
 	Email     string `gorm:"column:email;unique"`
 	CreatedAt int64  `gorm:"column:created_at;autoCreateTime:milli"`
 	UpdatedAt int64  `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
-
-	// Relasi
-	Profile *Profile `gorm:"foreignKey:UserId;references:ID"`
 }
 
 func (u *User) TableName() string {
