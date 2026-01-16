@@ -32,7 +32,7 @@ func Bootstrap(config *BootstrapConfig) {
 
 	//Setup Controller
 	userController := http.NewUserController(userUseCase, config.Log)
-	achievementController := http.NewAchievementController(achievementUseCase, config.Log)
+	achievementController := http.NewAchievementController(achievementUseCase, userUseCase, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)

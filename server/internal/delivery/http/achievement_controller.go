@@ -9,14 +9,16 @@ import (
 )
 
 type AchievementController struct {
-	UseCase *usecase.AchievementUseCase
-	Log     *logrus.Logger
+	UseCase     *usecase.AchievementUseCase
+	UserUseCase *usecase.UserUseCase
+	Log         *logrus.Logger
 }
 
-func NewAchievementController(useCase *usecase.AchievementUseCase, log *logrus.Logger) *AchievementController {
+func NewAchievementController(useCase *usecase.AchievementUseCase, userUseCase *usecase.UserUseCase, log *logrus.Logger) *AchievementController {
 	return &AchievementController{
-		UseCase: useCase,
-		Log:     log,
+		UseCase:     useCase,
+		UserUseCase: userUseCase,
+		Log:         log,
 	}
 }
 
@@ -66,6 +68,31 @@ func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 
 	request := &model.GetAchievementRequest{
 		UserId: auth.ID,
+	}
+
+	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get achievements")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.AchievementResponse]{
+		Data: response,
+	})
+}
+
+// Public GetAll
+func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
+	username := ctx.Params("username")
+
+	user, err := c.UserUseCase.GetByUsername(ctx.UserContext(), username)
+	if err != nil {
+		c.Log.WithError(err).Error("error get user by username")
+		return err
+	}
+
+	request := &model.GetAchievementRequest{
+		UserId: user.ID,
 	}
 
 	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
