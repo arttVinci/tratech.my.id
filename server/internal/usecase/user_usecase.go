@@ -36,6 +36,26 @@ func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validat
 	}
 }
 
+func (c *UserUseCase) GetByUsername(ctx context.Context, username string) (*model.UserResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	user := new(entity.User)
+
+	if err := c.UserRepository.FindByUsername(tx, user, username); err != nil {
+		c.Log.Warnf("Failed find user by username : %+v", err)
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.Warnf("Failed commit transaction : %+v", err)
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.UserToResponse(user), nil
+
+}
+
 func (c *UserUseCase) Current(ctx context.Context, request *model.GetUserRequest) (*model.UserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
