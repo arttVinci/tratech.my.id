@@ -11,6 +11,8 @@ type Achievement struct {
 	IssuedDate    *time.Time `gorm:"column:issued_date"`
 	CredentialUrl string     `gorm:"column:credential_url"`
 	CredentialId  string     `gorm:"column:credential_id"`
+
+	User User `gorm:"foreignKey:user_id;references:id"`
 }
 
 func (u *Achievement) TableName() string {

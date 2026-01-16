@@ -8,6 +8,8 @@ type Profile struct {
 	Address    string `gorm:"column:address"`
 	About      string `gorm:"column:about"`
 	Bio        string `gorm:"column:bio"`
+
+	User User `gorm:"foreignKey:user_id;references:id"`
 }
 
 func (u *Profile) TableName() string {

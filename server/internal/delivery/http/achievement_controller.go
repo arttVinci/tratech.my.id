@@ -60,6 +60,7 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
+// With Middleware ( Auth )
 func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -78,6 +79,7 @@ func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
+// With Middleware ( Auth )
 func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("achievementId")

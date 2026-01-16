@@ -41,7 +41,6 @@ func (c AchievementUseCase) Create(ctx context.Context, request *model.CreateAch
 	}
 
 	achievement := &entity.Achievement{
-
 		ID:            uuid.NewString(),
 		UserId:        request.UserId,
 		Title:         request.Title,

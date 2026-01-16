@@ -92,7 +92,7 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 	user := &entity.User{
 		ID:       request.ID,
 		Password: string(password),
-		Name:     request.Name,
+		Username: request.Username,
 		Email:    request.Email,
 		Notelp:   request.NoTelp,
 	}
@@ -125,8 +125,8 @@ func (c *UserUseCase) Update(ctx context.Context, request *model.UpdateUserReque
 		return nil, fiber.ErrNotFound
 	}
 
-	if request.Name != "" {
-		user.Name = request.Name
+	if request.Username != "" {
+		user.Username = request.Username
 	}
 
 	if request.Email != "" {
