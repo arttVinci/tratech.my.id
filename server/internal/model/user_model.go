@@ -31,7 +31,7 @@ type UpdateUserRequest struct {
 }
 
 type LoginUserRequest struct {
-	ID       string `json:"id" validate:"required,max=100"`
+	Username string `json:"username" validate:"required,max=100"`
 	Password string `json:"password" validate:"required,max=100"`
 }
 

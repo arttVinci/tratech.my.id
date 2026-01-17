@@ -189,8 +189,8 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 	}
 
 	user := new(entity.User)
-	if err := c.UserRepository.FindById(tx, user, request.ID); err != nil {
-		c.Log.Warnf("Failed find user by id : %+v", err)
+	if err := c.UserRepository.FindByUsername(tx, user, request.Username); err != nil {
+		c.Log.Warnf("Failed find user by Username : %+v", err)
 		return nil, fiber.ErrUnauthorized
 	}
 
@@ -233,10 +233,10 @@ func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
 	}
 
 	claims := jwt.MapClaims{
-		"id":    user.ID,
-		"email": user.Email,
-		"exp":   time.Now().Add(time.Hour * 72).Unix(),
-		"iat":   time.Now().Unix(),
+		"id":       user.ID,
+		"username": user.Username,
+		"exp":      time.Now().Add(time.Hour * 72).Unix(),
+		"iat":      time.Now().Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
