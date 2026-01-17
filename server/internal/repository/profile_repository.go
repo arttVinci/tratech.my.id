@@ -13,6 +13,6 @@ func NewProfileRepository() *ProfileRepository {
 	return &ProfileRepository{}
 }
 
-func (r *ProfileRepository) FindByIdAndUserId(db *gorm.DB, profile entity.Profile, id string, userId string) error {
+func (r *ProfileRepository) FindByIdAndUserId(db *gorm.DB, profile *entity.Profile, id string, userId string) error {
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(profile).Error
 }

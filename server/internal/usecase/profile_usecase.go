@@ -66,3 +66,38 @@ func (c *ProfileUseCase) Create(ctx context.Context, request *model.CreateProfil
 
 	return converter.ProfileToResponse(profile), nil
 }
+
+func (c *ProfileUseCase) Update(ctx context.Context, request *model.UpdateProfileRequest) (*model.ProfileResponse, error) {
+	tx := c.db.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.validate.Struct(request); err != nil {
+		c.log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	profile := new(entity.Profile)
+
+	if err := c.profileRepo.FindByIdAndUserId(tx, profile, request.ID, request.UserId); err != nil {
+		c.log.WithError(err).Error("error getting Profile")
+		return nil, fiber.ErrNotFound
+	}
+
+	profile.FullName = request.FullName
+	profile.UrlProfile = request.UrlProfile
+	profile.Address = request.Address
+	profile.About = request.About
+	profile.Bio = request.Bio
+
+	if err := c.profileRepo.Update(tx, profile); err != nil {
+		c.log.WithError(err).Error("error updating Profile")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.log.WithError(err).Error("error updating Profile")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ProfileToResponse(profile), nil
+}
