@@ -1,8 +1,8 @@
 package entity
 
 type Profile struct {
-	ID         uint   `gorm:"column:id;primaryKey"`
-	UserId     uint   `gorm:"column:id_user"`
+	ID         string `gorm:"column:id;primaryKey"`
+	UserId     string `gorm:"column:user_id"`
 	FullName   string `gorm:"column:full_name"`
 	UrlProfile string `gorm:"column:url_profile"`
 	Address    string `gorm:"column:address"`

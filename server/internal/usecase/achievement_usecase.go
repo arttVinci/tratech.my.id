@@ -27,7 +27,12 @@ func NewAchievementUseCase(
 	validate *validator.Validate,
 	achievRepo *repository.AchievementRepository,
 ) *AchievementUseCase {
-	return &AchievementUseCase{DB: DB, Log: log, Validate: validate, AchievRepo: achievRepo}
+	return &AchievementUseCase{
+		DB:         DB,
+		Log:        log,
+		Validate:   validate,
+		AchievRepo: achievRepo,
+	}
 }
 
 func (c AchievementUseCase) Create(ctx context.Context, request *model.CreateAchievementRequest) (*model.AchievementResponse, error) {
