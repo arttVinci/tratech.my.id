@@ -100,7 +100,7 @@ func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
 	})
 }
 
-// With Middleware ( Auth )
+// Get With Middleware ( Auth )
 func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("achievementId")
@@ -111,6 +111,25 @@ func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	}
 
 	response, err := c.UseCase.Get(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get achievement")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
+}
+
+// Get Public
+func (c *AchievementController) GetByUsername(ctx *fiber.Ctx) error {
+	id := ctx.Params("achievementId")
+	username := ctx.Params("username")
+
+	request := &model.GetPublicAchievementByIdRequest{
+		ID:       id,
+		Username: username,
+	}
+
+	response, err := c.UseCase.GetByUsername(ctx.UserContext(), request)
 	if err != nil {
 		c.Log.WithError(err).Error("error get achievement")
 		return err
