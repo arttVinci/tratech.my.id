@@ -101,3 +101,5 @@ func (c *ProfileUseCase) Update(ctx context.Context, request *model.UpdateProfil
 
 	return converter.ProfileToResponse(profile), nil
 }
+
+func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdAchievementRequest)

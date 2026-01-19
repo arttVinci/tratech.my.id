@@ -132,6 +132,34 @@ func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchiev
 	return responses, nil
 }
 
+func (c AchievementUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicAchievementRequest) ([]model.AchievementResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	achievements := new([]entity.Achievement)
+	if err := c.AchievRepo.FindAllByUsername(tx, achievements, request.Username); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.AchievementResponse, len(*achievements))
+	for i, achiev := range *achievements {
+		responses[i] = *converter.AchievementToResponse(&achiev)
+	}
+
+	return responses, nil
+}
+
 func (c *AchievementUseCase) Get(ctx context.Context, request *model.GetByIdAchievementRequest) (*model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()

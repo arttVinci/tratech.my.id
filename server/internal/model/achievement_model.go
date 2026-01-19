@@ -37,7 +37,16 @@ type GetAchievementRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+type GetPublicAchievementRequest struct {
+	Username string `json:"-" validate:"required"`
+}
+
 type GetByIdAchievementRequest struct {
+	ID     string `json:"-" validate:"required,max=100"`
+	UserId string `json:"-" validate:"required"`
+}
+
+type GetByIdPublicAchievementRequest struct {
 	ID     string `json:"-" validate:"required,max=100"`
 	UserId string `json:"-" validate:"required"`
 }
