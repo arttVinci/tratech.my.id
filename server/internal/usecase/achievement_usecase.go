@@ -182,3 +182,26 @@ func (c *AchievementUseCase) Get(ctx context.Context, request *model.GetByIdAchi
 
 	return converter.AchievementToResponse(achievement), nil
 }
+
+func (c *AchievementUseCase) GetByUsername(ctx context.Context, request *model.GetPublicAchievementByIdRequest) (*model.AchievementResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	achievement := new(entity.Achievement)
+	if err := c.AchievRepo.FindByUsername(tx, achievement, request.Username, request.ID); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.AchievementToResponse(achievement), nil
+}
