@@ -101,3 +101,111 @@ func (c *ProfileUseCase) Update(ctx context.Context, request *model.UpdateProfil
 
 	return converter.ProfileToResponse(profile), nil
 }
+
+// Middleware
+func (c *ProfileUseCase) GetAll(ctx context.Context, request *model.GetProfileRequest) ([]model.ProfileResponse, error) {
+	tx := c.db.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.validate.Struct(request); err != nil {
+		c.log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	profiles := new([]entity.Profile)
+
+	if err := c.profileRepo.FindAllByUserId(tx, profiles, request.UserId); err != nil {
+		c.log.WithError(err).Error("error getting profile by user_id")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.log.WithError(err).Error("error getting profile")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	response := make([]model.ProfileResponse, len(*profiles))
+	for i, profile := range *profiles {
+		response[i] = *converter.ProfileToResponse(&profile)
+	}
+
+	return response, nil
+}
+
+// Public
+func (c *ProfileUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicProfileRequest) ([]model.ProfileResponse, error) {
+	tx := c.db.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.validate.Struct(request); err != nil {
+		c.log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	profiles := new([]entity.Profile)
+
+	if err := c.profileRepo.FindAllByUsername(tx, profiles, request.Username); err != nil {
+		c.log.WithError(err).Error("error getting profile by username")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.log.WithError(err).Error("error getting profile")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	response := make([]model.ProfileResponse, len(*profiles))
+	for i, profile := range *profiles {
+		response[i] = *converter.ProfileToResponse(&profile)
+	}
+
+	return response, nil
+}
+
+func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdProfileRequest) (*model.ProfileResponse, error) {
+	tx := c.db.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.validate.Struct(request); err != nil {
+		c.log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	profile := new(entity.Profile)
+
+	if err := c.profileRepo.FindByIdAndUserId(tx, profile, request.ID, request.UserId); err != nil {
+		c.log.WithError(err).Error("error getting profile by id and user_id")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.log.WithError(err).Error("error getting profile")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ProfileToResponse(profile), nil
+}
+
+func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProfileByIdRequest) (*model.ProfileResponse, error) {
+	tx := c.db.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.validate.Struct(request); err != nil {
+		c.log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	profile := new(entity.Profile)
+
+	if err := c.profileRepo.FindByUsername(tx, profile, request.Username, request.ID); err != nil {
+		c.log.WithError(err).Error("error getting profile by id and username")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.log.WithError(err).Error("error getting profile")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ProfileToResponse(profile), nil
+}
