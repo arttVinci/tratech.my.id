@@ -9,16 +9,14 @@ import (
 )
 
 type AchievementController struct {
-	UseCase     *usecase.AchievementUseCase
-	UserUseCase *usecase.UserUseCase
-	Log         *logrus.Logger
+	UseCase *usecase.AchievementUseCase
+	Log     *logrus.Logger
 }
 
-func NewAchievementController(useCase *usecase.AchievementUseCase, userUseCase *usecase.UserUseCase, log *logrus.Logger) *AchievementController {
+func NewAchievementController(useCase *usecase.AchievementUseCase, log *logrus.Logger) *AchievementController {
 	return &AchievementController{
-		UseCase:     useCase,
-		UserUseCase: userUseCase,
-		Log:         log,
+		UseCase: useCase,
+		Log:     log,
 	}
 }
 

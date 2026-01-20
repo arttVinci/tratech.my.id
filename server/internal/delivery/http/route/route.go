@@ -7,9 +7,9 @@ import (
 
 type RouteConfig struct {
 	App                   *fiber.App
+	AuthMiddleware        fiber.Handler
 	UserController        *http.UserController
 	AchievementController *http.AchievementController
-	AuthMiddleware        fiber.Handler
 }
 
 func (c *RouteConfig) Setup() {
@@ -37,6 +37,7 @@ func (c *RouteConfig) SetupAuthRoute() {
 }
 
 func (c *RouteConfig) SetupPublicRoute() {
+
 	c.App.Get("/api/public/:username/achievements", c.AchievementController.GetAllByUsername)
 	c.App.Get("/api/public/:username/achievement/:achievementId", c.AchievementController.GetAllByUsername)
 }
