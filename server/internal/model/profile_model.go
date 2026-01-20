@@ -28,11 +28,24 @@ type UpdateProfileRequest struct {
 	Bio        string `json:"bio"`
 }
 
+// Middleware
 type GetProfileRequest struct {
 	UserId string `json:"-" validate:"required"`
 }
 
+// Public
+type GetPublicProfileRequest struct {
+	Username string `json:"-" validate:"required"`
+}
+
+// Middleware
 type GetByIdProfileRequest struct {
 	ID     string `json:"-" validate:"required,max=100"`
 	UserId string `json:"-" validate:"required"`
+}
+
+// Public
+type GetPublicProfileByIdRequest struct {
+	ID       string `json:"-" validate:"required,max=100"`
+	Username string `json:"-" validate:"required"`
 }
