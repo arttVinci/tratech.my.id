@@ -98,3 +98,22 @@ func (c *ProfileController) GetAllByUsername(ctx *fiber.Ctx) error {
 		Data: response,
 	})
 }
+
+// Get With Middleware ( Auth )
+func (c *ProfileController) Get(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+	id := ctx.Params("profileId")
+
+	request := &model.GetByIdProfileRequest{
+		ID:     id,
+		UserId: auth.ID,
+	}
+
+	response, err := c.UseCase.Get(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get achievement")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
+}
