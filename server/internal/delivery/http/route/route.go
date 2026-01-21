@@ -9,6 +9,7 @@ type RouteConfig struct {
 	App                   *fiber.App
 	AuthMiddleware        fiber.Handler
 	UserController        *http.UserController
+	ProfileController     *http.ProfileController
 	AchievementController *http.AchievementController
 }
 
