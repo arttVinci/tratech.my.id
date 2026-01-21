@@ -79,3 +79,22 @@ func (c *ProfileController) GetAll(ctx *fiber.Ctx) error {
 		Data: response,
 	})
 }
+
+// GetAll Public
+func (c *ProfileController) GetAllByUsername(ctx *fiber.Ctx) error {
+	username := ctx.Params("username")
+
+	request := &model.GetPublicProfileRequest{
+		Username: username,
+	}
+
+	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get achievements")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.ProfileResponse]{
+		Data: response,
+	})
+}
