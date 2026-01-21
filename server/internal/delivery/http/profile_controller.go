@@ -54,9 +54,28 @@ func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 
 	response, err := c.UseCase.Update(ctx.UserContext(), request)
 	if err != nil {
-		c.Log.WithError(err).Error("error update profile")
+		c.Log.WithError(err).Error("error update Profile")
 		return err
 	}
 
 	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
+}
+
+// GetAll With Middleware ( Auth )
+func (c *ProfileController) GetAll(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := &model.GetProfileRequest{
+		UserId: auth.ID,
+	}
+
+	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get Profiles")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.ProfileResponse]{
+		Data: response,
+	})
 }
