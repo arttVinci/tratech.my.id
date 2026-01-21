@@ -90,7 +90,7 @@ func (c *ProfileController) GetAllByUsername(ctx *fiber.Ctx) error {
 
 	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
 	if err != nil {
-		c.Log.WithError(err).Error("error get achievements")
+		c.Log.WithError(err).Error("error get profiles")
 		return err
 	}
 
@@ -111,7 +111,26 @@ func (c *ProfileController) Get(ctx *fiber.Ctx) error {
 
 	response, err := c.UseCase.Get(ctx.UserContext(), request)
 	if err != nil {
-		c.Log.WithError(err).Error("error get achievement")
+		c.Log.WithError(err).Error("error get Profile")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
+}
+
+// Get Public
+func (c *ProfileController) GetByUsername(ctx *fiber.Ctx) error {
+	id := ctx.Params("profileId")
+	username := ctx.Params("username")
+
+	request := &model.GetPublicProfileByIdRequest{
+		ID:       id,
+		Username: username,
+	}
+
+	response, err := c.UseCase.GetByUsername(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get Profile")
 		return err
 	}
 
