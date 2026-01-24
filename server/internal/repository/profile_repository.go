@@ -30,9 +30,9 @@ func (r *ProfileRepository) FindAllByUsername(db *gorm.DB, profile *[]entity.Pro
 }
 
 // Public Endpoint
-func (r *ProfileRepository) FindByUsername(db *gorm.DB, profile *entity.Profile, username string, id string) error {
+func (r *ProfileRepository) FindByUsername(db *gorm.DB, profile *entity.Profile, username string) error {
 	return db.Table("profiles").
 		Joins("JOIN users ON users.id = profiles.user_id").
-		Where("profiles.id = ? AND users.username = ?", id, username).
+		Where("users.username = ?", username).
 		Find(profile).Error
 }

@@ -9,5 +9,5 @@ CREATE TABLE achievements
     credential_url    varchar(100) null,
     credential_id     varchar(100) null,
     primary key (id),
-    foreign key fk_contacts_user_id (user_id) references users (id)
+    foreign key fk_profiles_user_id (user_id) references users (id)
 )

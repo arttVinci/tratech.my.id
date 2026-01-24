@@ -46,6 +46,5 @@ type GetByIdProfileRequest struct {
 
 // Public
 type GetPublicProfileByIdRequest struct {
-	ID       string `json:"-" validate:"required,max=100"`
 	Username string `json:"-" validate:"required"`
 }

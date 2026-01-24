@@ -197,7 +197,7 @@ func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPu
 
 	profile := new(entity.Profile)
 
-	if err := c.profileRepo.FindByUsername(tx, profile, request.Username, request.ID); err != nil {
+	if err := c.profileRepo.FindByUsername(tx, profile, request.Username); err != nil {
 		c.log.WithError(err).Error("error getting profile by id and username")
 		return nil, fiber.ErrNotFound
 	}

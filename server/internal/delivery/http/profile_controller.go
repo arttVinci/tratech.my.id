@@ -120,11 +120,9 @@ func (c *ProfileController) Get(ctx *fiber.Ctx) error {
 
 // Get Public
 func (c *ProfileController) GetByUsername(ctx *fiber.Ctx) error {
-	id := ctx.Params("profileId")
 	username := ctx.Params("username")
 
 	request := &model.GetPublicProfileByIdRequest{
-		ID:       id,
 		Username: username,
 	}
 
