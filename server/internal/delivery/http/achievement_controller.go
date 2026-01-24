@@ -60,6 +60,26 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
+func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.GetByIdAchievementRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing reuqest body")
+		return fiber.ErrBadRequest
+	}
+
+	request.UserId = auth.ID
+	request.ID = ctx.Params("achievementId")
+
+	if err := c.UseCase.Delete(ctx.UserContext(), request); err != nil {
+		c.Log.WithError(err).Error("error deleting contact")
+		return err
+	}
+	
+	return ctx.JSON(model.WebResponse[bool]{Data: true})
+}
+
 // GetAll With Middleware ( Auth )
 func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
