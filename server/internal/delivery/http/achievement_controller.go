@@ -119,8 +119,8 @@ func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 
 // Get Public
 func (c *AchievementController) GetByUsername(ctx *fiber.Ctx) error {
-	id := ctx.Params("achievementId")
 	username := ctx.Params("username")
+	id := ctx.Params("achievementId")
 
 	request := &model.GetPublicAchievementByIdRequest{
 		ID:       id,
