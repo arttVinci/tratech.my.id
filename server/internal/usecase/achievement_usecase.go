@@ -104,6 +104,34 @@ func (c AchievementUseCase) Update(ctx context.Context, request *model.UpdateAch
 	return converter.AchievementToResponse(achievement), nil
 }
 
+func (c *AchievementUseCase) Delete(ctx context.Context, request *model.GetByIdAchievementRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.ErrBadRequest
+	}
+
+	achievement := new(entity.Achievement)
+	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error find achievement by id and user_id")
+		return fiber.ErrNotFound
+	}
+
+	if err := c.AchievRepo.Delete(tx, achievement); err != nil {
+		c.Log.WithError(err).Error("error deleting achievement")
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error deleting achievement")
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}
+
 func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) ([]model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
