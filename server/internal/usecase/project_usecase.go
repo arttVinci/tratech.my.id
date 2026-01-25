@@ -69,3 +69,45 @@ func (c *ProjectUseCase) Create(ctx context.Context, request *model.CreateProjec
 
 	return converter.ProjectToResponse(project), nil
 }
+
+func (c *ProjectUseCase) Update(ctx context.Context, request *model.UpdateProjectRequest) (*model.ProjectResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	project := new(entity.Project)
+	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error find project by id and user_id")
+		return nil, fiber.ErrNotFound
+	}
+
+	project.Title = request.Title
+	project.Description = request.Description
+	project.ImageUrl = request.Image
+	project.GithubUrl = request.GithubUrl
+	project.LiveUrl = request.LiveUrl
+	project.Challenge = request.Challenges
+	project.Solution = request.Solution
+	project.IsFeatured = request.IsFeatured
+
+	project.Tags = request.Tags
+	project.TechStack = request.TechStack
+	project.Gallery = request.Gallery
+	project.Features = request.Features
+
+	if err := c.ProjectRepo.Update(tx, project); err != nil {
+		c.Log.WithError(err).Error("failed updating project")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error Update Project")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ProjectToResponse(project), nil
+}

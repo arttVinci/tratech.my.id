@@ -17,7 +17,7 @@ type ProjectGallery struct {
 }
 
 type ProjectResponse struct {
-	ID          string `json:"id"`
+	ID          string `json:"-" validate:"required,max=100,uuid"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Image       string `json:"image"`
@@ -36,6 +36,24 @@ type ProjectResponse struct {
 }
 
 type CreateProjectRequest struct {
+	UserId      string `json:"-" validate:"required"`
+	Title       string `json:"title" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	Image       string `json:"image" validate:"required"`
+	GithubUrl   string `json:"githubUrl"`
+	LiveUrl     string `json:"liveUrl"`
+	Challenges  string `json:"challenges"`
+	Solution    string `json:"solution"`
+	IsFeatured  bool   `json:"featured"`
+
+	Tags      []string         `json:"tags"`
+	TechStack []TechItem       `json:"techStack"`
+	Gallery   []ProjectGallery `json:"gallery"`
+	Features  []ProjectFeature `json:"features"`
+}
+
+type UpdateProjectRequest struct {
+	ID          string `json:"-" validate:"required,max=100,uuid"`
 	UserId      string `json:"-" validate:"required"`
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
