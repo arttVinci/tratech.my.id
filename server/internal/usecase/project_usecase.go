@@ -196,3 +196,51 @@ func (c *ProjectUseCase) GetAllByUsername(ctx context.Context, request *model.Ge
 
 	return responses, nil
 }
+
+// Middleware
+func (c *ProjectUseCase) Get(ctx context.Context, request *model.GetByIdProjectRequest) (*model.ProjectResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	project := new(entity.Project)
+	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting project")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting project")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ProjectToResponse(project), nil
+}
+
+// Public Endpoint
+func (c *ProjectUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProjectByIdRequest) (*model.ProjectResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	project := new(entity.Project)
+	if err := c.ProjectRepo.FindByUsername(tx, project, request.Username, request.ID); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ProjectToResponse(project), nil
+}
