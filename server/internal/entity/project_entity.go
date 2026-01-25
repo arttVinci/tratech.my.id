@@ -3,8 +3,8 @@ package entity
 import "tratech.my.id/server/internal/model"
 
 type Project struct {
-	ID          uint   `gorm:"column:id;primaryKey"`
-	UserId      uint   `gorm:"column:user_id"`
+	ID          string `gorm:"column:id;primaryKey"`
+	UserId      string `gorm:"column:user_id"`
 	Title       string `gorm:"column:title"`
 	ImageUrl    string `gorm:"column:image_url"`
 	Description string `gorm:"column:description"`

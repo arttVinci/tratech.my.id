@@ -17,12 +17,12 @@ type ProjectGallery struct {
 }
 
 type ProjectResponse struct {
-	ID          uint   `json:"id"`
+	ID          string `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Image       string `json:"image"`
-	GithubUrl   string `json:"githubUrl"`
-	LiveUrl     string `json:"liveUrl"`
+	GithubUrl   string `json:"github_url"`
+	LiveUrl     string `json:"live_url"`
 	IsFeatured  bool   `json:"featured"`
 	Challenges  string `json:"challenges"`
 	Solution    string `json:"solution"`
@@ -36,6 +36,7 @@ type ProjectResponse struct {
 }
 
 type CreateProjectRequest struct {
+	UserId      string `json:"-" validate:"required"`
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	Image       string `json:"image" validate:"required"`
