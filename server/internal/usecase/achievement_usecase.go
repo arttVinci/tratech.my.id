@@ -132,7 +132,7 @@ func (c *AchievementUseCase) Delete(ctx context.Context, request *model.GetByIdA
 	return nil
 }
 
-func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) ([]model.AchievementResponse, error) {
+func (c *AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchievementRequest) ([]model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -160,7 +160,7 @@ func (c AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchiev
 	return responses, nil
 }
 
-func (c AchievementUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicAchievementRequest) ([]model.AchievementResponse, error) {
+func (c *AchievementUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicAchievementRequest) ([]model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 

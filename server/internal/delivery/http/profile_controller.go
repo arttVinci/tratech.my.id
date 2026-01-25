@@ -122,7 +122,7 @@ func (c *ProfileController) Get(ctx *fiber.Ctx) error {
 func (c *ProfileController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
-	request := &model.GetPublicProfileByIdRequest{
+	request := &model.GetPublicProfileRequest{
 		Username: username,
 	}
 

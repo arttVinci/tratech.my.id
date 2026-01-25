@@ -69,3 +69,25 @@ type UpdateProjectRequest struct {
 	Gallery   []ProjectGallery `json:"gallery"`
 	Features  []ProjectFeature `json:"features"`
 }
+
+// Middleware
+type GetProjectRequest struct {
+	UserId string `json:"-" validate:"required"`
+}
+
+// Middleware
+type GetByIdProjectRequest struct {
+	ID     string `json:"-" validate:"required,max=100"`
+	UserId string `json:"-" validate:"required"`
+}
+
+// Public
+type GetPublicProjectRequest struct {
+	Username string `json:"-" validate:"required"`
+}
+
+// Public
+type GetPublicProjectByIdRequest struct {
+	ID       string `json:"-" validate:"required,max=100"`
+	Username string `json:"-" validate:"required"`
+}

@@ -111,3 +111,88 @@ func (c *ProjectUseCase) Update(ctx context.Context, request *model.UpdateProjec
 
 	return converter.ProjectToResponse(project), nil
 }
+
+func (c *ProjectUseCase) Delete(ctx context.Context, request *model.GetByIdProjectRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.ErrBadRequest
+	}
+
+	project := new(entity.Project)
+	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error find project by id and user_id")
+		return fiber.ErrNotFound
+	}
+
+	if err := c.ProjectRepo.Delete(tx, project); err != nil {
+		c.Log.WithError(err).Error("error deleting project")
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error deleting project")
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}
+
+// Middleware
+func (c *ProjectUseCase) GetAll(ctx context.Context, request *model.GetProjectRequest) ([]model.ProjectResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	projects := new([]entity.Project)
+	if err := c.ProjectRepo.FindAllByUserId(tx, projects, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting project")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting project")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.ProjectResponse, len(*projects))
+	for i, project := range *projects {
+		responses[i] = *converter.ProjectToResponse(&project)
+	}
+
+	return responses, nil
+}
+
+func (c *ProjectUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicProjectRequest) ([]model.ProjectResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	projects := new([]entity.Project)
+	if err := c.ProjectRepo.FindAllByUsername(tx, projects, request.Username); err != nil {
+		c.Log.WithError(err).Error("error getting project")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting project")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.ProjectResponse, len(*projects))
+	for i, project := range *projects {
+		responses[i] = *converter.ProjectToResponse(&project)
+	}
+
+	return responses, nil
+}

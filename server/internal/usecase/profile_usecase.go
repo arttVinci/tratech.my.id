@@ -186,7 +186,7 @@ func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdProfileR
 	return converter.ProfileToResponse(profile), nil
 }
 
-func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProfileByIdRequest) (*model.ProfileResponse, error) {
+func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProfileRequest) (*model.ProfileResponse, error) {
 	tx := c.db.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
