@@ -76,7 +76,7 @@ func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 		c.Log.WithError(err).Error("error deleting contact")
 		return err
 	}
-	
+
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
