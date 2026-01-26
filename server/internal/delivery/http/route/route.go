@@ -11,6 +11,7 @@ type RouteConfig struct {
 	UserController        *http.UserController
 	ProfileController     *http.ProfileController
 	AchievementController *http.AchievementController
+	ProjectController     *http.ProjectController
 }
 
 func (c *RouteConfig) Setup() {
@@ -30,14 +31,25 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Patch("/api/users/_current", c.UserController.Update)
 	c.App.Get("/api/users/_current", c.UserController.Current)
 
-	c.App.Post("/api/achievements", c.AchievementController.Create)
-	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
 	c.App.Get("/api/achievements", c.AchievementController.GetAll)
 	c.App.Get("/api/achievements/:achievementId", c.AchievementController.Get)
+	c.App.Post("/api/achievements", c.AchievementController.Create)
+	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
+	c.App.Delete("/api/achievements/:achievementId", c.AchievementController.Delete)
+
+	c.App.Get("/api/projects", c.AchievementController.GetAll)
+	c.App.Get("/api/projects/:projectId", c.AchievementController.Get)
+	c.App.Post("/api/projects", c.AchievementController.Create)
+	c.App.Put("/api/projects/:projectId", c.AchievementController.Update)
+	c.App.Delete("/api/projects/:projectId", c.ProjectController.Delete)
 }
 
 func (c *RouteConfig) SetupPublicRoute() {
 	c.App.Get("/api/public/:username", c.ProfileController.GetByUsername)
-	c.App.Get("/api/public/:username/achievements/:achievementId", c.AchievementController.GetByUsername)
+
 	c.App.Get("/api/public/:username/achievements", c.AchievementController.GetAllByUsername)
+	c.App.Get("/api/public/:username/achievements/:achievementId", c.AchievementController.GetByUsername)
+
+	c.App.Get("/api/public/:username/projects", c.ProjectController.GetAllByUsername)
+	c.App.Get("/api/public/:username/projects/:projectId", c.ProjectController.GetByUsername)
 }
