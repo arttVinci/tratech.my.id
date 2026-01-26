@@ -63,7 +63,7 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
-	request := new(model.GetByIdAchievementRequest)
+	request := new(model.DeleteAchievementRequest)
 	if err := ctx.BodyParser(request); err != nil {
 		c.Log.WithError(err).Error("error parsing reuqest body")
 		return fiber.ErrBadRequest
@@ -80,7 +80,7 @@ func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
-// GetAll With Middleware ( Auth )
+// GetAll User Endpoint
 func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -99,7 +99,7 @@ func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
-// GetAll Public
+// GetAll Public Endpoint
 func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -118,7 +118,7 @@ func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
 	})
 }
 
-// Get With Middleware ( Auth )
+// Get by id user Endpoint
 func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("achievementId")
@@ -137,7 +137,7 @@ func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
-// Get Public
+// Get Public Endpoint
 func (c *AchievementController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	id := ctx.Params("achievementId")

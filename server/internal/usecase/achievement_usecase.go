@@ -104,7 +104,7 @@ func (c AchievementUseCase) Update(ctx context.Context, request *model.UpdateAch
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (c *AchievementUseCase) Delete(ctx context.Context, request *model.GetByIdAchievementRequest) error {
+func (c *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAchievementRequest) error {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 

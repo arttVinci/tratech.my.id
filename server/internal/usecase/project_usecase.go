@@ -112,7 +112,7 @@ func (c *ProjectUseCase) Update(ctx context.Context, request *model.UpdateProjec
 	return converter.ProjectToResponse(project), nil
 }
 
-func (c *ProjectUseCase) Delete(ctx context.Context, request *model.GetByIdProjectRequest) error {
+func (c *ProjectUseCase) Delete(ctx context.Context, request *model.DeleteProjectRequest) error {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 

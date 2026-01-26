@@ -33,6 +33,11 @@ type UpdateAchievementRequest struct {
 	CredentialId  *string    `json:"credential_id"`
 }
 
+type DeleteAchievementRequest struct {
+	ID     string `json:"-" validate:"required,max=100"`
+	UserId string `json:"-" validate:"required"`
+}
+
 // Middleware
 type GetAchievementRequest struct {
 	UserId string `json:"-" validate:"required"`

@@ -70,6 +70,11 @@ type UpdateProjectRequest struct {
 	Features  []ProjectFeature `json:"features"`
 }
 
+type DeleteProjectRequest struct {
+	ID     string `json:"-" validate:"required,max=100"`
+	UserId string `json:"-" validate:"required"`
+}
+
 // Middleware
 type GetProjectRequest struct {
 	UserId string `json:"-" validate:"required"`
