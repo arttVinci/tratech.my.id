@@ -62,18 +62,15 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 
 func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
+	achievemenetId := ctx.Params("achievementId")
 
-	request := new(model.DeleteAchievementRequest)
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing reuqest body")
-		return fiber.ErrBadRequest
+	request := &model.DeleteAchievementRequest{
+		ID:     achievemenetId,
+		UserId: auth.ID,
 	}
 
-	request.UserId = auth.ID
-	request.ID = ctx.Params("achievementId")
-
 	if err := c.UseCase.Delete(ctx.UserContext(), request); err != nil {
-		c.Log.WithError(err).Error("error deleting contact")
+		c.Log.WithError(err).Error("error deleting achievement")
 		return err
 	}
 
