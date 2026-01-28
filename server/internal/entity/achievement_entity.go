@@ -12,9 +12,12 @@ type Achievement struct {
 	CredentialUrl string     `gorm:"column:credential_url"`
 	CredentialId  string     `gorm:"column:credential_id"`
 
+	CreatedAt int64 `gorm:"column:created_at;autoCreateTime:milli"`
+	UpdatedAt int64 `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
+
 	User User `gorm:"foreignKey:user_id;references:id"`
 }
 
-func (u *Achievement) TableName() string {
+func (a *Achievement) TableName() string {
 	return "achievements"
 }
