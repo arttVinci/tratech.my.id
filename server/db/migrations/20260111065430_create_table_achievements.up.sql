@@ -8,6 +8,10 @@ CREATE TABLE achievements
     issued_date       datetime(3)  null,
     credential_url    varchar(100) null,
     credential_id     varchar(100) null,
+
+    created_at     bigint,
+    updated_at     bigint,
+
     primary key (id),
     foreign key fk_profiles_user_id (user_id) references users (id)
 )

@@ -20,5 +20,5 @@ CREATE TABLE projects
     updated_at bigint,
 
     primary key (id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    foreign key fk_projects_user_id (user_id) references users (id)
 );
