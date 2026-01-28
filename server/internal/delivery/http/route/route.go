@@ -42,10 +42,10 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Put("/api/achievements/:achievementId", c.AchievementController.Update)
 	c.App.Delete("/api/achievements/:achievementId", c.AchievementController.Delete)
 
-	c.App.Get("/api/projects", c.AchievementController.GetAll)
-	c.App.Get("/api/projects/:projectId", c.AchievementController.Get)
-	c.App.Post("/api/projects", c.AchievementController.Create)
-	c.App.Put("/api/projects/:projectId", c.AchievementController.Update)
+	c.App.Get("/api/projects", c.ProjectController.GetAll)
+	c.App.Get("/api/projects/:projectId", c.ProjectController.Get)
+	c.App.Post("/api/projects", c.ProjectController.Create)
+	c.App.Put("/api/projects/:projectId", c.ProjectController.Update)
 	c.App.Delete("/api/projects/:projectId", c.ProjectController.Delete)
 }
 

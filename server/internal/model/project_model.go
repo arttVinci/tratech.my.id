@@ -17,7 +17,7 @@ type ProjectGallery struct {
 }
 
 type ProjectResponse struct {
-	ID          string `json:"-" validate:"required,max=100,uuid"`
+	ID          string `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Image       string `json:"image"`
