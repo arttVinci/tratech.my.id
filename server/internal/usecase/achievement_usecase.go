@@ -35,7 +35,7 @@ func NewAchievementUseCase(
 	}
 }
 
-func (c AchievementUseCase) Create(ctx context.Context, request *model.CreateAchievementRequest) (*model.AchievementResponse, error) {
+func (c *AchievementUseCase) Create(ctx context.Context, request *model.CreateAchievementRequest) (*model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -69,7 +69,7 @@ func (c AchievementUseCase) Create(ctx context.Context, request *model.CreateAch
 	return converter.AchievementToResponse(achievement), nil
 }
 
-func (c AchievementUseCase) Update(ctx context.Context, request *model.UpdateAchievementRequest) (*model.AchievementResponse, error) {
+func (c *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAchievementRequest) (*model.AchievementResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
