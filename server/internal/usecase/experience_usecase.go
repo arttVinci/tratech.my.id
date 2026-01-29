@@ -170,3 +170,77 @@ func (c *ExperienceUseCase) GetAll(ctx context.Context, request *model.GetExperi
 
 	return responses, nil
 }
+
+func (c *ExperienceUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicExperienceRequest) ([]model.ExperienceResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	experiences := new([]entity.Experience)
+	if err := c.ExperienceRepo.FindAllByUsername(tx, experiences, request.Username); err != nil {
+		c.Log.WithError(err).Error("error getting experiences")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting experiences")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.ExperienceResponse, len(*experiences))
+	for i, experience := range *experiences {
+		responses[i] = *converter.ExperienceToResponse(&experience)
+	}
+
+	return responses, nil
+}
+
+func (c *ExperienceUseCase) Get(ctx context.Context, request *model.GetByIdExperienceRequest) (*model.ExperienceResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	experience := new(entity.Experience)
+	if err := c.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting experience")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting experience")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ExperienceToResponse(experience), nil
+}
+
+func (c *ExperienceUseCase) GetByUsername(ctx context.Context, request *model.GetPublicExperienceByIdRequest) (*model.ExperienceResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	experience := new(entity.Experience)
+	if err := c.ExperienceRepo.FindByUsername(tx, experience, request.Username, request.ID); err != nil {
+		c.Log.WithError(err).Error("error getting experience")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting experience")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.ExperienceToResponse(experience), nil
+}
