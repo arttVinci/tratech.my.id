@@ -114,3 +114,59 @@ func (c *ExperienceUseCase) Update(ctx context.Context, request *model.UpdateExp
 
 	return converter.ExperienceToResponse(experience), nil
 }
+
+func (c *ExperienceUseCase) Delete(ctx context.Context, request *model.DeleteExperienceRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.ErrBadRequest
+	}
+
+	experience := new(entity.Experience)
+	if err := c.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error find experience by id and user_id")
+		return fiber.ErrNotFound
+	}
+
+	if err := c.ExperienceRepo.Delete(tx, experience); err != nil {
+		c.Log.WithError(err).Error("error deleting experience")
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error deleting experience")
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}
+
+func (c *ExperienceUseCase) GetAll(ctx context.Context, request *model.GetExperienceRequest) ([]model.ExperienceResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	experiences := new([]entity.Experience)
+	if err := c.ExperienceRepo.FindAllByUserId(tx, experiences, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting experiences")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting experiences")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.ExperienceResponse, len(*experiences))
+	for i, experience := range *experiences {
+		responses[i] = *converter.ExperienceToResponse(&experience)
+	}
+
+	return responses, nil
+}
