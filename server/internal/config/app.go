@@ -32,7 +32,7 @@ func Bootstrap(config *BootstrapConfig) {
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config)
-	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository)
+	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, achievementRepository, projectRepository, educationRepository, experienceRepository)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)
 	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository)

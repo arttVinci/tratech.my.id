@@ -15,10 +15,14 @@ import (
 )
 
 type ProfileUseCase struct {
-	db          *gorm.DB
-	log         *logrus.Logger
-	validate    *validator.Validate
-	profileRepo *repository.ProfileRepository
+	db             *gorm.DB
+	log            *logrus.Logger
+	validate       *validator.Validate
+	profileRepo    *repository.ProfileRepository
+	achivRepo      *repository.AchievementRepository
+	projectRepo    *repository.ProjectRepository
+	educatinRepo   *repository.EducationRepository
+	experienceRepo *repository.ExperienceRepository
 }
 
 func NewProfileUseCase(
@@ -26,12 +30,20 @@ func NewProfileUseCase(
 	log *logrus.Logger,
 	validate *validator.Validate,
 	profileRepo *repository.ProfileRepository,
+	achivRepo *repository.AchievementRepository,
+	projectRepo *repository.ProjectRepository,
+	educatinRepo *repository.EducationRepository,
+	experienceRepo *repository.ExperienceRepository,
 ) *ProfileUseCase {
 	return &ProfileUseCase{
-		db:          db,
-		log:         log,
-		validate:    validate,
-		profileRepo: profileRepo,
+		db:             db,
+		log:            log,
+		validate:       validate,
+		profileRepo:    profileRepo,
+		achivRepo:      achivRepo,
+		projectRepo:    projectRepo,
+		educatinRepo:   educatinRepo,
+		experienceRepo: experienceRepo,
 	}
 }
 
@@ -132,36 +144,6 @@ func (c *ProfileUseCase) GetAll(ctx context.Context, request *model.GetProfileRe
 	return response, nil
 }
 
-// Public
-func (c *ProfileUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicProfileRequest) ([]model.ProfileResponse, error) {
-	tx := c.db.WithContext(ctx).Begin()
-	defer tx.Rollback()
-
-	if err := c.validate.Struct(request); err != nil {
-		c.log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
-	}
-
-	profiles := new([]entity.Profile)
-
-	if err := c.profileRepo.FindAllByUsername(tx, profiles, request.Username); err != nil {
-		c.log.WithError(err).Error("error getting profile by username")
-		return nil, fiber.ErrNotFound
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		c.log.WithError(err).Error("error getting profile")
-		return nil, fiber.ErrInternalServerError
-	}
-
-	response := make([]model.ProfileResponse, len(*profiles))
-	for i, profile := range *profiles {
-		response[i] = *converter.ProfileToResponse(&profile)
-	}
-
-	return response, nil
-}
-
 func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdProfileRequest) (*model.ProfileResponse, error) {
 	tx := c.db.WithContext(ctx).Begin()
 	defer tx.Rollback()
@@ -186,7 +168,7 @@ func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdProfileR
 	return converter.ProfileToResponse(profile), nil
 }
 
-func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProfileRequest) (*model.ProfileResponse, error) {
+func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProfileRequest) (*model.PublicResponse, error) {
 	tx := c.db.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -196,9 +178,33 @@ func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPu
 	}
 
 	profile := new(entity.Profile)
+	achievements := new([]entity.Achievement)
+	projects := new([]entity.Project)
+	educations := new([]entity.Education)
+	experiences := new([]entity.Experience)
 
 	if err := c.profileRepo.FindByUsername(tx, profile, request.Username); err != nil {
 		c.log.WithError(err).Error("error getting profile by id and username")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := c.achivRepo.FindAllByUsername(tx, achievements, request.Username); err != nil {
+		c.log.WithError(err).Error("error getting achievements by id and username")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := c.projectRepo.FindAllByUsername(tx, projects, request.Username); err != nil {
+		c.log.WithError(err).Error("error getting projects by id and username")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := c.educatinRepo.FindAllByUsername(tx, educations, request.Username); err != nil {
+		c.log.WithError(err).Error("error getting educations by id and username")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := c.experienceRepo.FindAllByUsername(tx, experiences, request.Username); err != nil {
+		c.log.WithError(err).Error("error getting experiences by id and username")
 		return nil, fiber.ErrNotFound
 	}
 
@@ -207,5 +213,33 @@ func (c *ProfileUseCase) GetByUsername(ctx context.Context, request *model.GetPu
 		return nil, fiber.ErrInternalServerError
 	}
 
-	return converter.ProfileToResponse(profile), nil
+	profileResponse := converter.ProfileToResponse(profile)
+
+	achivResponses := make([]model.AchievementResponse, len(*achievements))
+	for i, achiev := range *achievements {
+		achivResponses[i] = *converter.AchievementToResponse(&achiev)
+	}
+
+	projectResponses := make([]model.ProjectResponse, len(*projects))
+	for i, project := range *projects {
+		projectResponses[i] = *converter.ProjectToResponse(&project)
+	}
+
+	educationResponses := make([]model.EducationResponse, len(*educations))
+	for i, education := range *educations {
+		educationResponses[i] = *converter.EducationToResponse(&education)
+	}
+
+	experienceResponses := make([]model.ExperienceResponse, len(*experiences))
+	for i, experience := range *experiences {
+		experienceResponses[i] = *converter.ExperienceToResponse(&experience)
+	}
+
+	return &model.PublicResponse{
+		Profile:      profileResponse,
+		Achievements: achivResponses,
+		Projects:     projectResponses,
+		Education:    educationResponses,
+		Experiences:  experienceResponses,
+	}, nil
 }

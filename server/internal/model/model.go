@@ -17,3 +17,11 @@ type PageMetadata struct {
 	TotalItem int64 `json:"total_item"`
 	TotalPage int64 `json:"total_page"`
 }
+
+type PublicResponse struct {
+	Profile      *ProfileResponse      `json:"profile"`
+	Achievements []AchievementResponse `json:"achievements"`
+	Projects     []ProjectResponse     `json:"projects"`
+	Education    []EducationResponse   `json:"educations"`
+	Experiences  []ExperienceResponse  `json:"experiences"`
+}
