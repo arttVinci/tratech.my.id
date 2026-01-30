@@ -196,3 +196,49 @@ func (c *EducationUseCase) GetAllByUsername(ctx context.Context, request *model.
 
 	return responses, nil
 }
+
+func (c *EducationUseCase) Get(ctx context.Context, request *model.GetByIdEducationRequest) (*model.EducationResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	education := new(entity.Education)
+	if err := c.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting education")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting education")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.EducationToResponse(education), nil
+}
+
+func (c *EducationUseCase) GetByUsername(ctx context.Context, request *model.GetPublicEducationByIdRequest) (*model.EducationResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	education := new(entity.Education)
+	if err := c.EducationRepo.FindByUsername(tx, education, request.Username, request.ID); err != nil {
+		c.Log.WithError(err).Error("error getting education")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting education")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.EducationToResponse(education), nil
+}
