@@ -36,7 +36,7 @@ func NewEducationUseCase(
 	}
 }
 
-func (c *EducationUseCase) Create(ctx context.Context, request model.CreateEducationRequest) (*model.EducationResponse, error) {
+func (c *EducationUseCase) Create(ctx context.Context, request *model.CreateEducationRequest) (*model.EducationResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 

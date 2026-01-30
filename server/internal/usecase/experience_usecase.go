@@ -36,7 +36,7 @@ func NewExperienceUseCase(
 	}
 }
 
-func (c *ExperienceUseCase) Create(ctx context.Context, request model.CreateExperienceRequest) (*model.ExperienceResponse, error) {
+func (c *ExperienceUseCase) Create(ctx context.Context, request *model.CreateExperienceRequest) (*model.ExperienceResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
