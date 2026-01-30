@@ -38,3 +38,24 @@ func (c *ExperienceController) Create(ctx *fiber.Ctx) error {
 
 	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
 }
+
+func (c *ExperienceController) Update(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.UpdateExperienceRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.WithError(err).Error("error parsing request body")
+		return fiber.ErrBadRequest
+	}
+
+	request.UserId = auth.ID
+	request.ID = ctx.Params("experienceId")
+
+	response, err := c.UseCase.Update(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error update experience")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
+}
