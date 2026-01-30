@@ -27,18 +27,24 @@ func Bootstrap(config *BootstrapConfig) {
 	profileRepository := repository.NewProfileRepository()
 	achievementRepository := repository.NewAchievementRepository()
 	projectRepository := repository.NewProjectRepository()
+	experienceRepository := repository.NewExperienceRepository()
+	educationRepository := repository.NewEducationRepository()
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config)
 	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)
+	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository)
+	educationUseCase := usecase.NewEducationUseCase(config.DB, config.Log, config.Validate, educationRepository)
 
 	//Setup Controller
 	userController := http.NewUserController(userUseCase, config.Log)
 	profileController := http.NewProfileController(profileUseCase, config.Log)
 	achievementController := http.NewAchievementController(achievementUseCase, config.Log)
 	projectController := http.NewProjectController(projectUseCase, config.Log)
+	experienceController := http.NewExperienceController(experienceUseCase, config.Log)
+	educationController := http.NewEducationController(educationUseCase, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)
@@ -50,6 +56,8 @@ func Bootstrap(config *BootstrapConfig) {
 		ProfileController:     profileController,
 		AchievementController: achievementController,
 		ProjectController:     projectController,
+		ExperienceController:  experienceController,
+		EducationController:   educationController,
 	}
 	routeConfig.Setup()
 }
