@@ -112,3 +112,31 @@ func (c *EducationUseCase) Update(ctx context.Context, request *model.UpdateEduc
 
 	return converter.EducationToResponse(education), nil
 }
+
+func (c *EducationUseCase) Delete(ctx context.Context, request *model.DeleteEducationRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.ErrBadRequest
+	}
+
+	education := new(entity.Education)
+	if err := c.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error find education by id and user_id")
+		return fiber.ErrNotFound
+	}
+
+	if err := c.EducationRepo.Delete(tx, education); err != nil {
+		c.Log.WithError(err).Error("error deleting education")
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error deleting education")
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}
