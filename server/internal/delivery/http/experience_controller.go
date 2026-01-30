@@ -59,3 +59,58 @@ func (c *ExperienceController) Update(ctx *fiber.Ctx) error {
 
 	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
 }
+
+func (c *ExperienceController) Delete(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+	experienceId := ctx.Params("experienceId")
+
+	request := &model.DeleteExperienceRequest{
+		ID:     experienceId,
+		UserId: auth.ID,
+	}
+
+	if err := c.UseCase.Delete(ctx.UserContext(), request); err != nil {
+		c.Log.WithError(err).Error("error deleting experience")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[bool]{Data: true})
+}
+
+// GetAll User Endpoint
+func (c *ExperienceController) GetAll(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := &model.GetExperienceRequest{
+		UserId: auth.ID,
+	}
+
+	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get experiences")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.ExperienceResponse]{
+		Data: response,
+	})
+}
+
+// GetAll Public Endpoint
+func (c *ExperienceController) GetAllByUsername(ctx *fiber.Ctx) error {
+	username := ctx.Params("username")
+
+	request := &model.GetPublicExperienceRequest{
+		Username: username,
+	}
+
+	response, err := c.UseCase.GetAllByUsername(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get experiences")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[[]model.ExperienceResponse]{
+		Data: response,
+	})
+}
