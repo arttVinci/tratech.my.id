@@ -140,3 +140,59 @@ func (c *EducationUseCase) Delete(ctx context.Context, request *model.DeleteEduc
 
 	return nil
 }
+
+func (c *EducationUseCase) GetAll(ctx context.Context, request *model.GetEducationRequest) ([]model.EducationResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	educations := new([]entity.Education)
+	if err := c.EducationRepo.FindAllByUserId(tx, educations, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting educations")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting educations")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.EducationResponse, len(*educations))
+	for i, education := range *educations {
+		responses[i] = *converter.EducationToResponse(&education)
+	}
+
+	return responses, nil
+}
+
+func (c *EducationUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicEducationRequest) ([]model.EducationResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	educations := new([]entity.Education)
+	if err := c.EducationRepo.FindAllByUsername(tx, educations, request.Username); err != nil {
+		c.Log.WithError(err).Error("error getting educations")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting educations")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.EducationResponse, len(*educations))
+	for i, education := range *educations {
+		responses[i] = *converter.EducationToResponse(&education)
+	}
+
+	return responses, nil
+}
