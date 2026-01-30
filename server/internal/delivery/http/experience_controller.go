@@ -114,3 +114,41 @@ func (c *ExperienceController) GetAllByUsername(ctx *fiber.Ctx) error {
 		Data: response,
 	})
 }
+
+// Get by id user Endpoint
+func (c *ExperienceController) Get(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+	id := ctx.Params("experienceId")
+
+	request := &model.GetByIdExperienceRequest{
+		ID:     id,
+		UserId: auth.ID,
+	}
+
+	response, err := c.UseCase.Get(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get experience")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
+}
+
+// Get Public Endpoint
+func (c *ExperienceController) GetByUsername(ctx *fiber.Ctx) error {
+	username := ctx.Params("username")
+	id := ctx.Params("experienceId")
+
+	request := &model.GetPublicExperienceByIdRequest{
+		ID:       id,
+		Username: username,
+	}
+
+	response, err := c.UseCase.GetByUsername(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.WithError(err).Error("error get experience")
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
+}
