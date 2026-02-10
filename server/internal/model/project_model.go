@@ -28,7 +28,7 @@ type ProjectResponse struct {
 	Solution    string `json:"solution"`
 
 	Tags      []string         `json:"tags"`
-	TechStack []TechItem       `json:"techStack"`
+	TechStack []TechItem       `json:"tech_stack"`
 	Gallery   []ProjectGallery `json:"gallery"`
 	Features  []ProjectFeature `json:"features"`
 
