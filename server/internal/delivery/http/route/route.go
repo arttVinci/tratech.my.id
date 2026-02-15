@@ -14,6 +14,8 @@ type RouteConfig struct {
 	ProjectController     *http.ProjectController
 	ExperienceController  *http.ExperienceController
 	EducationController   *http.EducationController
+	SkillController       *http.SkillController
+	SocialController      *http.SocialController
 }
 
 func (c *RouteConfig) Setup() {
@@ -61,6 +63,18 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/educations", c.EducationController.Create)
 	c.App.Put("/api/educations/:educationId", c.EducationController.Update)
 	c.App.Delete("/api/educations/:educationId", c.EducationController.Delete)
+
+	c.App.Get("/api/skills", c.SkillController.GetAll)
+	c.App.Get("/api/skills/:skillId", c.SkillController.Get)
+	c.App.Post("/api/skills", c.SkillController.Create)
+	c.App.Put("/api/skills/:skillId", c.SkillController.Update)
+	c.App.Delete("/api/skills/:skillId", c.SkillController.Delete)
+
+	c.App.Get("/api/socials", c.SocialController.GetAll)
+	c.App.Get("/api/socials/:socialId", c.SocialController.Get)
+	c.App.Post("/api/socials", c.SocialController.Create)
+	c.App.Put("/api/socials/:socialId", c.SocialController.Update)
+	c.App.Delete("/api/socials/:socialId", c.SocialController.Delete)
 }
 
 func (c *RouteConfig) SetupPublicRoute() {
@@ -77,4 +91,8 @@ func (c *RouteConfig) SetupPublicRoute() {
 
 	c.App.Get("/api/public/:username/educations", c.EducationController.GetAllByUsername)
 	c.App.Get("/api/public/:username/educations/:educationId", c.EducationController.GetByUsername)
+
+	c.App.Get("/api/public/:username/skills", c.SkillController.GetAllByUsername)
+
+	c.App.Get("/api/public/:username/socials", c.SocialController.GetAllByUsername)
 }

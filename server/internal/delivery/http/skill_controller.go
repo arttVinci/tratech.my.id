@@ -9,14 +9,14 @@ import (
 )
 
 type SkillController struct {
-	Log     *logrus.Logger
 	UseCase *usecase.SkillUseCase
+	Log     *logrus.Logger
 }
 
-func NewSkillController(log *logrus.Logger, useCase *usecase.SkillUseCase) *SkillController {
+func NewSkillController(useCase *usecase.SkillUseCase, log *logrus.Logger) *SkillController {
 	return &SkillController{
-		Log:     log,
 		UseCase: useCase,
+		Log:     log,
 	}
 }
 

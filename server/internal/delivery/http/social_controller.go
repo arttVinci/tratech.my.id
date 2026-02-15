@@ -9,14 +9,14 @@ import (
 )
 
 type SocialController struct {
-	Log     *logrus.Logger
 	UseCase *usecase.SocialUseCase
+	Log     *logrus.Logger
 }
 
-func NewSocialController(log *logrus.Logger, useCase *usecase.SocialUseCase) *SocialController {
+func NewSocialController(useCase *usecase.SocialUseCase, log *logrus.Logger) *SocialController {
 	return &SocialController{
-		Log:     log,
 		UseCase: useCase,
+		Log:     log,
 	}
 }
 

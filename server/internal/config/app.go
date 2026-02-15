@@ -29,6 +29,8 @@ func Bootstrap(config *BootstrapConfig) {
 	projectRepository := repository.NewProjectRepository()
 	experienceRepository := repository.NewExperienceRepository()
 	educationRepository := repository.NewEducationRepository()
+	skillRepository := repository.NewSkillRepository()
+	socialRepository := repository.NewSocialRepository()
 
 	//Setup UseCase
 	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config)
@@ -37,6 +39,8 @@ func Bootstrap(config *BootstrapConfig) {
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)
 	experienceUseCase := usecase.NewExperienceUseCase(config.DB, config.Log, config.Validate, experienceRepository)
 	educationUseCase := usecase.NewEducationUseCase(config.DB, config.Log, config.Validate, educationRepository)
+	skillUseCase := usecase.NewSkillUsecase(config.DB, config.Log, config.Validate, skillRepository)
+	socialUseCase := usecase.NewSocialUsecase(config.DB, config.Log, config.Validate, socialRepository)
 
 	//Setup Controller
 	userController := http.NewUserController(userUseCase, config.Log)
@@ -45,6 +49,8 @@ func Bootstrap(config *BootstrapConfig) {
 	projectController := http.NewProjectController(projectUseCase, config.Log)
 	experienceController := http.NewExperienceController(experienceUseCase, config.Log)
 	educationController := http.NewEducationController(educationUseCase, config.Log)
+	skillController := http.NewSkillController(skillUseCase, config.Log)
+	socialController := http.NewSocialController(socialUseCase, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)
@@ -58,6 +64,8 @@ func Bootstrap(config *BootstrapConfig) {
 		ProjectController:     projectController,
 		ExperienceController:  experienceController,
 		EducationController:   educationController,
+		SkillController:       skillController,
+		SocialController:      socialController,
 	}
 	routeConfig.Setup()
 }
