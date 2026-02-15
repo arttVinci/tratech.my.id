@@ -64,7 +64,7 @@ func (c *ProfileUseCase) Create(ctx context.Context, request *model.CreateProfil
 		Address:    request.Address,
 		About:      request.About,
 		Bio:        request.Bio,
-		Tag:        request.Tag,
+		Tags:       request.Tags,
 	}
 
 	if err := c.profileRepo.Create(tx, profile); err != nil {
@@ -101,7 +101,7 @@ func (c *ProfileUseCase) Update(ctx context.Context, request *model.UpdateProfil
 	profile.Address = request.Address
 	profile.About = request.About
 	profile.Bio = request.Bio
-	profile.Tag = request.Tag
+	profile.Tags = request.Tags
 
 	if err := c.profileRepo.Update(tx, profile); err != nil {
 		c.log.WithError(err).Error("error updating Profile")

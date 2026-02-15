@@ -13,6 +13,6 @@ func ProfileToResponse(profile *entity.Profile) *model.ProfileResponse {
 		Address:    profile.Address,
 		About:      profile.About,
 		Bio:        profile.Bio,
-		Tag:        profile.Tag,
+		Tags:       profile.Tags,
 	}
 }

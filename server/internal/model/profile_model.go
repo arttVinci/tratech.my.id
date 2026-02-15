@@ -1,36 +1,36 @@
 package model
 
 type ProfileResponse struct {
-	ID         string `json:"id"`
-	Username   string `json:"username"`
-	FullName   string `json:"full_name"`
-	UrlProfile string `json:"url_profile"`
-	Address    string `json:"address"`
-	About      string `json:"about"`
-	Bio        string `json:"bio"`
-	Tag        string `json:"tag"`
+	ID         string   `json:"id"`
+	Username   string   `json:"username"`
+	FullName   string   `json:"full_name"`
+	UrlProfile string   `json:"url_profile"`
+	Address    string   `json:"address"`
+	About      string   `json:"about"`
+	Bio        string   `json:"bio"`
+	Tags       []string `json:"tags"`
 }
 
 type CreateProfileRequest struct {
-	UserId     string `json:"user_id"`
-	Username   string `json:"username"`
-	FullName   string `json:"full_name"`
-	UrlProfile string `json:"url_profile"`
-	Address    string `json:"address"`
-	About      string `json:"about"`
-	Bio        string `json:"bio"`
-	Tag        string `json:"tag"`
+	UserId     string   `json:"user_id"`
+	Username   string   `json:"username"`
+	FullName   string   `json:"full_name"`
+	UrlProfile string   `json:"url_profile"`
+	Address    string   `json:"address"`
+	About      string   `json:"about"`
+	Bio        string   `json:"bio"`
+	Tags       []string `json:"tags"`
 }
 
 type UpdateProfileRequest struct {
-	ID         string `json:"id"`
-	UserId     string `json:"user_id"`
-	FullName   string `json:"full_name"`
-	UrlProfile string `json:"url_profile"`
-	Address    string `json:"address"`
-	About      string `json:"about"`
-	Bio        string `json:"bio"`
-	Tag        string `json:"tag"`
+	ID         string   `json:"id"`
+	UserId     string   `json:"user_id"`
+	FullName   string   `json:"full_name"`
+	UrlProfile string   `json:"url_profile"`
+	Address    string   `json:"address"`
+	About      string   `json:"about"`
+	Bio        string   `json:"bio"`
+	Tags       []string `json:"tags"`
 }
 
 // Middleware
