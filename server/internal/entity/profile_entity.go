@@ -8,6 +8,7 @@ type Profile struct {
 	Address    string `gorm:"column:address"`
 	About      string `gorm:"column:about"`
 	Bio        string `gorm:"column:bio"`
+	Tag        string `gorm:"column:tag"`
 
 	CreatedAt int64 `gorm:"column:created_at;autoCreateTime:milli"`
 	UpdatedAt int64 `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`

@@ -8,6 +8,7 @@ type ProfileResponse struct {
 	Address    string `json:"address"`
 	About      string `json:"about"`
 	Bio        string `json:"bio"`
+	Tag        string `json:"tag"`
 }
 
 type CreateProfileRequest struct {
@@ -18,6 +19,7 @@ type CreateProfileRequest struct {
 	Address    string `json:"address"`
 	About      string `json:"about"`
 	Bio        string `json:"bio"`
+	Tag        string `json:"tag"`
 }
 
 type UpdateProfileRequest struct {
@@ -28,6 +30,7 @@ type UpdateProfileRequest struct {
 	Address    string `json:"address"`
 	About      string `json:"about"`
 	Bio        string `json:"bio"`
+	Tag        string `json:"tag"`
 }
 
 // Middleware

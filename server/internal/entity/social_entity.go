@@ -14,5 +14,5 @@ type Social struct {
 }
 
 func (a *Social) TableName() string {
-	return "Socials"
+	return "socials"
 }
