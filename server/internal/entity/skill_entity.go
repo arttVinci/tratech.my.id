@@ -3,7 +3,7 @@ package entity
 type Skill struct {
 	ID      string `gorm:"column:id;primaryKey"`
 	UserId  string `gorm:"column:user_id"`
-	Name    string `gorm:"column:name"`
+	Title   string `gorm:"column:title"`
 	IconUrl string `gorm:"column:icon_url"`
 	Level   string `gorm:"column:level"`
 

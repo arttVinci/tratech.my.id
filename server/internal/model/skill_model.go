@@ -2,14 +2,14 @@ package model
 
 type SkillResponse struct {
 	ID      string `json:"id"`
-	Name    string `json:"name"`
+	Title   string `gorm:"column:title"`
 	IconUrl string `json:"icon_url"`
 	Level   string `json:"level"`
 }
 
 type CreateSkillRequest struct {
 	UserId  string `gorm:"-"`
-	Name    string `gorm:"column:name"`
+	Title   string `gorm:"column:title"`
 	IconUrl string `gorm:"column:icon_url"`
 	Level   string `gorm:"column:level"`
 }
@@ -17,7 +17,7 @@ type CreateSkillRequest struct {
 type UpdateSkillRequest struct {
 	ID      string `json:"-" validate:"required"`
 	UserId  string `gorm:"-" validate:"required"`
-	Name    string `gorm:"column:name"`
+	Title   string `gorm:"column:title"`
 	IconUrl string `gorm:"column:icon_url"`
 	Level   string `gorm:"column:level"`
 }
