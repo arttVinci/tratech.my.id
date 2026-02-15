@@ -6,7 +6,7 @@ import (
 )
 
 type SocialRepository struct {
-	Repository[entity.Achievement]
+	Repository[entity.Social]
 }
 
 func NewSocialRepository() *SocialRepository {

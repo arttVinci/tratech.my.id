@@ -5,7 +5,7 @@ type Social struct {
 	UserId      string `gorm:"column:user_id"`
 	Title       string `gorm:"column:title"`
 	Platform    string `gorm:"column:name"`
-	UrlPlatform string `gorm:"column:platform_url"`
+	PlatformUrl string `gorm:"column:platform_url"`
 
 	CreatedAt int64 `gorm:"column:created_at;autoCreateTime:milli"`
 	UpdatedAt int64 `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
