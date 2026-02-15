@@ -62,5 +62,144 @@ func (c *SkillUseCase) Create(ctx context.Context, request *model.CreateSkillReq
 		return nil, fiber.ErrInternalServerError
 	}
 
-	return converter.AchievementToResponse(achievement), nil
+	return converter.SkillToResponse(skill), nil
+}
+
+func (c *SkillUseCase) Update(ctx context.Context, request *model.UpdateSkillRequest) (*model.SkillResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	skill := new(entity.Skill)
+	if err := c.SkillRepo.FindByIdAndUserId(tx, skill, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting Skill by user id")
+		return nil, fiber.ErrNotFound
+	}
+
+	skill.Title = request.Title
+	skill.IconUrl = request.IconUrl
+	skill.Level = request.Level
+
+	if err := c.SkillRepo.Update(tx, skill); err != nil {
+		c.Log.WithError(err).Error("error updating Skill")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error updating Skill")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.SkillToResponse(skill), nil
+}
+
+func (c *SkillUseCase) Delete(ctx context.Context, request *model.DeleteSkillRequest) error {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return fiber.ErrBadRequest
+	}
+
+	skill := new(entity.Skill)
+	if err := c.SkillRepo.FindByIdAndUserId(tx, skill, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error find skill by id and user_id")
+		return fiber.ErrNotFound
+	}
+
+	if err := c.SkillRepo.Delete(tx, skill); err != nil {
+		c.Log.WithError(err).Error("error deleting skill")
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error deleting skill")
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}
+
+func (c *SkillUseCase) GetAll(ctx context.Context, request *model.GetSkillRequest) ([]model.SkillResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	skills := new([]entity.Skill)
+	if err := c.SkillRepo.FindAllByUserId(tx, skills, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting skills")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting skills")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.SkillResponse, len(*skills))
+	for i, skill := range *skills {
+		responses[i] = *converter.SkillToResponse(&skill)
+	}
+
+	return responses, nil
+}
+
+func (c *SkillUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicSkillRequest) ([]model.SkillResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	skills := new([]entity.Skill)
+	if err := c.SkillRepo.FindAllByUsername(tx, skills, request.Username); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	responses := make([]model.SkillResponse, len(*skills))
+	for i, skill := range *skills {
+		responses[i] = *converter.SkillToResponse(&skill)
+	}
+
+	return responses, nil
+}
+
+func (c *SkillUseCase) Get(ctx context.Context, request *model.GetByIdSkillRequest) (*model.SkillResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.WithError(err).Error("error validating request body")
+		return nil, fiber.ErrBadRequest
+	}
+
+	skill := new(entity.Skill)
+	if err := c.SkillRepo.FindByIdAndUserId(tx, skill, request.ID, request.UserId); err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.WithError(err).Error("error getting achievement")
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.SkillToResponse(skill), nil
 }
