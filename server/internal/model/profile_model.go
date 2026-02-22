@@ -8,6 +8,7 @@ type ProfileResponse struct {
 	Address    string   `json:"address"`
 	About      string   `json:"about"`
 	Bio        string   `json:"bio"`
+	Theme      string   `json:"theme"`
 	Tags       []string `json:"tags"`
 }
 
@@ -19,6 +20,7 @@ type CreateProfileRequest struct {
 	Address    string   `json:"address"`
 	About      string   `json:"about"`
 	Bio        string   `json:"bio"`
+	Theme      string   `json:"theme"`
 	Tags       []string `json:"tags"`
 }
 
@@ -30,6 +32,7 @@ type UpdateProfileRequest struct {
 	Address    string   `json:"address"`
 	About      string   `json:"about"`
 	Bio        string   `json:"bio"`
+	Theme      string   `json:"theme"`
 	Tags       []string `json:"tags"`
 }
 

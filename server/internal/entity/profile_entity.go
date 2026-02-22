@@ -8,6 +8,7 @@ type Profile struct {
 	Address    string `gorm:"column:address"`
 	About      string `gorm:"column:about"`
 	Bio        string `gorm:"column:bio"`
+	Theme      string `gorm:"column:theme"`
 
 	Tags []string `gorm:"type:json;serializer:json"`
 

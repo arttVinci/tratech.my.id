@@ -7,6 +7,9 @@ CREATE TABLE profiles
     address           varchar(100) not null,
     about             text null,
     bio               varchar(100) null,
+    theme             varchar(100) null,
+
+    tags              JSON,
 
     created_at     bigint,
     updated_at     bigint,

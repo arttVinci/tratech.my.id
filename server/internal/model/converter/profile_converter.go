@@ -14,5 +14,6 @@ func ProfileToResponse(profile *entity.Profile) *model.ProfileResponse {
 		About:      profile.About,
 		Bio:        profile.Bio,
 		Tags:       profile.Tags,
+		Theme:      profile.Theme,
 	}
 }
