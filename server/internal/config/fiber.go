@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
+	"tratech.my.id/server/internal/model"
 )
 
 func NewFiber(config *viper.Viper) *fiber.App {
@@ -24,8 +25,8 @@ func NewErrorHandler() fiber.ErrorHandler {
 			code = e.Code
 		}
 
-		return ctx.Status(code).JSON(fiber.Map{
-			"errors": err.Error(),
+		return ctx.Status(code).JSON(model.WebResponse[any]{
+			Errors: err.Error(),
 		})
 	}
 }

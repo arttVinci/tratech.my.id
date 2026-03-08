@@ -81,7 +81,7 @@ func (c *UserUseCase) Current(ctx context.Context, request *model.GetUserRequest
 	return converter.UserToResponse(user), nil
 }
 
-func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserRequest) (*model.UserResponse, error) {
+func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserRequest) (*model.LoginUserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -122,12 +122,24 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.ErrInternalServerError
 	}
 
+	token, err := c.generateJWT(user)
+	if err != nil {
+		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
+		return nil, fiber.ErrInternalServerError
+	}
+
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
 		return nil, fiber.ErrInternalServerError
 	}
 
-	return converter.UserToResponse(user), nil
+	userResponse := converter.UserToResponse(user)
+
+	loginResponse := model.LoginUserResponse{
+		User:  *userResponse,
+		Token: token,
+	}
+	return &loginResponse, nil
 }
 
 func (c *UserUseCase) Update(ctx context.Context, request *model.UpdateUserRequest) (*model.UserResponse, error) {
