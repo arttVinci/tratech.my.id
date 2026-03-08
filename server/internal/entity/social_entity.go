@@ -13,6 +13,6 @@ type Social struct {
 	User User `gorm:"foreignKey:user_id;references:id"`
 }
 
-func (a *Social) TableName() string {
+func (s *Social) TableName() string {
 	return "socials"
 }

@@ -2,7 +2,6 @@ package model
 
 type ProfileResponse struct {
 	ID         string   `json:"id"`
-	Username   string   `json:"username"`
 	FullName   string   `json:"full_name"`
 	UrlProfile string   `json:"url_profile"`
 	Address    string   `json:"address"`
@@ -14,7 +13,6 @@ type ProfileResponse struct {
 
 type CreateProfileRequest struct {
 	UserId     string   `json:"user_id"`
-	Username   string   `json:"username"`
 	FullName   string   `json:"full_name"`
 	UrlProfile string   `json:"url_profile"`
 	Address    string   `json:"address"`

@@ -17,6 +17,10 @@ func (r *ProfileRepository) FindAllByUserId(db *gorm.DB, profile *[]entity.Profi
 	return db.Where("user_id = ?", userId).Find(profile).Error
 }
 
+func (r *ProfileRepository) FindByUserId(db *gorm.DB, profile *entity.Profile, userId string) error {
+	return db.Where("user_id = ?", userId).Take(profile).Error
+}
+
 func (r *ProfileRepository) FindByIdAndUserId(db *gorm.DB, profile *entity.Profile, id string, userId string) error {
 	return db.Where("id = ? AND user_id = ?", id, userId).Take(profile).Error
 }

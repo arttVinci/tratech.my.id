@@ -1,6 +1,12 @@
 package http
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 	"tratech.my.id/server/internal/delivery/http/middleware"
@@ -61,6 +67,48 @@ func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
 }
 
+func (c *ProfileController) HandleUploadImage(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := &model.GetProfileRequest{
+		UserId: auth.ID,
+	}
+
+	if err := c.UseCase.DeleteImageProfile(ctx.UserContext(), request); err != nil {
+		c.Log.WithError(err).Error("failed Delete Image Profile")
+		return err
+	}
+
+	file, err := ctx.FormFile("profile_image")
+	if err != nil {
+		c.Log.WithError(err).Error("Failed getting image from FormFile")
+		return err
+	}
+
+	if file.Size > 2*1024*1024 {
+		return ctx.Status(400).JSON(fiber.Map{"message": "File too large, max 2MB"})
+	}
+
+	contentType := file.Header.Get("Content-Type")
+	if !strings.HasPrefix(contentType, "image/") {
+		return ctx.Status(400).JSON(fiber.Map{"message": "The file must be an image"})
+	}
+
+	uniqueName := fmt.Sprintf("%d-%s", time.Now().Unix(), file.Filename)
+	savePath := filepath.Join("./public/uploads", uniqueName)
+
+	os.MkdirAll("./public/uploads", os.ModePerm)
+
+	if err := ctx.SaveFile(file, savePath); err != nil {
+		c.Log.WithError(err).Error("Failed save image to server")
+		return err
+	}
+
+	imageUrl := fmt.Sprintf("http://localhost:8080/public/uploads/%s", uniqueName)
+
+	return ctx.JSON(model.WebResponse[string]{Data: imageUrl})
+}
+
 // GetAll With Middleware ( Auth )
 func (c *ProfileController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
@@ -113,5 +161,5 @@ func (c *ProfileController) GetByUsername(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	return ctx.JSON(model.WebResponse[*model.PublicResponse]{Data: response})
+	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
 }

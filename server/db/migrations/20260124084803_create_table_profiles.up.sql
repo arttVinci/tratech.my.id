@@ -6,7 +6,7 @@ CREATE TABLE profiles
     url_profile       varchar(100) not null,
     address           varchar(100) not null,
     about             text null,
-    bio               varchar(100) null,
+    bio               text,
     theme             varchar(100) null,
 
     tags              JSON,

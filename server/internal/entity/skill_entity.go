@@ -13,6 +13,6 @@ type Skill struct {
 	User User `gorm:"foreignKey:user_id;references:id"`
 }
 
-func (a *Skill) TableName() string {
+func (s *Skill) TableName() string {
 	return "skills"
 }
