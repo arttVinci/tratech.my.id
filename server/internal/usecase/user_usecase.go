@@ -2,7 +2,11 @@ package usecase
 
 import (
 	"context"
+	"crypto/rand"
 	"errors"
+	"fmt"
+	"math/big"
+	"strings"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -109,8 +113,14 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.ErrInternalServerError
 	}
 
+	userId, err := c.generateUserId(request.Username)
+	if err != nil {
+		c.Log.Warnf("Failed to generate user id : %+v", err)
+		return nil, fiber.ErrInternalServerError
+	}
+
 	user := &entity.User{
-		ID:       request.ID,
+		ID:       userId,
 		Password: string(password),
 		Username: request.Username,
 		Email:    request.Email,
@@ -235,6 +245,19 @@ func (c *UserUseCase) Logout(ctx context.Context, request *model.LogoutUserReque
 	c.Log.Infof("User %s logout processed successfully", request.ID)
 
 	return true, nil
+}
+
+func (c *UserUseCase) generateUserId(username string) (string, error) {
+	cleanUsername := strings.ToLower(strings.ReplaceAll(username, " ", ""))
+
+	max := big.NewInt(10000)
+	randomNumber, err := rand.Int(rand.Reader, max)
+	if err != nil {
+		c.Log.WithError(err).Error("error generate user id")
+		return "", fiber.ErrNotFound
+	}
+
+	return fmt.Sprintf("usr_%s_%04d", cleanUsername, randomNumber.Int64()), nil
 }
 
 func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
