@@ -6,7 +6,7 @@ type Project struct {
 	ID          string `gorm:"column:id;primaryKey;type:uuid"`
 	UserId      string `gorm:"column:user_id;index"`
 	Title       string `gorm:"column:title;type:varchar(100)"`
-	Image       string `gorm:"column:image;type:varchar(255)"`
+	ImageUrl    string `gorm:"column:image_url;type:varchar(255)"`
 	Description string `gorm:"column:description;type:text"`
 	Link        string `gorm:"column:link_url;type:varchar(255)"`
 	Challenge   string `gorm:"column:challenge;type:text"`

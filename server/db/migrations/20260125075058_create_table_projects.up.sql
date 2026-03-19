@@ -1,24 +1,28 @@
 CREATE TABLE projects
 (
-    id          varchar(100) not null,
-    user_id     varchar(100) NOT NULL,
-    title       varchar(100) NOT NULL,
-    image_url   text,
-    description text,
-    github_url  varchar(100),
-    live_url    varchar(100),
-    challenge   text,
-    solution    text,
-    is_featured boolean default false,
+    id           VARCHAR(36)  NOT NULL,
+    user_id      VARCHAR(36)  NOT NULL,
+    title        VARCHAR(100) NOT NULL,
+    image_url    VARCHAR(255),
+    description  TEXT,
+    link_url     VARCHAR(255),
+    challenge    TEXT,
+    solution     TEXT,
+    is_featured  BOOLEAN      DEFAULT FALSE,
 
-    tags        JSON,
-    tech_stack  JSON,
-    gallery     JSON,
-    features    JSON,
+    -- Kolom JSON untuk data kompleks
+    tools        JSON,
+    gallery      JSON,
+    features     JSON,
 
-    created_at bigint,
-    updated_at bigint,
+    created_at   BIGINT       NOT NULL,
+    updated_at   BIGINT       NOT NULL,
 
-    primary key (id),
-    foreign key fk_projects_user_id (user_id) references users (id)
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_projects_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON DELETE CASCADE,
+
+    INDEX idx_project_user (user_id)
 );

@@ -1,26 +1,31 @@
 CREATE TABLE experiences
 (
-    id              varchar(100) not null,
-    user_id         varchar(100) NOT NULL,
+    id              VARCHAR(36)  NOT NULL,
+    user_id         VARCHAR(36)  NOT NULL,
 
-    position        varchar(100) NOT NULL,
-    company         varchar(100) NOT NULL,
-    company_url     varchar(255),
-    logo_url        varchar(255),
-    location        varchar(100),
+    company_name    VARCHAR(100) NOT NULL,
+    position        VARCHAR(100) NOT NULL,
+    link_url        VARCHAR(255),
+    image_url       VARCHAR(255),
+    location        VARCHAR(100),
 
-    employment_type varchar(50), -- Contoh: Full-time, Contract, Internship, Freelance
-    location_type   varchar(50), -- Contoh: On-site, Remote, Hybrid
+    employment_type VARCHAR(50),
+    location_type   VARCHAR(50),
 
-    start_date      DATE NOT NULL,
-    end_date        DATE,
-    is_current      boolean default false,
+    start_date      DATETIME     NOT NULL,
+    end_date        DATETIME,
+    is_current      BOOLEAN      DEFAULT FALSE,
 
-    description     text,
+    description     TEXT,
 
-    created_at      bigint,
-    updated_at      bigint,
+    created_at      BIGINT       NOT NULL,
+    updated_at      BIGINT       NOT NULL,
 
-    primary key (id),
-    foreign key fk_experiences_user_id (user_id) references users (id)
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_experiences_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON DELETE CASCADE,
+
+    INDEX idx_experience_user (user_id)
 );

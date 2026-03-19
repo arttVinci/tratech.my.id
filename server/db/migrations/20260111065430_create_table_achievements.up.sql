@@ -1,17 +1,22 @@
 CREATE TABLE achievements
 (
-    id                varchar(100) not null,
-    user_id           varchar(100) not null,
-    title             varchar(100) not null,
-    image_url         varchar(100) not null,
-    organization      varchar(100) not null,
-    issued_date       datetime(3)  null,
-    credential_url    varchar(100) null,
-    credential_id     varchar(100) null,
+    id                VARCHAR(36)  NOT NULL,
+    user_id           VARCHAR(36)  NOT NULL,
+    title             VARCHAR(255) NOT NULL,
+    image_url         VARCHAR(255) NOT NULL,
+    organization      VARCHAR(255) NOT NULL,
+    issued_date       DATETIME(3)  NULL,
+    credential_url    VARCHAR(255) NULL,
+    credential_id     VARCHAR(100) NULL,
 
-    created_at     bigint,
-    updated_at     bigint,
+    created_at        BIGINT       NOT NULL,
+    updated_at        BIGINT       NOT NULL,
 
-    primary key (id),
-    foreign key fk_profiles_user_id (user_id) references users (id)
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_achievements_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON DELETE CASCADE,
+
+    INDEX idx_achievement_user (user_id)
 )

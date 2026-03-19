@@ -1,15 +1,19 @@
 CREATE TABLE socials
 (
-    id           varchar(100) not null,
-    user_id      varchar(100) NOT NULL,
+    id           VARCHAR(36)  NOT NULL,
+    user_id      VARCHAR(36)  NOT NULL,
 
-    title        varchar(100) NOT NULL,
-    platform     varchar(50) NOT NULL,
-    platform_url varchar(255) NOT NULL,
+    platform     VARCHAR(50)  NOT NULL,
+    link_url     VARCHAR(255) NOT NULL,
 
-    created_at   bigint,
-    updated_at   bigint,
+    created_at   BIGINT       NOT NULL,
+    updated_at   BIGINT       NOT NULL,
 
-    primary key (id),
-    foreign key fk_socials_user_id (user_id) references users (id)
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_socials_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON DELETE CASCADE,
+
+    INDEX idx_social_user (user_id),
 );

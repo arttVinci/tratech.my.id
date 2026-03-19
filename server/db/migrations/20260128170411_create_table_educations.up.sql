@@ -1,25 +1,30 @@
 CREATE TABLE educations
 (
-    id             varchar(100) not null,
-    user_id        varchar(100) NOT NULL,
+    id             VARCHAR(36)  NOT NULL,
+    user_id        VARCHAR(36)  NOT NULL,
 
-    institution    varchar(100) NOT NULL, -- Contoh: Universitas Terbuka
-    degree         varchar(100),          -- Contoh: Sarjana (S1), SMA
-    field_of_study varchar(100),          -- Contoh: Sistem Informasi
-    grade          varchar(50),           -- Contoh: 3.85/4.00
+    institution    VARCHAR(100) NOT NULL,
+    degree         VARCHAR(100),
+    field_of_study VARCHAR(100),
+    grade          VARCHAR(20),
 
-    logo_url       text,
-    location       varchar(100),          -- Contoh: Jakarta, Indonesia
+    image_url      VARCHAR(255),
+    location       VARCHAR(100),
 
-    start_date     DATE NOT NULL,
-    end_date       DATE,
-    is_current     boolean default false,
+    start_date     DATETIME     NOT NULL,
+    end_date       DATETIME,
+    is_current     BOOLEAN      DEFAULT FALSE,
 
-    description    text,
+    description    TEXT,
 
-    created_at     bigint,
-    updated_at     bigint,
+    created_at     BIGINT       NOT NULL,
+    updated_at     BIGINT       NOT NULL,
 
-    primary key (id),
-    foreign key fk_educations_user_id (user_id) references users(id)
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_educations_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON DELETE CASCADE,
+
+    INDEX idx_education_user (user_id)
 );
