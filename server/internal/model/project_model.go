@@ -43,19 +43,19 @@ type CreateProjectRequest struct {
 }
 
 type UpdateProjectRequest struct {
-	ID          string  `json:"-" validate:"required,uuid"`
-	UserId      string  `json:"-" validate:"required"`
-	Title       *string `json:"title" validate:"omitempty,min=3,max=100"`
-	Description *string `json:"description" validate:"omitempty,max=2000"`
-	Image       *string `json:"image" validate:"omitempty,url"`
-	LinkUrl     *string `json:"link_url" validate:"omitempty,url"`
-	IsFeatured  *bool   `json:"featured" validate:"omitempty"`
-	Challenges  *string `json:"challenges" validate:"omitempty,max=3000"`
-	Solution    *string `json:"solution" validate:"omitempty,max=3000"`
+	ID          string `json:"-" validate:"required,uuid"`
+	UserId      string `json:"-" validate:"required"`
+	Title       string `json:"title" validate:"omitempty,min=3,max=100"`
+	Description string `json:"description" validate:"omitempty,max=2000"`
+	Image       string `json:"image" validate:"omitempty,url"`
+	LinkUrl     string `json:"link_url" validate:"omitempty,url"`
+	IsFeatured  bool   `json:"featured" validate:"omitempty"`
+	Challenges  string `json:"challenges" validate:"omitempty,max=3000"`
+	Solution    string `json:"solution" validate:"omitempty,max=3000"`
 
-	Tools    *[]string         `json:"tools" validate:"omitempty,max=20,dive,max=30"`
-	Gallery  *[]ProjectGallery `json:"gallery" validate:"omitempty,max=10,dive"`
-	Features *[]ProjectFeature `json:"features" validate:"omitempty,max=15,dive"`
+	Tools    []string         `json:"tools" validate:"omitempty,max=20,dive,max=30"`
+	Gallery  []ProjectGallery `json:"gallery" validate:"omitempty,max=10,dive"`
+	Features []ProjectFeature `json:"features" validate:"omitempty,max=15,dive"`
 }
 
 type DeleteProjectRequest struct {

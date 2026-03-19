@@ -42,7 +42,7 @@ func (c *AchievementUseCase) Create(ctx context.Context, request *model.CreateAc
 	err := c.Validate.Struct(request)
 	if err != nil {
 		c.Log.Warnf("Invalid request body : %+v", err)
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievement := &entity.Achievement{
@@ -58,12 +58,12 @@ func (c *AchievementUseCase) Create(ctx context.Context, request *model.CreateAc
 
 	if err := c.AchievRepo.Create(tx, achievement); err != nil {
 		c.Log.Warnf("Failed create Achievement to database : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed create Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed create Achievement")
 	}
 
 	return converter.AchievementToResponse(achievement), nil
@@ -74,31 +74,31 @@ func (c *AchievementUseCase) Update(ctx context.Context, request *model.UpdateAc
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
-		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		c.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievement := new(entity.Achievement)
 	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting Achievement")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
 	achievement.Title = request.Title
 	achievement.ImageUrl = request.ImageUrl
 	achievement.Organization = request.Organization
 	achievement.IssuedDate = request.IssuedDate
-	achievement.CredentialUrl = *request.CredentialUrl
-	achievement.CredentialId = *request.CredentialId
+	achievement.CredentialUrl = request.CredentialUrl
+	achievement.CredentialId = request.CredentialId
 
 	if err := c.AchievRepo.Update(tx, achievement); err != nil {
 		c.Log.WithError(err).Error("error updating achievement")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed update Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.WithError(err).Error("error updating achievement")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed update Achievement")
 	}
 
 	return converter.AchievementToResponse(achievement), nil

@@ -28,12 +28,12 @@ type CreateAchievementRequest struct {
 type UpdateAchievementRequest struct {
 	ID            string     `json:"-" validate:"required,uuid"`
 	UserId        string     `json:"-" validate:"required"`
-	Title         *string    `json:"title" validate:"omitempty,min=3,max=100"`
-	ImageUrl      *string    `json:"image_url" validate:"omitempty,url"`
-	Organization  *string    `json:"organization" validate:"omitempty,max=100"`
+	Title         string     `json:"title" validate:"omitempty,min=3,max=100"`
+	ImageUrl      string     `json:"image_url" validate:"omitempty,url"`
+	Organization  string     `json:"organization" validate:"omitempty,max=100"`
 	IssuedDate    *time.Time `json:"issued_date" validate:"omitempty,lte"`
-	CredentialUrl *string    `json:"credential_url" validate:"omitempty,url"`
-	CredentialId  *string    `json:"credential_id" validate:"omitempty,max=100"`
+	CredentialUrl string     `json:"credential_url" validate:"omitempty,url"`
+	CredentialId  string     `json:"credential_id" validate:"omitempty,max=100"`
 }
 
 type DeleteAchievementRequest struct {

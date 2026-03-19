@@ -26,14 +26,14 @@ type CreateProfileRequest struct {
 }
 
 type UpdateProfileRequest struct {
-	UserId   string    `json:"-" validate:"required"`
-	FullName *string   `json:"full_name" validate:"omitempty,min=3,max=100"`
-	ImageUrl *string   `json:"image_url" validate:"omitempty,url"`
-	Address  *string   `json:"address" validate:"omitempty,max=200"`
-	About    *string   `json:"about" validate:"omitempty,max=3000"`
-	Bio      *string   `json:"bio" validate:"omitempty,max=200"`
-	Theme    *string   `json:"theme"`
-	Tags     *[]string `json:"tags" validate:"omitempty,max=10,dive,max=20"`
+	UserId   string   `json:"-" validate:"required"`
+	FullName string   `json:"full_name" validate:"omitempty,min=3,max=100"`
+	ImageUrl string   `json:"image_url" validate:"omitempty,url"`
+	Address  string   `json:"address" validate:"omitempty,max=200"`
+	About    string   `json:"about" validate:"omitempty,max=3000"`
+	Bio      string   `json:"bio" validate:"omitempty,max=200"`
+	Theme    string   `json:"theme"`
+	Tags     []string `json:"tags" validate:"omitempty,max=10,dive,max=20"`
 }
 type ProfileImageResponse struct {
 	UrlProfile string `json:"url_profile"`

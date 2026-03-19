@@ -16,10 +16,10 @@ type CreateSocialRequest struct {
 }
 
 type UpdateSocialRequest struct {
-	ID       string  `json:"-" validate:"required,uuid"`
-	UserId   string  `json:"-" validate:"required"`
-	Platform *string `json:"platform" validate:"omitempty,oneof=github linkedin instagram x twitter facebook youtube discord website"`
-	LinkUrl  *string `json:"link_url" validate:"omitempty,url"`
+	ID       string `json:"-" validate:"required,uuid"`
+	UserId   string `json:"-" validate:"required"`
+	Platform string `json:"platform" validate:"omitempty,oneof=github linkedin instagram x twitter facebook youtube discord website"`
+	LinkUrl  string `json:"link_url" validate:"omitempty,url"`
 }
 
 type DeleteSocialRequest struct {
