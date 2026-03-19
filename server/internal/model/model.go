@@ -1,9 +1,15 @@
 package model
 
 type WebResponse[T any] struct {
-	Data   T             `json:"data"`
-	Paging *PageMetadata `json:"paging,omitempty"`
-	Errors string        `json:"errors,omitempty"`
+	Data    T      `json:"data"`
+	Message string `json:"message,omitempty"`
+	Success bool   `json:"errors,omitempty"`
+}
+
+type ApiErrorResponse struct {
+	Message    string              `json:"message"`
+	StatusCode int                 `json:"statusCode"`
+	Errors     map[string][]string `json:"errors,omitempty"`
 }
 
 type PageResponse[T any] struct {
@@ -16,12 +22,4 @@ type PageMetadata struct {
 	Size      int   `json:"size"`
 	TotalItem int64 `json:"total_item"`
 	TotalPage int64 `json:"total_page"`
-}
-
-type PublicResponse struct {
-	Profile      *ProfileResponse      `json:"profile"`
-	Achievements []AchievementResponse `json:"achievements"`
-	Projects     []ProjectResponse     `json:"projects"`
-	Education    []EducationResponse   `json:"educations"`
-	Experiences  []ExperienceResponse  `json:"experiences"`
 }

@@ -56,7 +56,6 @@ func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 	}
 
 	request.UserId = auth.ID
-	request.ID = ctx.Params("profileId")
 
 	response, err := c.UseCase.Update(ctx.UserContext(), request)
 	if err != nil {
@@ -79,18 +78,19 @@ func (c *ProfileController) HandleUploadImage(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	file, err := ctx.FormFile("profile_image")
+	file, err := ctx.FormFile("image_profile")
 	if err != nil {
 		c.Log.WithError(err).Error("Failed getting image from FormFile")
 		return err
 	}
 
-	if file.Size > 2*1024*1024 {
+	if file.Size > 4*1024*1024 {
 		return ctx.Status(400).JSON(fiber.Map{"message": "File too large, max 2MB"})
 	}
 
 	contentType := file.Header.Get("Content-Type")
 	if !strings.HasPrefix(contentType, "image/") {
+		c.Log.WithError(err).Error("Failed save image to server")
 		return ctx.Status(400).JSON(fiber.Map{"message": "The file must be an image"})
 	}
 
@@ -104,9 +104,10 @@ func (c *ProfileController) HandleUploadImage(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	imageUrl := fmt.Sprintf("http://localhost:8080/public/uploads/%s", uniqueName)
+	imageUrl := fmt.Sprintf("http://127.0.0.1:3000/public/uploads/%s", uniqueName)
 
-	return ctx.JSON(model.WebResponse[string]{Data: imageUrl})
+	response := &model.ProfileImageResponse{UrlProfile: imageUrl}
+	return ctx.JSON(model.WebResponse[*model.ProfileImageResponse]{Data: response})
 }
 
 // GetAll With Middleware ( Auth )
@@ -131,10 +132,8 @@ func (c *ProfileController) GetAll(ctx *fiber.Ctx) error {
 // Get With Middleware ( Auth )
 func (c *ProfileController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
-	id := ctx.Params("profileId")
 
-	request := &model.GetByIdProfileRequest{
-		ID:     id,
+	request := &model.GetProfileRequest{
 		UserId: auth.ID,
 	}
 

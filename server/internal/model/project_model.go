@@ -40,14 +40,14 @@ type CreateProjectRequest struct {
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	Image       string `json:"image" validate:"required"`
-	GithubUrl   string `json:"githubUrl"`
-	LiveUrl     string `json:"liveUrl"`
+	GithubUrl   string `json:"github_url"`
+	LiveUrl     string `json:"live_url"`
 	Challenges  string `json:"challenges"`
 	Solution    string `json:"solution"`
 	IsFeatured  bool   `json:"featured"`
 
 	Tags      []string         `json:"tags"`
-	TechStack []TechItem       `json:"techStack"`
+	TechStack []TechItem       `json:"tech_stack"`
 	Gallery   []ProjectGallery `json:"gallery"`
 	Features  []ProjectFeature `json:"features"`
 }
@@ -58,14 +58,14 @@ type UpdateProjectRequest struct {
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	Image       string `json:"image" validate:"required"`
-	GithubUrl   string `json:"githubUrl"`
-	LiveUrl     string `json:"liveUrl"`
+	GithubUrl   string `json:"github_url"`
+	LiveUrl     string `json:"livelive_urlUrl"`
 	Challenges  string `json:"challenges"`
 	Solution    string `json:"solution"`
 	IsFeatured  bool   `json:"featured"`
 
 	Tags      []string         `json:"tags"`
-	TechStack []TechItem       `json:"techStack"`
+	TechStack []TechItem       `json:"tech_stack"`
 	Gallery   []ProjectGallery `json:"gallery"`
 	Features  []ProjectFeature `json:"features"`
 }

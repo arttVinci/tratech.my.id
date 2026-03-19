@@ -12,7 +12,7 @@ type ProfileResponse struct {
 }
 
 type CreateProfileRequest struct {
-	UserId     string   `json:"user_id"`
+	UserId     string   `json:"-"`
 	FullName   string   `json:"full_name"`
 	UrlProfile string   `json:"url_profile"`
 	Address    string   `json:"address"`
@@ -23,8 +23,8 @@ type CreateProfileRequest struct {
 }
 
 type UpdateProfileRequest struct {
-	ID         string   `json:"id"`
-	UserId     string   `json:"user_id"`
+	ID         string   `json:"-"`
+	UserId     string   `json:"-"`
 	FullName   string   `json:"full_name"`
 	UrlProfile string   `json:"url_profile"`
 	Address    string   `json:"address"`
@@ -32,6 +32,9 @@ type UpdateProfileRequest struct {
 	Bio        string   `json:"bio"`
 	Theme      string   `json:"theme"`
 	Tags       []string `json:"tags"`
+}
+type ProfileImageResponse struct {
+	UrlProfile string `json:"url_profile"`
 }
 
 // Middleware

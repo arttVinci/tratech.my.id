@@ -95,7 +95,7 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.ErrBadRequest
 	}
 
-	total, err := c.UserRepository.CountById(tx, request.ID)
+	total, err := c.UserRepository.CountById(tx, request.Username)
 
 	if err != nil {
 		c.Log.Warnf("Failed count user from database : %+v", err)
@@ -103,7 +103,7 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 	}
 
 	if total > 0 {
-		c.Log.Warnf("User already exists : %+v", err)
+		c.Log.Warnf("Username already exists : %+v", err)
 		return nil, fiber.ErrConflict
 	}
 
@@ -213,7 +213,7 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 	user := new(entity.User)
 	if err := c.UserRepository.FindByUsername(tx, user, request.Username); err != nil {
 		c.Log.Warnf("Failed find user by Username : %+v", err)
-		return nil, fiber.ErrUnauthorized
+		return nil, fiber.NewError(fiber.StatusNotFound, "Username atau Password anda salah")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {

@@ -15,7 +15,6 @@ type LoginUserResponse struct {
 }
 
 type RegisterUserRequest struct {
-	ID       string `json:"id" validate:"required,max=100"`
 	Password string `json:"password" validate:"required,max=100"`
 	Username string `json:"username" validate:"required,max=100"`
 	NoTelp   string `json:"no_telp,omitempty"`

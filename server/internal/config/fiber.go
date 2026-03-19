@@ -21,12 +21,16 @@ func NewFiber(config *viper.Viper) *fiber.App {
 func NewErrorHandler() fiber.ErrorHandler {
 	return func(ctx *fiber.Ctx, err error) error {
 		code := fiber.StatusInternalServerError
+		message := err.Error()
+
 		if e, ok := err.(*fiber.Error); ok {
 			code = e.Code
+			message = e.Message
 		}
 
-		return ctx.Status(code).JSON(model.WebResponse[any]{
-			Errors: err.Error(),
+		return ctx.Status(code).JSON(model.ApiErrorResponse{
+			Message:    message,
+			StatusCode: code,
 		})
 	}
 }

@@ -94,7 +94,7 @@ func (c *ProfileUseCase) Update(ctx context.Context, request *model.UpdateProfil
 
 	profile := new(entity.Profile)
 
-	if err := c.profileRepo.FindByIdAndUserId(tx, profile, request.ID, request.UserId); err != nil {
+	if err := c.profileRepo.FindByUserId(tx, profile, request.UserId); err != nil {
 		c.log.WithError(err).Error("error getting Profile")
 		return nil, fiber.ErrNotFound
 	}
@@ -123,6 +123,7 @@ func (c *ProfileUseCase) DeleteImageProfile(ctx context.Context, request *model.
 	db := c.db.WithContext(ctx)
 
 	if err := c.validate.Struct(request); err != nil {
+		c.log.WithError(err).Error("id masuk", request.UserId)
 		return fiber.ErrBadRequest
 	}
 
@@ -176,7 +177,7 @@ func (c *ProfileUseCase) GetAll(ctx context.Context, request *model.GetProfileRe
 	return response, nil
 }
 
-func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdProfileRequest) (*model.ProfileResponse, error) {
+func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetProfileRequest) (*model.ProfileResponse, error) {
 	tx := c.db.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
@@ -187,9 +188,9 @@ func (c *ProfileUseCase) Get(ctx context.Context, request *model.GetByIdProfileR
 
 	profile := new(entity.Profile)
 
-	if err := c.profileRepo.FindByIdAndUserId(tx, profile, request.ID, request.UserId); err != nil {
-		c.log.WithError(err).Error("error getting profile by id and user_id")
-		return nil, fiber.ErrNotFound
+	if err := c.profileRepo.FindByUserId(tx, profile, request.UserId); err != nil {
+		c.log.WithError(err).Error("error getting profile user_id")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Error getting profile")
 	}
 
 	if err := tx.Commit().Error; err != nil {

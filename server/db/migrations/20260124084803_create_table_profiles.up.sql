@@ -3,7 +3,7 @@ CREATE TABLE profiles
     id                varchar(100) not null,
     user_id           varchar(100) not null,
     full_name         varchar(100) not null,
-    url_profile       varchar(100) not null,
+    url_profile       varchar(250) not null,
     address           varchar(100) not null,
     about             text null,
     bio               text,
