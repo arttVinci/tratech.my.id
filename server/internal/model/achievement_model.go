@@ -16,7 +16,7 @@ type AchievementResponse struct {
 }
 
 type CreateAchievementRequest struct {
-	UserId        string     `json:"-" validate:"required,uuid"`
+	UserId        string     `json:"-" validate:"required"`
 	Title         string     `json:"title" validate:"required,min=3,max=100"`
 	ImageUrl      string     `json:"image_url" validate:"omitempty,url"`
 	Organization  string     `json:"organization" validate:"required,max=100"`
@@ -27,7 +27,7 @@ type CreateAchievementRequest struct {
 
 type UpdateAchievementRequest struct {
 	ID            string     `json:"-" validate:"required,uuid"`
-	UserId        string     `json:"-" validate:"required,uuid"`
+	UserId        string     `json:"-" validate:"required"`
 	Title         *string    `json:"title" validate:"omitempty,min=3,max=100"`
 	ImageUrl      *string    `json:"image_url" validate:"omitempty,url"`
 	Organization  *string    `json:"organization" validate:"omitempty,max=100"`

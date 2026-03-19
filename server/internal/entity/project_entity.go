@@ -4,7 +4,7 @@ import "tratech.my.id/server/internal/model"
 
 type Project struct {
 	ID          string `gorm:"column:id;primaryKey;type:uuid"`
-	UserId      string `gorm:"column:user_id;type:uuid;index"`
+	UserId      string `gorm:"column:user_id;index"`
 	Title       string `gorm:"column:title;type:varchar(100)"`
 	Image       string `gorm:"column:image;type:varchar(255)"`
 	Description string `gorm:"column:description;type:text"`

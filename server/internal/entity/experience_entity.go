@@ -6,7 +6,7 @@ import (
 
 type Experience struct {
 	ID     string `gorm:"column:id;primaryKey;type:uuid"`
-	UserId string `gorm:"column:user_id;type:uuid;index"`
+	UserId string `gorm:"column:user_id;index"`
 
 	CompanyName string `gorm:"column:company_name;type:varchar(100)"`
 	Position    string `gorm:"column:position;type:varchar(100)"`

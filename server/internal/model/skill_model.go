@@ -10,7 +10,7 @@ type SkillResponse struct {
 }
 
 type CreateSkillRequest struct {
-	UserId string `json:"-" validate:"required,uuid"`
+	UserId string `json:"-" validate:"required"`
 	Title  string `json:"title" validate:"required,min=1,max=50"`
 	// Level: Beginner, Intermediate, Advanced, Expert
 	Level string `json:"level" validate:"required,oneof=Beginner Intermediate Advanced Expert"`
@@ -18,7 +18,7 @@ type CreateSkillRequest struct {
 
 type UpdateSkillRequest struct {
 	ID     string  `json:"-" validate:"required,uuid"`
-	UserId string  `json:"-" validate:"required,uuid"`
+	UserId string  `json:"-" validate:"required"`
 	Title  *string `json:"title" validate:"omitempty,min=1,max=50"`
 	Level  *string `json:"level" validate:"omitempty,oneof=Beginner Intermediate Advanced Expert"`
 }

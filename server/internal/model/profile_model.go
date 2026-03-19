@@ -15,7 +15,7 @@ type ProfileResponse struct {
 }
 
 type CreateProfileRequest struct {
-	UserId   string   `json:"-" validate:"required,uuid"`
+	UserId   string   `json:"-" validate:"required"`
 	FullName string   `json:"full_name" validate:"required,min=3,max=100"`
 	ImageUrl string   `json:"image_url" validate:"omitempty,url"`
 	Address  string   `json:"address" validate:"omitempty,max=200"`
@@ -26,8 +26,7 @@ type CreateProfileRequest struct {
 }
 
 type UpdateProfileRequest struct {
-	ID       string    `json:"-" validate:"required,uuid"`
-	UserId   string    `json:"-" validate:"required,uuid"`
+	UserId   string    `json:"-" validate:"required"`
 	FullName *string   `json:"full_name" validate:"omitempty,min=3,max=100"`
 	ImageUrl *string   `json:"image_url" validate:"omitempty,url"`
 	Address  *string   `json:"address" validate:"omitempty,max=200"`

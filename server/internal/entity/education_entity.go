@@ -6,7 +6,7 @@ import (
 
 type Education struct {
 	ID           string `gorm:"column:id;primaryKey;type:uuid"`
-	UserId       string `gorm:"column:user_id;type:uuid;index"`
+	UserId       string `gorm:"column:user_id;index"`
 	Institution  string `gorm:"column:institution;type:varchar(100)"`
 	Degree       string `gorm:"column:degree;type:varchar(100)"`
 	FieldOfStudy string `gorm:"column:field_of_study;type:varchar(100)"`

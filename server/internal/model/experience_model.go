@@ -21,7 +21,7 @@ type ExperienceResponse struct {
 }
 
 type CreateExperienceRequest struct {
-	UserId      string `json:"-" validate:"required,uuid"`
+	UserId      string `json:"-" validate:"required"`
 	Position    string `json:"position" validate:"required,min=2,max=100"`
 	CompanyName string `json:"company_name" validate:"required,max=100"`
 	LinkUrl     string `json:"link_url" validate:"omitempty,url"`
@@ -39,7 +39,7 @@ type CreateExperienceRequest struct {
 
 type UpdateExperienceRequest struct {
 	ID             string     `json:"-" validate:"required,uuid"`
-	UserId         string     `json:"-" validate:"required,uuid"`
+	UserId         string     `json:"-" validate:"required"`
 	Position       *string    `json:"position" validate:"omitempty,min=2,max=100"`
 	CompanyName    *string    `json:"company_name" validate:"omitempty,max=100"`
 	LinkUrl        *string    `json:"link_url" validate:"omitempty,url"`

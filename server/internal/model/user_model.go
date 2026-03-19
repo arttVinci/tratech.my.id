@@ -28,7 +28,7 @@ type LoginUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	ID       string  `json:"-" validate:"required,uuid"`
+	UserId   string  `json:"-" validate:"required"`
 	Username *string `json:"username,omitempty" validate:"omitempty,min=3,max=30,alphanum"`
 	Password *string `json:"password,omitempty" validate:"omitempty,min=8,max=100"`
 	Phone    *string `json:"phone,omitempty" validate:"omitempty,numeric,min=10,max=15"`

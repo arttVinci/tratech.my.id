@@ -28,7 +28,7 @@ type ProjectResponse struct {
 }
 
 type CreateProjectRequest struct {
-	UserId      string `json:"-" validate:"required,uuid"`
+	UserId      string `json:"-" validate:"required"`
 	Title       string `json:"title" validate:"required,min=3,max=100"`
 	Description string `json:"description" validate:"required,max=2000"`
 	Image       string `json:"image" validate:"omitempty,url"`
@@ -44,7 +44,7 @@ type CreateProjectRequest struct {
 
 type UpdateProjectRequest struct {
 	ID          string  `json:"-" validate:"required,uuid"`
-	UserId      string  `json:"-" validate:"required,uuid"`
+	UserId      string  `json:"-" validate:"required"`
 	Title       *string `json:"title" validate:"omitempty,min=3,max=100"`
 	Description *string `json:"description" validate:"omitempty,max=2000"`
 	Image       *string `json:"image" validate:"omitempty,url"`

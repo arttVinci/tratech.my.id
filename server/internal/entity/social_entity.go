@@ -2,7 +2,7 @@ package entity
 
 type Social struct {
 	ID       string `gorm:"column:id;primaryKey;type:uuid"`
-	UserId   string `gorm:"column:user_id;type:uuid;index"`
+	UserId   string `gorm:"column:user_id;index"`
 	Platform string `gorm:"column:platform;type:varchar(50)"`
 	LinkUrl  string `gorm:"column:link_url;type:varchar(255)"`
 

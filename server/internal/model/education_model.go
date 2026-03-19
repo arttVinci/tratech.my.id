@@ -17,7 +17,7 @@ type EducationResponse struct {
 }
 
 type CreateEducationRequest struct {
-	UserId       string     `json:"-" validate:"required,uuid"`
+	UserId       string     `json:"-" validate:"required"`
 	Institution  string     `json:"institution" validate:"required,min=3,max=100"`
 	Degree       string     `json:"degree" validate:"omitempty,max=100"`
 	FieldOfStudy string     `json:"field_of_study" validate:"omitempty,max=100"`
@@ -32,7 +32,7 @@ type CreateEducationRequest struct {
 
 type UpdateEducationRequest struct {
 	ID           string     `json:"-" validate:"required,uuid"`
-	UserId       string     `json:"-" validate:"required,uuid"`
+	UserId       string     `json:"-" validate:"required"`
 	Institution  string     `json:"institution" validate:"omitempty,min=3,max=100"`
 	Degree       string     `json:"degree" validate:"omitempty,max=100"`
 	FieldOfStudy string     `json:"field_of_study" validate:"omitempty,max=100"`
