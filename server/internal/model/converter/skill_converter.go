@@ -7,9 +7,8 @@ import (
 
 func SkillToResponse(skill *entity.Skill) *model.SkillResponse {
 	return &model.SkillResponse{
-		ID:      skill.ID,
-		Title:   skill.Title,
-		IconUrl: skill.IconUrl,
-		Level:   skill.Level,
+		ID:    skill.ID,
+		Title: skill.Title,
+		Level: skill.Level,
 	}
 }

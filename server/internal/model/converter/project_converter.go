@@ -11,17 +11,14 @@ func ProjectToResponse(project *entity.Project) *model.ProjectResponse {
 		Title:       project.Title,
 		Description: project.Description,
 		Image:       project.ImageUrl,
-		GithubUrl:   project.GithubUrl,
-		LiveUrl:     project.LiveUrl,
+		LinkUrl:     project.LinkUrl,
 		IsFeatured:  project.IsFeatured,
 		Challenges:  project.Challenge,
 		Solution:    project.Solution,
 
-		// Data JSON langsung di-pass karena struct-nya kompatibel
-		Tags:      project.Tags,
-		TechStack: project.TechStack,
-		Gallery:   project.Gallery,
-		Features:  project.Features,
+		Tools:    project.Tools,
+		Gallery:  project.Gallery,
+		Features: project.Features,
 
 		CreatedAt: project.CreatedAt,
 	}

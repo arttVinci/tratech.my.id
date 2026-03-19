@@ -7,9 +7,8 @@ import (
 
 func SocialToResponse(social *entity.Social) *model.SocialResponse {
 	return &model.SocialResponse{
-		ID:          social.ID,
-		Title:       social.Title,
-		Platform:    social.Platform,
-		PlatformUrl: social.PlatformUrl,
+		ID:       social.ID,
+		Platform: social.Platform,
+		LinkUrl:  social.LinkUrl,
 	}
 }

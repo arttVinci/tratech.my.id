@@ -12,11 +12,10 @@ func EducationToResponse(edu *entity.Education) *model.EducationResponse {
 		Degree:       edu.Degree,
 		FieldOfStudy: edu.FieldOfStudy,
 		Grade:        edu.Grade,
-		LogoUrl:      edu.LogoUrl,
+		ImageUrl:     edu.ImageUrl,
 		Location:     edu.Location,
 		StartDate:    edu.StartDate,
 		EndDate:      edu.EndDate,
-		IsCurrent:    edu.IsCurrent,
 		Description:  edu.Description,
 	}
 }

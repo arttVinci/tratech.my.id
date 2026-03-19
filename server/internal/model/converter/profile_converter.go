@@ -7,13 +7,13 @@ import (
 
 func ProfileToResponse(profile *entity.Profile) *model.ProfileResponse {
 	return &model.ProfileResponse{
-		ID:         profile.ID,
-		FullName:   profile.FullName,
-		UrlProfile: profile.UrlProfile,
-		Address:    profile.Address,
-		About:      profile.About,
-		Bio:        profile.Bio,
-		Tags:       profile.Tags,
-		Theme:      profile.Theme,
+		ID:       profile.ID,
+		FullName: profile.FullName,
+		ImageUrl: profile.ImageUrl,
+		Address:  profile.Address,
+		About:    profile.About,
+		Bio:      profile.Bio,
+		Tags:     profile.Tags,
+		Theme:    profile.Theme,
 	}
 }

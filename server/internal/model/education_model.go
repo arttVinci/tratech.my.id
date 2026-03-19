@@ -12,7 +12,6 @@ type EducationResponse struct {
 	Location     string     `json:"location"`
 	StartDate    time.Time  `json:"start_date"`
 	EndDate      *time.Time `json:"end_date"`
-	IsCurrent    bool       `json:"is_current"`
 	Description  string     `json:"description"`
 }
 
@@ -26,7 +25,6 @@ type CreateEducationRequest struct {
 	Location     string     `json:"location" validate:"omitempty,max=100"`
 	StartDate    time.Time  `json:"start_date" validate:"required"`
 	EndDate      *time.Time `json:"end_date" validate:"omitempty,gtfield=StartDate"`
-	IsCurrent    bool       `json:"is_current"`
 	Description  string     `json:"description" validate:"omitempty,max=1000"`
 }
 
@@ -41,7 +39,6 @@ type UpdateEducationRequest struct {
 	Location     string     `json:"location" validate:"omitempty,max=100"`
 	StartDate    *time.Time `json:"start_date" validate:" Richard omitempty"`
 	EndDate      *time.Time `json:"end_date" validate:"omitempty"`
-	IsCurrent    *bool      `json:"is_current" validate:"omitempty"`
 	Description  string     `json:"description" validate:"omitempty,max=1000"`
 
 	CreatedAt int64 `json:"created_at,omitempty"`

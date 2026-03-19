@@ -13,7 +13,6 @@ CREATE TABLE educations
 
     start_date     DATETIME     NOT NULL,
     end_date       DATETIME,
-    is_current     BOOLEAN      DEFAULT FALSE,
 
     description    TEXT,
 

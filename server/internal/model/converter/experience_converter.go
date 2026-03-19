@@ -9,15 +9,14 @@ func ExperienceToResponse(exp *entity.Experience) *model.ExperienceResponse {
 	return &model.ExperienceResponse{
 		ID:             exp.ID,
 		Position:       exp.Position,
-		Company:        exp.Company,
-		CompanyUrl:     exp.CompanyUrl,
-		LogoUrl:        exp.LogoUrl,
+		CompanyName:    exp.CompanyName,
+		LinkUrl:        exp.LinkUrl,
+		ImageUrl:       exp.ImageUrl,
 		Location:       exp.Location,
 		EmploymentType: exp.EmploymentType,
 		LocationType:   exp.LocationType,
 		StartDate:      exp.StartDate,
 		EndDate:        exp.EndDate,
-		IsCurrent:      exp.IsCurrent,
 		Description:    exp.Description,
 	}
 }

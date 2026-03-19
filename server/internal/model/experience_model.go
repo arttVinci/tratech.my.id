@@ -13,7 +13,6 @@ type ExperienceResponse struct {
 	LocationType   string     `json:"location_type"`
 	StartDate      time.Time  `json:"start_date"`
 	EndDate        *time.Time `json:"end_date"`
-	IsCurrent      bool       `json:"is_current"`
 	Description    string     `json:"description"`
 
 	CreatedAt int64 `json:"created_at,omitempty"`
@@ -33,7 +32,6 @@ type CreateExperienceRequest struct {
 	LocationType string     `json:"location_type" validate:"omitempty,oneof=Remote On-site Hybrid"`
 	StartDate    time.Time  `json:"start_date" validate:"required"`
 	EndDate      *time.Time `json:"end_date" validate:"omitempty,gtfield=StartDate"`
-	IsCurrent    bool       `json:"is_current"`
 	Description  string     `json:"description" validate:"omitempty,max=2000"`
 }
 
@@ -49,7 +47,6 @@ type UpdateExperienceRequest struct {
 	LocationType   *string    `json:"location_type" validate:"omitempty,oneof=Remote On-site Hybrid"`
 	StartDate      *time.Time `json:"start_date" validate:"omitempty"`
 	EndDate        *time.Time `json:"end_date" validate:"omitempty"`
-	IsCurrent      *bool      `json:"is_current" validate:"omitempty"`
 	Description    *string    `json:"description" validate:"omitempty,max=2000"`
 }
 
