@@ -1,12 +1,13 @@
 package model
 
 type UserResponse struct {
-	ID        string `json:"id,omitempty"`
-	Username  string `json:"username,omitempty"`
-	NoTelp    string `json:"no_telp,omitempty"`
-	Email     string `json:"email,omitempty"`
-	CreatedAt int64  `json:"created_at,omitempty"`
-	UpdatedAt int64  `json:"updated_at,omitempty"`
+	ID       string `json:"id"`
+	Username string `json:"username"`
+	Phone    string `json:"phone,omitempty"`
+	Email    string `json:"email"`
+
+	CreatedAt int64 `json:"created_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 type LoginUserResponse struct {
@@ -15,23 +16,23 @@ type LoginUserResponse struct {
 }
 
 type RegisterUserRequest struct {
-	Password string `json:"password" validate:"required,max=100"`
-	Username string `json:"username" validate:"required,max=100"`
-	NoTelp   string `json:"no_telp,omitempty"`
-	Email    string `json:"email,omitempty"`
-}
-
-type UpdateUserRequest struct {
-	ID       string `json:"-" validate:"required,max=100"`
-	Password string `json:"password,omitempty" validate:"max=100"`
-	Username string `json:"username,omitempty" validate:"max=100"`
-	NoTelp   string `json:"no_telp,omitempty"`
-	Email    string `json:"email,omitempty"`
+	Username string `json:"username" validate:"required,min=3,max=30,alphanum"` // Hanya huruf & angka
+	Password string `json:"password" validate:"required,min=8,max=100"`         // Min 8 karakter
+	Email    string `json:"email" validate:"required,email"`                    // Validasi format email wajib
+	Phone    string `json:"phone" validate:"omitempty,numeric,min=10,max=15"`   // Validasi nomor telepon
 }
 
 type LoginUserRequest struct {
-	Username string `json:"username" validate:"required,max=100"`
-	Password string `json:"password" validate:"required,max=100"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+}
+
+type UpdateUserRequest struct {
+	ID       string  `json:"-" validate:"required,uuid"`
+	Username *string `json:"username,omitempty" validate:"omitempty,min=3,max=30,alphanum"`
+	Password *string `json:"password,omitempty" validate:"omitempty,min=8,max=100"`
+	Phone    *string `json:"phone,omitempty" validate:"omitempty,numeric,min=10,max=15"`
+	Email    *string `json:"email,omitempty" validate:"omitempty,email"`
 }
 
 type LogoutUserRequest struct {

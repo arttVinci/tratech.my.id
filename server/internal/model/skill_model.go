@@ -1,25 +1,26 @@
 package model
 
 type SkillResponse struct {
-	ID      string `json:"id"`
-	Title   string `gorm:"column:title"`
-	IconUrl string `json:"icon_url"`
-	Level   string `json:"level"`
+	ID    string `json:"id"`
+	Title string `json:"title"`
+	Level string `json:"level"`
+
+	CreatedAt int64 `json:"created_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 type CreateSkillRequest struct {
-	UserId  string `gorm:"-"`
-	Title   string `gorm:"column:title"`
-	IconUrl string `gorm:"column:icon_url"`
-	Level   string `gorm:"column:level"`
+	UserId string `json:"-" validate:"required,uuid"`
+	Title  string `json:"title" validate:"required,min=1,max=50"`
+	// Level: Beginner, Intermediate, Advanced, Expert
+	Level string `json:"level" validate:"required,oneof=Beginner Intermediate Advanced Expert"`
 }
 
 type UpdateSkillRequest struct {
-	ID      string `json:"-" validate:"required"`
-	UserId  string `gorm:"-" validate:"required"`
-	Title   string `gorm:"column:title"`
-	IconUrl string `gorm:"column:icon_url"`
-	Level   string `gorm:"column:level"`
+	ID     string  `json:"-" validate:"required,uuid"`
+	UserId string  `json:"-" validate:"required,uuid"`
+	Title  *string `json:"title" validate:"omitempty,min=1,max=50"`
+	Level  *string `json:"level" validate:"omitempty,oneof=Beginner Intermediate Advanced Expert"`
 }
 
 type DeleteSkillRequest struct {

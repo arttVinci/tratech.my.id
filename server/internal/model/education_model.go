@@ -8,7 +8,7 @@ type EducationResponse struct {
 	Degree       string     `json:"degree"`
 	FieldOfStudy string     `json:"field_of_study"`
 	Grade        string     `json:"grade"`
-	LogoUrl      string     `json:"logo_url"`
+	ImageUrl     string     `json:"image_url"`
 	Location     string     `json:"location"`
 	StartDate    time.Time  `json:"start_date"`
 	EndDate      *time.Time `json:"end_date"`
@@ -17,32 +17,35 @@ type EducationResponse struct {
 }
 
 type CreateEducationRequest struct {
-	UserId       string     `json:"-" validate:"required"`
-	Institution  string     `json:"institution" validate:"required,max=100"`
+	UserId       string     `json:"-" validate:"required,uuid"`
+	Institution  string     `json:"institution" validate:"required,min=3,max=100"`
 	Degree       string     `json:"degree" validate:"omitempty,max=100"`
 	FieldOfStudy string     `json:"field_of_study" validate:"omitempty,max=100"`
-	Grade        string     `json:"grade" validate:"omitempty,max=50"`
-	LogoUrl      string     `json:"logo_url"`
+	Grade        string     `json:"grade" validate:"omitempty,max=20"`
+	ImageUrl     string     `json:"image_url" validate:"omitempty,url"`
 	Location     string     `json:"location" validate:"omitempty,max=100"`
 	StartDate    time.Time  `json:"start_date" validate:"required"`
-	EndDate      *time.Time `json:"end_date"`
+	EndDate      *time.Time `json:"end_date" validate:"omitempty,gtfield=StartDate"`
 	IsCurrent    bool       `json:"is_current"`
-	Description  string     `json:"description"`
+	Description  string     `json:"description" validate:"omitempty,max=1000"`
 }
 
 type UpdateEducationRequest struct {
-	ID           string     `json:"-" validate:"required,max=100,uuid"`
-	UserId       string     `json:"-" validate:"required"`
-	Institution  string     `json:"institution" validate:"omitempty,max=100"`
+	ID           string     `json:"-" validate:"required,uuid"`
+	UserId       string     `json:"-" validate:"required,uuid"`
+	Institution  string     `json:"institution" validate:"omitempty,min=3,max=100"`
 	Degree       string     `json:"degree" validate:"omitempty,max=100"`
 	FieldOfStudy string     `json:"field_of_study" validate:"omitempty,max=100"`
-	Grade        string     `json:"grade" validate:"omitempty,max=50"`
-	LogoUrl      string     `json:"logo_url"`
+	Grade        string     `json:"grade" validate:"omitempty,max=20"`
+	ImageUrl     string     `json:"image_url" validate:"omitempty,url"`
 	Location     string     `json:"location" validate:"omitempty,max=100"`
-	StartDate    time.Time  `json:"start_date"`
-	EndDate      *time.Time `json:"end_date"`
-	IsCurrent    bool       `json:"is_current"`
-	Description  string     `json:"description"`
+	StartDate    *time.Time `json:"start_date" validate:" Richard omitempty"`
+	EndDate      *time.Time `json:"end_date" validate:"omitempty"`
+	IsCurrent    *bool      `json:"is_current" validate:"omitempty"`
+	Description  string     `json:"description" validate:"omitempty,max=1000"`
+
+	CreatedAt int64 `json:"created_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 type DeleteEducationRequest struct {

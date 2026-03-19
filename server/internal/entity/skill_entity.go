@@ -1,16 +1,16 @@
 package entity
 
 type Skill struct {
-	ID      string `gorm:"column:id;primaryKey"`
-	UserId  string `gorm:"column:user_id"`
-	Title   string `gorm:"column:title"`
-	IconUrl string `gorm:"column:icon_url"`
-	Level   string `gorm:"column:level"`
+	ID     string `gorm:"column:id;primaryKey;type:uuid"`
+	UserId string `gorm:"column:user_id;type:uuid;index"`
+	Title  string `gorm:"column:title;type:varchar(50)"`
+	Level  string `gorm:"column:level;type:varchar(20)"`
 
 	CreatedAt int64 `gorm:"column:created_at;autoCreateTime:milli"`
 	UpdatedAt int64 `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
 
-	User User `gorm:"foreignKey:user_id;references:id"`
+	// Relasi ke User
+	User User `gorm:"foreignKey:UserId;references:ID"`
 }
 
 func (s *Skill) TableName() string {

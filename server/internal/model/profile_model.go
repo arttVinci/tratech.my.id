@@ -1,37 +1,40 @@
 package model
 
 type ProfileResponse struct {
-	ID         string   `json:"id"`
-	FullName   string   `json:"full_name"`
-	UrlProfile string   `json:"url_profile"`
-	Address    string   `json:"address"`
-	About      string   `json:"about"`
-	Bio        string   `json:"bio"`
-	Theme      string   `json:"theme"`
-	Tags       []string `json:"tags"`
+	ID       string   `json:"id"`
+	FullName string   `json:"full_name"`
+	ImageUrl string   `json:"image_url"`
+	Address  string   `json:"address"`
+	About    string   `json:"about"`
+	Bio      string   `json:"bio"`
+	Theme    string   `json:"theme"`
+	Tags     []string `json:"tags"`
+
+	CreatedAt int64 `json:"created_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 type CreateProfileRequest struct {
-	UserId     string   `json:"-"`
-	FullName   string   `json:"full_name"`
-	UrlProfile string   `json:"url_profile"`
-	Address    string   `json:"address"`
-	About      string   `json:"about"`
-	Bio        string   `json:"bio"`
-	Theme      string   `json:"theme"`
-	Tags       []string `json:"tags"`
+	UserId   string   `json:"-" validate:"required,uuid"`
+	FullName string   `json:"full_name" validate:"required,min=3,max=100"`
+	ImageUrl string   `json:"image_url" validate:"omitempty,url"`
+	Address  string   `json:"address" validate:"omitempty,max=200"`
+	About    string   `json:"about" validate:"omitempty,max=3000"`
+	Bio      string   `json:"bio" validate:"omitempty,max=200"`
+	Theme    string   `json:"theme"`
+	Tags     []string `json:"tags" validate:"omitempty,max=10,dive,max=20"`
 }
 
 type UpdateProfileRequest struct {
-	ID         string   `json:"-"`
-	UserId     string   `json:"-"`
-	FullName   string   `json:"full_name"`
-	UrlProfile string   `json:"url_profile"`
-	Address    string   `json:"address"`
-	About      string   `json:"about"`
-	Bio        string   `json:"bio"`
-	Theme      string   `json:"theme"`
-	Tags       []string `json:"tags"`
+	ID       string    `json:"-" validate:"required,uuid"`
+	UserId   string    `json:"-" validate:"required,uuid"`
+	FullName *string   `json:"full_name" validate:"omitempty,min=3,max=100"`
+	ImageUrl *string   `json:"image_url" validate:"omitempty,url"`
+	Address  *string   `json:"address" validate:"omitempty,max=200"`
+	About    *string   `json:"about" validate:"omitempty,max=3000"`
+	Bio      *string   `json:"bio" validate:"omitempty,max=200"`
+	Theme    *string   `json:"theme"`
+	Tags     *[]string `json:"tags" validate:"omitempty,max=10,dive,max=20"`
 }
 type ProfileImageResponse struct {
 	UrlProfile string `json:"url_profile"`

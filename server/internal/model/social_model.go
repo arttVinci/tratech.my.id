@@ -1,25 +1,25 @@
 package model
 
 type SocialResponse struct {
-	ID          string `json:"-" validate:"required"`
-	Title       string `gorm:"column:name"`
-	Platform    string `gorm:"column:platform"`
-	PlatformUrl string `gorm:"column:platform_url"`
+	ID       string `json:"id"`
+	Platform string `json:"platform"` // Contoh: "github", "linkedin", "instagram"
+	LinkUrl  string `json:"link_url"`
+
+	CreatedAt int64 `json:"created_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 type CreateSocialRequest struct {
-	UserId      string `gorm:"-" validate:"required"`
-	Title       string `gorm:"column:name"`
-	Platform    string `gorm:"column:platform"`
-	PlatformUrl string `gorm:"column:platform_url"`
+	UserId   string `json:"-" validate:"required,uuid"`
+	Platform string `json:"platform" validate:"required,oneof=github linkedin instagram x twitter facebook youtube discord website"`
+	LinkUrl  string `json:"link_url" validate:"required,url"`
 }
 
 type UpdateSocialRequest struct {
-	ID          string `json:"-" validate:"required"`
-	UserId      string `gorm:"-" validate:"required"`
-	Title       string `gorm:"column:name"`
-	Platform    string `gorm:"column:platform"`
-	PlatformUrl string `gorm:"column:platform_url"`
+	ID       string  `json:"-" validate:"required,uuid"`
+	UserId   string  `json:"-" validate:"required,uuid"`
+	Platform *string `json:"platform" validate:"omitempty,oneof=github linkedin instagram x twitter facebook youtube discord website"`
+	LinkUrl  *string `json:"link_url" validate:"omitempty,url"`
 }
 
 type DeleteSocialRequest struct {

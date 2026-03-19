@@ -5,69 +5,57 @@ type ProjectFeature struct {
 	Items []string `json:"items"`
 }
 
-type TechItem struct {
-	Name  string `json:"name"`
-	Icon  string `json:"icon"`
-	Color string `json:"color"`
-}
-
 type ProjectGallery struct {
-	Url     string `json:"url"`
-	Caption string `json:"caption"`
+	ImageUrl string `json:"image_url"`
+	Caption  string `json:"caption"`
 }
 
 type ProjectResponse struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Image       string `json:"image"`
-	GithubUrl   string `json:"github_url"`
-	LiveUrl     string `json:"live_url"`
-	IsFeatured  bool   `json:"featured"`
-	Challenges  string `json:"challenges"`
-	Solution    string `json:"solution"`
+	ID          string           `json:"id"`
+	Title       string           `json:"title"`
+	Description string           `json:"description"`
+	Image       string           `json:"image"`
+	LinkUrl     string           `json:"link_url"`
+	IsFeatured  bool             `json:"featured"`
+	Challenges  string           `json:"challenges"`
+	Solution    string           `json:"solution"`
+	Tools       []string         `json:"tools"`
+	Gallery     []ProjectGallery `json:"gallery"`
+	Features    []ProjectFeature `json:"features"`
 
-	Tags      []string         `json:"tags"`
-	TechStack []TechItem       `json:"tech_stack"`
-	Gallery   []ProjectGallery `json:"gallery"`
-	Features  []ProjectFeature `json:"features"`
-
-	CreatedAt int64 `json:"createdAt"`
+	CreatedAt int64 `json:"created_at,omitempty"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 type CreateProjectRequest struct {
-	UserId      string `json:"-" validate:"required"`
-	Title       string `json:"title" validate:"required"`
-	Description string `json:"description" validate:"required"`
-	Image       string `json:"image" validate:"required"`
-	GithubUrl   string `json:"github_url"`
-	LiveUrl     string `json:"live_url"`
-	Challenges  string `json:"challenges"`
-	Solution    string `json:"solution"`
+	UserId      string `json:"-" validate:"required,uuid"`
+	Title       string `json:"title" validate:"required,min=3,max=100"`
+	Description string `json:"description" validate:"required,max=2000"`
+	Image       string `json:"image" validate:"omitempty,url"`
+	LinkUrl     string `json:"link_url" validate:"omitempty,url"`
 	IsFeatured  bool   `json:"featured"`
+	Challenges  string `json:"challenges" validate:"omitempty,max=3000"`
+	Solution    string `json:"solution" validate:"omitempty,max=3000"`
 
-	Tags      []string         `json:"tags"`
-	TechStack []TechItem       `json:"tech_stack"`
-	Gallery   []ProjectGallery `json:"gallery"`
-	Features  []ProjectFeature `json:"features"`
+	Tools    []string         `json:"tools" validate:"omitempty,max=20,dive,max=30"`
+	Gallery  []ProjectGallery `json:"gallery" validate:"omitempty,max=10,dive"`
+	Features []ProjectFeature `json:"features" validate:"omitempty,max=15,dive"`
 }
 
 type UpdateProjectRequest struct {
-	ID          string `json:"-" validate:"required,max=100,uuid"`
-	UserId      string `json:"-" validate:"required"`
-	Title       string `json:"title" validate:"required"`
-	Description string `json:"description" validate:"required"`
-	Image       string `json:"image" validate:"required"`
-	GithubUrl   string `json:"github_url"`
-	LiveUrl     string `json:"livelive_urlUrl"`
-	Challenges  string `json:"challenges"`
-	Solution    string `json:"solution"`
-	IsFeatured  bool   `json:"featured"`
+	ID          string  `json:"-" validate:"required,uuid"`
+	UserId      string  `json:"-" validate:"required,uuid"`
+	Title       *string `json:"title" validate:"omitempty,min=3,max=100"`
+	Description *string `json:"description" validate:"omitempty,max=2000"`
+	Image       *string `json:"image" validate:"omitempty,url"`
+	LinkUrl     *string `json:"link_url" validate:"omitempty,url"`
+	IsFeatured  *bool   `json:"featured" validate:"omitempty"`
+	Challenges  *string `json:"challenges" validate:"omitempty,max=3000"`
+	Solution    *string `json:"solution" validate:"omitempty,max=3000"`
 
-	Tags      []string         `json:"tags"`
-	TechStack []TechItem       `json:"tech_stack"`
-	Gallery   []ProjectGallery `json:"gallery"`
-	Features  []ProjectFeature `json:"features"`
+	Tools    *[]string         `json:"tools" validate:"omitempty,max=20,dive,max=30"`
+	Gallery  *[]ProjectGallery `json:"gallery" validate:"omitempty,max=10,dive"`
+	Features *[]ProjectFeature `json:"features" validate:"omitempty,max=15,dive"`
 }
 
 type DeleteProjectRequest struct {
