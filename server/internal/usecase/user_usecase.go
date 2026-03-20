@@ -22,6 +22,7 @@ import (
 	"tratech.my.id/server/internal/repository"
 )
 
+// TODO(post-prod): UserRepository jadi interface untuk testability
 type UserUseCase struct {
 	DB             *gorm.DB
 	Log            *logrus.Logger
@@ -40,46 +41,44 @@ func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validat
 	}
 }
 
+// TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *UserUseCase) GetByUsername(ctx context.Context, username string) (*model.UserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	user := new(entity.User)
-
 	if err := c.UserRepository.FindByUsername(tx, user, username); err != nil {
 		c.Log.Warnf("Failed find user by username : %+v", err)
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "User not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get user")
 	}
 
 	return converter.UserToResponse(user), nil
-
 }
 
+// TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *UserUseCase) Current(ctx context.Context, request *model.GetUserRequest) (*model.UserResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	err := c.Validate.Struct(request)
-	if err != nil {
+	if err := c.Validate.Struct(request); err != nil {
 		c.Log.Warnf("Invalid request body : %+v", err)
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	user := new(entity.User)
-
 	if err := c.UserRepository.FindById(tx, user, request.ID); err != nil {
 		c.Log.Warnf("Failed find user by id : %+v", err)
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "User not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get user")
 	}
 
 	return converter.UserToResponse(user), nil
@@ -89,34 +88,32 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
-	err := c.Validate.Struct(request)
-	if err != nil {
+	if err := c.Validate.Struct(request); err != nil {
 		c.Log.Warnf("Invalid request body : %+v", err)
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	total, err := c.UserRepository.CountById(tx, request.Username)
-
 	if err != nil {
 		c.Log.Warnf("Failed count user from database : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
 	if total > 0 {
-		c.Log.Warnf("Username already exists : %+v", err)
-		return nil, fiber.ErrConflict
+		c.Log.Warnf("Username already exists : %+v", request.Username)
+		return nil, fiber.NewError(fiber.StatusConflict, "Username already taken")
 	}
 
 	password, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 	if err != nil {
-		c.Log.Warnf("Failed to generate bcrype hash : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		c.Log.Warnf("Failed to generate bcrypt hash : %+v", err)
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
 	userId, err := c.generateUserId(request.Username)
 	if err != nil {
 		c.Log.Warnf("Failed to generate user id : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
 	user := &entity.User{
@@ -124,32 +121,29 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		Password: string(password),
 		Username: request.Username,
 		Email:    request.Email,
-		Notelp:   request.NoTelp,
+		Phone:    request.Phone,
 	}
 
 	if err := c.UserRepository.Create(tx, user); err != nil {
 		c.Log.Warnf("Failed create user to database : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
 	token, err := c.generateJWT(user)
 	if err != nil {
 		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate token")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to register user")
 	}
 
-	userResponse := converter.UserToResponse(user)
-
-	loginResponse := model.LoginUserResponse{
-		User:  *userResponse,
+	return &model.LoginUserResponse{
+		User:  *converter.UserToResponse(user),
 		Token: token,
-	}
-	return &loginResponse, nil
+	}, nil
 }
 
 func (c *UserUseCase) Update(ctx context.Context, request *model.UpdateUserRequest) (*model.UserResponse, error) {
@@ -157,45 +151,43 @@ func (c *UserUseCase) Update(ctx context.Context, request *model.UpdateUserReque
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
-		c.Log.Warnf("Invalid request body  : %+v", err)
-		return nil, fiber.ErrBadRequest
+		c.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	user := new(entity.User)
 	if err := c.UserRepository.FindById(tx, user, request.ID); err != nil {
 		c.Log.Warnf("Failed find user by id : %+v", err)
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "User not found")
 	}
 
 	if request.Username != "" {
 		user.Username = request.Username
 	}
-
 	if request.Email != "" {
 		user.Email = request.Email
 	}
-
-	if request.NoTelp != "" {
-		user.Notelp = request.NoTelp
+	if request.Phone != "" {
+		user.Phone = request.Phone
 	}
 
 	if request.Password != "" {
 		password, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 		if err != nil {
-			c.Log.Warnf("Failed to generate bcrype hash : %+v", err)
-			return nil, fiber.ErrInternalServerError
+			c.Log.Warnf("Failed to generate bcrypt hash : %+v", err)
+			return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to update user")
 		}
 		user.Password = string(password)
 	}
 
 	if err := c.UserRepository.Update(tx, user); err != nil {
 		c.Log.Warnf("Failed save user : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to update user")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save user update")
 	}
 
 	return converter.UserToResponse(user), nil
@@ -206,47 +198,49 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
-		c.Log.Warnf("Invalid request body  : %+v", err)
-		return nil, fiber.ErrBadRequest
+		c.Log.Warnf("Invalid request body : %+v", err)
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	user := new(entity.User)
 	if err := c.UserRepository.FindByUsername(tx, user, request.Username); err != nil {
-		c.Log.Warnf("Failed find user by Username : %+v", err)
-		return nil, fiber.NewError(fiber.StatusNotFound, "Username atau Password anda salah")
+		c.Log.Warnf("Failed find user by username : %+v", err)
+		// Pesan sengaja digabung agar tidak bocorkan info username valid/tidak
+		return nil, fiber.NewError(fiber.StatusNotFound, "Username atau password anda salah")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {
-		c.Log.Warnf("Failed to compare user password with bcrype hash : %+v", err)
-		return nil, fiber.ErrUnauthorized
+		c.Log.Warnf("Failed to compare user password with bcrypt hash : %+v", err)
+		// TODO(post-prod): pertimbangkan return 401 Unauthorized bukan 404
+		// saat ini 404 dipakai agar konsisten dengan pesan "username atau password salah"
+		return nil, fiber.NewError(fiber.StatusNotFound, "Username atau password anda salah")
 	}
 
 	token, err := c.generateJWT(user)
 	if err != nil {
 		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate token")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to login")
 	}
 
-	userResponse := converter.UserToResponse(user)
-
-	loginResponse := model.LoginUserResponse{
-		User:  *userResponse,
+	return &model.LoginUserResponse{
+		User:  *converter.UserToResponse(user),
 		Token: token,
-	}
-	return &loginResponse, nil
+	}, nil
 }
 
 func (c *UserUseCase) Logout(ctx context.Context, request *model.LogoutUserRequest) (bool, error) {
+	// TODO(post-prod): saat ini logout hanya log saja, tidak invalidate token
+	// Implementasi proper: simpan token ke blacklist (Redis) atau pakai refresh token
 	c.Log.Infof("User %s logout processed successfully", request.ID)
-
 	return true, nil
 }
 
+// TODO(post-prod): fix — generateUserId return fiber.ErrNotFound saat random gagal, seharusnya ErrInternal
 func (c *UserUseCase) generateUserId(username string) (string, error) {
 	cleanUsername := strings.ToLower(strings.ReplaceAll(username, " ", ""))
 
@@ -254,7 +248,7 @@ func (c *UserUseCase) generateUserId(username string) (string, error) {
 	randomNumber, err := rand.Int(rand.Reader, max)
 	if err != nil {
 		c.Log.WithError(err).Error("error generate user id")
-		return "", fiber.ErrNotFound
+		return "", errors.New("failed to generate user id")
 	}
 
 	return fmt.Sprintf("usr_%s_%04d", cleanUsername, randomNumber.Int64()), nil
@@ -275,11 +269,5 @@ func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	t, err := token.SignedString([]byte(jwtSecret))
-	if err != nil {
-		return "", err
-	}
-
-	return t, nil
+	return token.SignedString([]byte(jwtSecret))
 }

@@ -42,7 +42,7 @@ func (c *EducationUseCase) Create(ctx context.Context, request *model.CreateEduc
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	education := &entity.Education{
@@ -52,22 +52,21 @@ func (c *EducationUseCase) Create(ctx context.Context, request *model.CreateEduc
 		Degree:       request.Degree,
 		FieldOfStudy: request.FieldOfStudy,
 		Grade:        request.Grade,
-		LogoUrl:      request.LogoUrl,
+		ImageUrl:     request.ImageUrl,
 		Location:     request.Location,
 		StartDate:    request.StartDate,
 		EndDate:      request.EndDate,
-		IsCurrent:    request.IsCurrent,
 		Description:  request.Description,
 	}
 
 	if err := c.EducationRepo.Create(tx, education); err != nil {
 		c.Log.Warnf("Failed create Education to database : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to create education")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save education")
 	}
 
 	return converter.EducationToResponse(education), nil
@@ -79,35 +78,37 @@ func (c *EducationUseCase) Update(ctx context.Context, request *model.UpdateEduc
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	education := new(entity.Education)
 	if err := c.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error getting Experience")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting education")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Education not found")
 	}
 
 	education.Institution = request.Institution
 	education.Degree = request.Degree
 	education.FieldOfStudy = request.FieldOfStudy
 	education.Grade = request.Grade
-	education.LogoUrl = request.LogoUrl
+	education.ImageUrl = request.ImageUrl
 	education.Location = request.Location
-	education.StartDate = request.StartDate
+	// TODO: nil check — fix before prod
+	if request.StartDate != nil {
+		education.StartDate = *request.StartDate
+	}
 	education.EndDate = request.EndDate
-	education.IsCurrent = request.IsCurrent
 	education.Description = request.Description
 	education.UpdatedAt = time.Now().UnixMilli()
 
 	if err := c.EducationRepo.Update(tx, education); err != nil {
 		c.Log.WithError(err).Error("error updating Education")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to update education")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error updating education")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing update education")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save education update")
 	}
 
 	return converter.EducationToResponse(education), nil
@@ -119,46 +120,47 @@ func (c *EducationUseCase) Delete(ctx context.Context, request *model.DeleteEduc
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	education := new(entity.Education)
 	if err := c.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error find education by id and user_id")
-		return fiber.ErrNotFound
+		c.Log.WithError(err).Error("error finding education")
+		return fiber.NewError(fiber.StatusNotFound, "Education not found")
 	}
 
 	if err := c.EducationRepo.Delete(tx, education); err != nil {
 		c.Log.WithError(err).Error("error deleting education")
-		return fiber.ErrInternalServerError
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to delete education")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error deleting education")
-		return fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing delete education")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to confirm deletion")
 	}
 
 	return nil
 }
 
 func (c *EducationUseCase) GetAll(ctx context.Context, request *model.GetEducationRequest) ([]model.EducationResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	educations := new([]entity.Education)
 	if err := c.EducationRepo.FindAllByUserId(tx, educations, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting educations")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get educations")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting educations")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get educations")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get educations")
 	}
 
 	responses := make([]model.EducationResponse, len(*educations))
@@ -170,23 +172,24 @@ func (c *EducationUseCase) GetAll(ctx context.Context, request *model.GetEducati
 }
 
 func (c *EducationUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicEducationRequest) ([]model.EducationResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	educations := new([]entity.Education)
 	if err := c.EducationRepo.FindAllByUsername(tx, educations, request.Username); err != nil {
-		c.Log.WithError(err).Error("error getting educations")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting educations by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get educations")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting educations")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get educations by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get educations")
 	}
 
 	responses := make([]model.EducationResponse, len(*educations))
@@ -198,46 +201,48 @@ func (c *EducationUseCase) GetAllByUsername(ctx context.Context, request *model.
 }
 
 func (c *EducationUseCase) Get(ctx context.Context, request *model.GetByIdEducationRequest) (*model.EducationResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	education := new(entity.Education)
 	if err := c.EducationRepo.FindByIdAndUserId(tx, education, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting education")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Education not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting education")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get education")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get education")
 	}
 
 	return converter.EducationToResponse(education), nil
 }
 
 func (c *EducationUseCase) GetByUsername(ctx context.Context, request *model.GetPublicEducationByIdRequest) (*model.EducationResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	education := new(entity.Education)
 	if err := c.EducationRepo.FindByUsername(tx, education, request.Username, request.ID); err != nil {
-		c.Log.WithError(err).Error("error getting education")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting education by username")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Education not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting education")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get education by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get education")
 	}
 
 	return converter.EducationToResponse(education), nil

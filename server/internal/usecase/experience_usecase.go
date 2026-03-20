@@ -42,33 +42,32 @@ func (c *ExperienceUseCase) Create(ctx context.Context, request *model.CreateExp
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experience := &entity.Experience{
 		ID:             uuid.NewString(),
 		UserId:         request.UserId,
 		Position:       request.Position,
-		Company:        request.Company,
-		CompanyUrl:     request.CompanyUrl,
-		LogoUrl:        request.LogoUrl,
+		CompanyName:    request.CompanyName,
+		LinkUrl:        request.LinkUrl,
+		ImageUrl:       request.ImageUrl,
 		Location:       request.Location,
 		EmploymentType: request.EmploymentType,
 		LocationType:   request.LocationType,
 		StartDate:      request.StartDate,
 		EndDate:        request.EndDate,
-		IsCurrent:      request.IsCurrent,
 		Description:    request.Description,
 	}
 
 	if err := c.ExperienceRepo.Create(tx, experience); err != nil {
 		c.Log.Warnf("Failed create Experience to database : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to create experience")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save experience")
 	}
 
 	return converter.ExperienceToResponse(experience), nil
@@ -80,36 +79,35 @@ func (c *ExperienceUseCase) Update(ctx context.Context, request *model.UpdateExp
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experience := new(entity.Experience)
 	if err := c.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error getting Experience")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting experience")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Experience not found")
 	}
 
 	experience.Position = request.Position
-	experience.Company = request.Company
-	experience.CompanyUrl = request.CompanyUrl
-	experience.LogoUrl = request.LogoUrl
+	experience.CompanyName = request.CompanyName
+	experience.LinkUrl = request.LinkUrl
+	experience.ImageUrl = request.ImageUrl
 	experience.Location = request.Location
 	experience.EmploymentType = request.EmploymentType
 	experience.LocationType = request.LocationType
-	experience.StartDate = request.StartDate
+	experience.StartDate = *request.StartDate
 	experience.EndDate = request.EndDate
-	experience.IsCurrent = request.IsCurrent
 	experience.Description = request.Description
 	experience.UpdatedAt = time.Now().UnixMilli()
 
 	if err := c.ExperienceRepo.Update(tx, experience); err != nil {
 		c.Log.WithError(err).Error("error updating Experience")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to update experience")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error updating experience")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing update experience")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save experience update")
 	}
 
 	return converter.ExperienceToResponse(experience), nil
@@ -121,46 +119,47 @@ func (c *ExperienceUseCase) Delete(ctx context.Context, request *model.DeleteExp
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experience := new(entity.Experience)
 	if err := c.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error find experience by id and user_id")
-		return fiber.ErrNotFound
+		c.Log.WithError(err).Error("error finding experience")
+		return fiber.NewError(fiber.StatusNotFound, "Experience not found")
 	}
 
 	if err := c.ExperienceRepo.Delete(tx, experience); err != nil {
 		c.Log.WithError(err).Error("error deleting experience")
-		return fiber.ErrInternalServerError
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to delete experience")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error deleting experience")
-		return fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing delete experience")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to confirm deletion")
 	}
 
 	return nil
 }
 
 func (c *ExperienceUseCase) GetAll(ctx context.Context, request *model.GetExperienceRequest) ([]model.ExperienceResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experiences := new([]entity.Experience)
 	if err := c.ExperienceRepo.FindAllByUserId(tx, experiences, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting experiences")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get experiences")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting experiences")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get experiences")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get experiences")
 	}
 
 	responses := make([]model.ExperienceResponse, len(*experiences))
@@ -172,23 +171,24 @@ func (c *ExperienceUseCase) GetAll(ctx context.Context, request *model.GetExperi
 }
 
 func (c *ExperienceUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicExperienceRequest) ([]model.ExperienceResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experiences := new([]entity.Experience)
 	if err := c.ExperienceRepo.FindAllByUsername(tx, experiences, request.Username); err != nil {
-		c.Log.WithError(err).Error("error getting experiences")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting experiences by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get experiences")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting experiences")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get experiences by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get experiences")
 	}
 
 	responses := make([]model.ExperienceResponse, len(*experiences))
@@ -200,46 +200,48 @@ func (c *ExperienceUseCase) GetAllByUsername(ctx context.Context, request *model
 }
 
 func (c *ExperienceUseCase) Get(ctx context.Context, request *model.GetByIdExperienceRequest) (*model.ExperienceResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experience := new(entity.Experience)
 	if err := c.ExperienceRepo.FindByIdAndUserId(tx, experience, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting experience")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Experience not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting experience")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get experience")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get experience")
 	}
 
 	return converter.ExperienceToResponse(experience), nil
 }
 
 func (c *ExperienceUseCase) GetByUsername(ctx context.Context, request *model.GetPublicExperienceByIdRequest) (*model.ExperienceResponse, error) {
+	// TODO: read-only, tidak perlu tx — refactor setelah prod
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	experience := new(entity.Experience)
 	if err := c.ExperienceRepo.FindByUsername(tx, experience, request.Username, request.ID); err != nil {
-		c.Log.WithError(err).Error("error getting experience")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting experience by username")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Experience not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting experience")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get experience by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get experience")
 	}
 
 	return converter.ExperienceToResponse(experience), nil

@@ -14,6 +14,7 @@ import (
 	"tratech.my.id/server/internal/repository"
 )
 
+// TODO(post-prod): ProjectRepo jadi interface untuk testability
 type ProjectUseCase struct {
 	DB          *gorm.DB
 	Log         *logrus.Logger
@@ -36,7 +37,7 @@ func (c *ProjectUseCase) Create(ctx context.Context, request *model.CreateProjec
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	project := &entity.Project{
@@ -45,26 +46,23 @@ func (c *ProjectUseCase) Create(ctx context.Context, request *model.CreateProjec
 		Title:       request.Title,
 		ImageUrl:    request.Image,
 		Description: request.Description,
-		GithubUrl:   request.GithubUrl,
-		LiveUrl:     request.LiveUrl,
+		LinkUrl:     request.LinkUrl,
 		Challenge:   request.Challenges,
 		Solution:    request.Solution,
 		IsFeatured:  request.IsFeatured,
-
-		Tags:      request.Tags,
-		TechStack: request.TechStack,
-		Gallery:   request.Gallery,
-		Features:  request.Features,
+		Tools:       request.Tools,
+		Gallery:     request.Gallery,
+		Features:    request.Features,
 	}
 
 	if err := c.ProjectRepo.Create(tx, project); err != nil {
-		c.Log.WithError(err).Error("failed create Project to database")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("failed create project to database")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to create project")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error creating Project")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing create project")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save project")
 	}
 
 	return converter.ProjectToResponse(project), nil
@@ -76,37 +74,34 @@ func (c *ProjectUseCase) Update(ctx context.Context, request *model.UpdateProjec
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	project := new(entity.Project)
 	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error find project by id and user_id")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error finding project by id and user_id")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Project not found")
 	}
 
 	project.Title = request.Title
 	project.Description = request.Description
 	project.ImageUrl = request.Image
-	project.GithubUrl = request.GithubUrl
-	project.LiveUrl = request.LiveUrl
+	project.LinkUrl = request.LinkUrl
 	project.Challenge = request.Challenges
 	project.Solution = request.Solution
 	project.IsFeatured = request.IsFeatured
-
-	project.Tags = request.Tags
-	project.TechStack = request.TechStack
+	project.Tools = request.Tools
 	project.Gallery = request.Gallery
 	project.Features = request.Features
 
 	if err := c.ProjectRepo.Update(tx, project); err != nil {
 		c.Log.WithError(err).Error("failed updating project")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to update project")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error Update Project")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing update project")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to save project update")
 	}
 
 	return converter.ProjectToResponse(project), nil
@@ -118,47 +113,49 @@ func (c *ProjectUseCase) Delete(ctx context.Context, request *model.DeleteProjec
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	project := new(entity.Project)
 	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error find project by id and user_id")
-		return fiber.ErrNotFound
+		c.Log.WithError(err).Error("error finding project by id and user_id")
+		return fiber.NewError(fiber.StatusNotFound, "Project not found")
 	}
 
 	if err := c.ProjectRepo.Delete(tx, project); err != nil {
 		c.Log.WithError(err).Error("error deleting project")
-		return fiber.ErrInternalServerError
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to delete project")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error deleting project")
-		return fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing delete project")
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to confirm deletion")
 	}
 
 	return nil
 }
 
-// Middleware
+// TODO(post-prod): hapus comment "// Middleware" — bukan nama yang tepat
+// TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *ProjectUseCase) GetAll(ctx context.Context, request *model.GetProjectRequest) ([]model.ProjectResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	projects := new([]entity.Project)
 	if err := c.ProjectRepo.FindAllByUserId(tx, projects, request.UserId); err != nil {
-		c.Log.WithError(err).Error("error getting project")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting projects")
+		// TODO(post-prod): bedakan DB error vs empty — pakai errors.Is(err, gorm.ErrRecordNotFound)
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get projects")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting project")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get projects")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get projects")
 	}
 
 	responses := make([]model.ProjectResponse, len(*projects))
@@ -169,24 +166,25 @@ func (c *ProjectUseCase) GetAll(ctx context.Context, request *model.GetProjectRe
 	return responses, nil
 }
 
+// TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *ProjectUseCase) GetAllByUsername(ctx context.Context, request *model.GetPublicProjectRequest) ([]model.ProjectResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	projects := new([]entity.Project)
 	if err := c.ProjectRepo.FindAllByUsername(tx, projects, request.Username); err != nil {
-		c.Log.WithError(err).Error("error getting project")
-		return nil, fiber.ErrNotFound
+		c.Log.WithError(err).Error("error getting projects by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get projects")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting project")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get projects by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get projects")
 	}
 
 	responses := make([]model.ProjectResponse, len(*projects))
@@ -197,49 +195,51 @@ func (c *ProjectUseCase) GetAllByUsername(ctx context.Context, request *model.Ge
 	return responses, nil
 }
 
-// Middleware
+// TODO(post-prod): hapus comment "// Middleware" — bukan nama yang tepat
+// TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *ProjectUseCase) Get(ctx context.Context, request *model.GetByIdProjectRequest) (*model.ProjectResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	project := new(entity.Project)
 	if err := c.ProjectRepo.FindByIdAndUserId(tx, project, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting project")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Project not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting project")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get project")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get project")
 	}
 
 	return converter.ProjectToResponse(project), nil
 }
 
-// Public Endpoint
+// TODO(post-prod): read-only, tidak perlu tx — ganti ke c.DB.WithContext(ctx)
 func (c *ProjectUseCase) GetByUsername(ctx context.Context, request *model.GetPublicProjectByIdRequest) (*model.ProjectResponse, error) {
 	tx := c.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	project := new(entity.Project)
 	if err := c.ProjectRepo.FindByUsername(tx, project, request.Username, request.ID); err != nil {
-		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrNotFound
+		// TODO(post-prod): log message bilang "achievement" padahal ini project — fix naming
+		c.Log.WithError(err).Error("error getting project by username")
+		return nil, fiber.NewError(fiber.StatusNotFound, "Project not found")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrInternalServerError
+		c.Log.WithError(err).Error("error committing get project by username")
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to get project")
 	}
 
 	return converter.ProjectToResponse(project), nil

@@ -21,7 +21,6 @@ type Experience struct {
 
 	StartDate time.Time  `gorm:"column:start_date"`
 	EndDate   *time.Time `gorm:"column:end_date"`
-	IsCurrent bool       `gorm:"column:is_current;default:false"`
 
 	Description string `gorm:"column:description;type:text"`
 

@@ -38,16 +38,16 @@ type CreateExperienceRequest struct {
 type UpdateExperienceRequest struct {
 	ID             string     `json:"-" validate:"required,uuid"`
 	UserId         string     `json:"-" validate:"required"`
-	Position       *string    `json:"position" validate:"omitempty,min=2,max=100"`
-	CompanyName    *string    `json:"company_name" validate:"omitempty,max=100"`
-	LinkUrl        *string    `json:"link_url" validate:"omitempty,url"`
-	ImageUrl       *string    `json:"image_url" validate:"omitempty,url"`
-	Location       *string    `json:"location" validate:"omitempty,max=100"`
-	EmploymentType *string    `json:"employment_type" validate:"omitempty,oneof=Full-time Part-time Freelance Contract Internship Self-employed"`
-	LocationType   *string    `json:"location_type" validate:"omitempty,oneof=Remote On-site Hybrid"`
+	Position       string     `json:"position" validate:"omitempty,min=2,max=100"`
+	CompanyName    string     `json:"company_name" validate:"omitempty,max=100"`
+	LinkUrl        string     `json:"link_url" validate:"omitempty,url"`
+	ImageUrl       string     `json:"image_url" validate:"omitempty,url"`
+	Location       string     `json:"location" validate:"omitempty,max=100"`
+	EmploymentType string     `json:"employment_type" validate:"omitempty,oneof=Full-time Part-time Freelance Contract Internship Self-employed"`
+	LocationType   string     `json:"location_type" validate:"omitempty,oneof=Remote On-site Hybrid"`
 	StartDate      *time.Time `json:"start_date" validate:"omitempty"`
 	EndDate        *time.Time `json:"end_date" validate:"omitempty"`
-	Description    *string    `json:"description" validate:"omitempty,max=2000"`
+	Description    string     `json:"description" validate:"omitempty,max=2000"`
 }
 
 type DeleteExperienceRequest struct {

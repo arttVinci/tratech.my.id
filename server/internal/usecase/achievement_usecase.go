@@ -110,23 +110,23 @@ func (c *AchievementUseCase) Delete(ctx context.Context, request *model.DeleteAc
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return fiber.ErrBadRequest
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievement := new(entity.Achievement)
 	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error find achievement by id and user_id")
-		return fiber.ErrNotFound
+		return fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
 	if err := c.AchievRepo.Delete(tx, achievement); err != nil {
 		c.Log.WithError(err).Error("error deleting achievement")
-		return fiber.ErrInternalServerError
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed delete Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.WithError(err).Error("error deleting achievement")
-		return fiber.ErrInternalServerError
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed delete Achievement")
 	}
 
 	return nil
@@ -138,18 +138,18 @@ func (c *AchievementUseCase) GetAll(ctx context.Context, request *model.GetAchie
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievements := new([]entity.Achievement)
 	if err := c.AchievRepo.FindAllByUserId(tx, achievements, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed Get Achievement")
 	}
 
 	responses := make([]model.AchievementResponse, len(*achievements))
@@ -166,18 +166,18 @@ func (c *AchievementUseCase) GetAllByUsername(ctx context.Context, request *mode
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievements := new([]entity.Achievement)
 	if err := c.AchievRepo.FindAllByUsername(tx, achievements, request.Username); err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed Get Achievement")
 	}
 
 	responses := make([]model.AchievementResponse, len(*achievements))
@@ -194,18 +194,18 @@ func (c *AchievementUseCase) Get(ctx context.Context, request *model.GetByIdAchi
 
 	if err := c.Validate.Struct(request); err != nil {
 		c.Log.WithError(err).Error("error validating request body")
-		return nil, fiber.ErrBadRequest
+		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
 	achievement := new(entity.Achievement)
 	if err := c.AchievRepo.FindByIdAndUserId(tx, achievement, request.ID, request.UserId); err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed Get Achievement")
 	}
 
 	return converter.AchievementToResponse(achievement), nil
@@ -223,12 +223,12 @@ func (c *AchievementUseCase) GetByUsername(ctx context.Context, request *model.G
 	achievement := new(entity.Achievement)
 	if err := c.AchievRepo.FindByUsername(tx, achievement, request.Username, request.ID); err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrNotFound
+		return nil, fiber.NewError(fiber.StatusNotFound, "Failed getting Achievement")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.WithError(err).Error("error getting achievement")
-		return nil, fiber.ErrInternalServerError
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed Get Achievement")
 	}
 
 	return converter.AchievementToResponse(achievement), nil

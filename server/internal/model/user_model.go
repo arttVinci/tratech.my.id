@@ -28,11 +28,11 @@ type LoginUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	UserId   string  `json:"-" validate:"required"`
-	Username *string `json:"username,omitempty" validate:"omitempty,min=3,max=30,alphanum"`
-	Password *string `json:"password,omitempty" validate:"omitempty,min=8,max=100"`
-	Phone    *string `json:"phone,omitempty" validate:"omitempty,numeric,min=10,max=15"`
-	Email    *string `json:"email,omitempty" validate:"omitempty,email"`
+	ID       string `json:"-" validate:"required"`
+	Username string `json:"username,omitempty" validate:"omitempty,min=3,max=30,alphanum"`
+	Password string `json:"password,omitempty" validate:"omitempty,min=8,max=100"`
+	Phone    string `json:"phone,omitempty" validate:"omitempty,numeric,min=10,max=15"`
+	Email    string `json:"email,omitempty" validate:"omitempty,email"`
 }
 
 type LogoutUserRequest struct {

@@ -9,4 +9,5 @@ CREATE TABLE users
     created_at BIGINT       NOT NULL,
     updated_at BIGINT       NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE INDEX idx_users_username (username),
 )
