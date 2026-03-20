@@ -36,14 +36,33 @@ func (c *RouteConfig) SetupGuestRoute() {
 	c.App.Post("/api/users/_login", c.UserController.Login)
 }
 
+func (c *RouteConfig) SetupPublicRoute() {
+	c.App.Get("/api/public/:username", c.ProfileController.GetByUsername)
+
+	c.App.Get("/api/public/:username/achievements", c.AchievementController.GetAllByUsername)
+	c.App.Get("/api/public/:username/achievements/:achievementId", c.AchievementController.GetByUsername)
+
+	c.App.Get("/api/public/:username/projects", c.ProjectController.GetAllByUsername)
+	c.App.Get("/api/public/:username/projects/:projectId", c.ProjectController.GetByUsername)
+
+	c.App.Get("/api/public/:username/experiences", c.ExperienceController.GetAllByUsername)
+	c.App.Get("/api/public/:username/experiences/:experienceId", c.ExperienceController.GetByUsername)
+
+	c.App.Get("/api/public/:username/educations", c.EducationController.GetAllByUsername)
+	c.App.Get("/api/public/:username/educations/:educationId", c.EducationController.GetByUsername)
+
+	c.App.Get("/api/public/:username/skills", c.SkillController.GetAllByUsername)
+
+	c.App.Get("/api/public/:username/socials", c.SocialController.GetAllByUsername)
+}
+
 func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Use(c.AuthMiddleware)
 	c.App.Delete("/api/users", c.UserController.Logout)
 	c.App.Patch("/api/users/_current", c.UserController.Update)
 	c.App.Get("/api/users/_current", c.UserController.Current)
 
-	c.App.Get("/api/profiles", c.ProfileController.GetAll)
-	c.App.Get("/api/profiles/_get", c.ProfileController.Get)
+	c.App.Get("/api/profiles", c.ProfileController.Get)
 	c.App.Post("/api/profiles", c.ProfileController.Create)
 	c.App.Put("/api/profiles", c.ProfileController.Update)
 	c.App.Post("/api/profiles/image", c.ProfileController.HandleUploadImage)
@@ -83,24 +102,4 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Post("/api/socials", c.SocialController.Create)
 	c.App.Put("/api/socials/:socialId", c.SocialController.Update)
 	c.App.Delete("/api/socials/:socialId", c.SocialController.Delete)
-}
-
-func (c *RouteConfig) SetupPublicRoute() {
-	c.App.Get("/api/public/:username", c.ProfileController.GetByUsername)
-
-	c.App.Get("/api/public/:username/achievements", c.AchievementController.GetAllByUsername)
-	c.App.Get("/api/public/:username/achievements/:achievementId", c.AchievementController.GetByUsername)
-
-	c.App.Get("/api/public/:username/projects", c.ProjectController.GetAllByUsername)
-	c.App.Get("/api/public/:username/projects/:projectId", c.ProjectController.GetByUsername)
-
-	c.App.Get("/api/public/:username/experiences", c.ExperienceController.GetAllByUsername)
-	c.App.Get("/api/public/:username/experiences/:experienceId", c.ExperienceController.GetByUsername)
-
-	c.App.Get("/api/public/:username/educations", c.EducationController.GetAllByUsername)
-	c.App.Get("/api/public/:username/educations/:educationId", c.EducationController.GetByUsername)
-
-	c.App.Get("/api/public/:username/skills", c.SkillController.GetAllByUsername)
-
-	c.App.Get("/api/public/:username/socials", c.SocialController.GetAllByUsername)
 }
