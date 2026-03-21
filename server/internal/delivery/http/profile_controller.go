@@ -26,6 +26,18 @@ func NewProfileController(useCase *usecase.ProfileUseCase, log *logrus.Logger) *
 	}
 }
 
+// Create godoc
+// @Summary      Create profile
+// @Description  Buat profil untuk user yang sedang login
+// @Tags         Profile
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateProfileRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.ProfileResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/profiles [post]
 func (c *ProfileController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -46,6 +58,18 @@ func (c *ProfileController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update profile
+// @Description  Update profil milik user yang sedang login
+// @Tags         Profile
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.UpdateProfileRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.ProfileResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/profiles [put]
 func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -66,6 +90,18 @@ func (c *ProfileController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
 }
 
+// HandleUploadImage godoc
+// @Summary      Upload profile image
+// @Description  Upload foto profil user yang sedang login
+// @Tags         Profile
+// @Accept       multipart/form-data
+// @Produce      json
+// @Param        image  formData  file  true  "File gambar"
+// @Success      200    {object}  model.WebResponse[model.ProfileResponse]
+// @Failure      400    {object}  model.ApiErrorResponse
+// @Failure      401    {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/profiles/image [post]
 func (c *ProfileController) HandleUploadImage(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -110,26 +146,16 @@ func (c *ProfileController) HandleUploadImage(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProfileImageResponse]{Data: response})
 }
 
-// GetAll With Middleware ( Auth )
-func (c *ProfileController) GetAll(ctx *fiber.Ctx) error {
-	auth := middleware.GetUser(ctx)
-
-	request := &model.GetProfileRequest{
-		UserId: auth.ID,
-	}
-
-	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
-	if err != nil {
-		c.Log.WithError(err).Error("error get Profiles")
-		return err
-	}
-
-	return ctx.JSON(model.WebResponse[[]model.ProfileResponse]{
-		Data: response,
-	})
-}
-
-// Get With Middleware ( Auth )
+// Get godoc
+// @Summary      Get profile (user)
+// @Description  Ambil profil milik user yang sedang login
+// @Tags         Profile
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[model.ProfileResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Failure      404  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/profiles [get]
 func (c *ProfileController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -146,7 +172,15 @@ func (c *ProfileController) Get(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProfileResponse]{Data: response})
 }
 
-// Get Public
+// GetByUsername godoc
+// @Summary      Get profile by username (public)
+// @Description  Ambil profil publik berdasarkan username
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[model.ProfileResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username} [get]
 func (c *ProfileController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 

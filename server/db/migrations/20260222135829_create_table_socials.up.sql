@@ -15,5 +15,5 @@ CREATE TABLE socials
         FOREIGN KEY (user_id) REFERENCES users (id)
             ON DELETE CASCADE,
 
-    INDEX idx_social_user (user_id),
+    INDEX idx_social_user (user_id)
 );

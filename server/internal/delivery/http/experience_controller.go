@@ -20,6 +20,17 @@ func NewExperienceController(useCase *usecase.ExperienceUseCase, log *logrus.Log
 	}
 }
 
+// Create godoc
+// @Summary      Create experience
+// @Tags         Experience
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateExperienceRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.ExperienceResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/experiences [post]
 func (c *ExperienceController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -39,6 +50,18 @@ func (c *ExperienceController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update experience
+// @Tags         Experience
+// @Accept       json
+// @Produce      json
+// @Param        experienceId  path      string                         true  "Experience ID"
+// @Param        request       body      model.UpdateExperienceRequest  true  "Request body"
+// @Success      200           {object}  model.WebResponse[model.ExperienceResponse]
+// @Failure      400           {object}  model.ApiErrorResponse
+// @Failure      401           {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/experiences/{experienceId} [put]
 func (c *ExperienceController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -60,6 +83,16 @@ func (c *ExperienceController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
 }
 
+// Delete godoc
+// @Summary      Delete experience
+// @Tags         Experience
+// @Produce      json
+// @Param        experienceId  path      string  true  "Experience ID"
+// @Success      200           {object}  model.WebResponse[bool]
+// @Failure      401           {object}  model.ApiErrorResponse
+// @Failure      404           {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/experiences/{experienceId} [delete]
 func (c *ExperienceController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	experienceId := ctx.Params("experienceId")
@@ -77,7 +110,14 @@ func (c *ExperienceController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
-// GetAll User Endpoint
+// GetAll godoc
+// @Summary      Get all experiences (user)
+// @Tags         Experience
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[[]model.ExperienceResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/experiences [get]
 func (c *ExperienceController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -96,7 +136,14 @@ func (c *ExperienceController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
-// GetAll Public Endpoint
+// GetAllByUsername godoc
+// @Summary      Get all experiences (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.ExperienceResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/experiences [get]
 func (c *ExperienceController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -115,7 +162,16 @@ func (c *ExperienceController) GetAllByUsername(ctx *fiber.Ctx) error {
 	})
 }
 
-// Get by id user Endpoint
+// Get godoc
+// @Summary      Get experience by ID (user)
+// @Tags         Experience
+// @Produce      json
+// @Param        experienceId  path      string  true  "Experience ID"
+// @Success      200           {object}  model.WebResponse[model.ExperienceResponse]
+// @Failure      401           {object}  model.ApiErrorResponse
+// @Failure      404           {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/experiences/{experienceId} [get]
 func (c *ExperienceController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("experienceId")
@@ -134,7 +190,15 @@ func (c *ExperienceController) Get(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ExperienceResponse]{Data: response})
 }
 
-// Get Public Endpoint
+// GetByUsername godoc
+// @Summary      Get experience by ID (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username      path      string  true  "Username"
+// @Param        experienceId  path      string  true  "Experience ID"
+// @Success      200           {object}  model.WebResponse[model.ExperienceResponse]
+// @Failure      404           {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/experiences/{experienceId} [get]
 func (c *ExperienceController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	id := ctx.Params("experienceId")

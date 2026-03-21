@@ -20,6 +20,15 @@ func NewUserController(useCase *usecase.UserUseCase, logger *logrus.Logger) *Use
 	}
 }
 
+// Current godoc
+// @Summary      Get current user
+// @Description  Ambil data user yang sedang login
+// @Tags         Auth
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[model.UserResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/users/_current [get]
 func (c *UserController) Current(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -36,6 +45,17 @@ func (c *UserController) Current(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.UserResponse]{Data: response})
 }
 
+// Register godoc
+// @Summary      Register user
+// @Description  Daftarkan akun baru
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.RegisterUserRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.UserResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      409      {object}  model.ApiErrorResponse
+// @Router       /api/users [post]
 func (c *UserController) Register(ctx *fiber.Ctx) error {
 	request := new(model.RegisterUserRequest)
 	err := ctx.BodyParser(request)
@@ -53,6 +73,17 @@ func (c *UserController) Register(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.LoginUserResponse]{Data: response})
 }
 
+// Login godoc
+// @Summary      Login user
+// @Description  Login dan dapatkan token JWT
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.LoginUserRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.UserResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Router       /api/users/_login [post]
 func (c *UserController) Login(ctx *fiber.Ctx) error {
 	request := new(model.LoginUserRequest)
 	err := ctx.BodyParser(request)
@@ -70,6 +101,18 @@ func (c *UserController) Login(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.LoginUserResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update current user
+// @Description  Update data akun user yang sedang login
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.UpdateUserRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.UserResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/users/_current [patch]
 func (c *UserController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -90,6 +133,15 @@ func (c *UserController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.UserResponse]{Data: response})
 }
 
+// Logout godoc
+// @Summary      Logout user
+// @Description  Hapus sesi / token user yang sedang login
+// @Tags         Auth
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[bool]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/users [delete]
 func (c *UserController) Logout(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 

@@ -20,6 +20,17 @@ func NewEducationController(useCase *usecase.EducationUseCase, log *logrus.Logge
 	}
 }
 
+// Create godoc
+// @Summary      Create education
+// @Tags         Education
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateEducationRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.EducationResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/educations [post]
 func (c *EducationController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -39,6 +50,18 @@ func (c *EducationController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.EducationResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update education
+// @Tags         Education
+// @Accept       json
+// @Produce      json
+// @Param        educationId  path      string                        true  "Education ID"
+// @Param        request      body      model.UpdateEducationRequest  true  "Request body"
+// @Success      200          {object}  model.WebResponse[model.EducationResponse]
+// @Failure      400          {object}  model.ApiErrorResponse
+// @Failure      401          {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/educations/{educationId} [put]
 func (c *EducationController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -60,6 +83,16 @@ func (c *EducationController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.EducationResponse]{Data: response})
 }
 
+// Delete godoc
+// @Summary      Delete education
+// @Tags         Education
+// @Produce      json
+// @Param        educationId  path      string  true  "Education ID"
+// @Success      200          {object}  model.WebResponse[bool]
+// @Failure      401          {object}  model.ApiErrorResponse
+// @Failure      404          {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/educations/{educationId} [delete]
 func (c *EducationController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	experienceId := ctx.Params("educationId")
@@ -77,7 +110,14 @@ func (c *EducationController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
-// GetAll User Endpoint
+// GetAll godoc
+// @Summary      Get all educations (user)
+// @Tags         Education
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[[]model.EducationResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/educations [get]
 func (c *EducationController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -96,7 +136,14 @@ func (c *EducationController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
-// GetAll Public Endpoint
+// GetAllByUsername godoc
+// @Summary      Get all educations (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.EducationResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/educations [get]
 func (c *EducationController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -115,7 +162,16 @@ func (c *EducationController) GetAllByUsername(ctx *fiber.Ctx) error {
 	})
 }
 
-// Get by id user Endpoint
+// Get godoc
+// @Summary      Get education by ID (user)
+// @Tags         Education
+// @Produce      json
+// @Param        educationId  path      string  true  "Education ID"
+// @Success      200          {object}  model.WebResponse[model.EducationResponse]
+// @Failure      401          {object}  model.ApiErrorResponse
+// @Failure      404          {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/educations/{educationId} [get]
 func (c *EducationController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("educationId")
@@ -134,7 +190,15 @@ func (c *EducationController) Get(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.EducationResponse]{Data: response})
 }
 
-// Get Public Endpoint
+// GetByUsername godoc
+// @Summary      Get education by ID (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username     path      string  true  "Username"
+// @Param        educationId  path      string  true  "Education ID"
+// @Success      200          {object}  model.WebResponse[model.EducationResponse]
+// @Failure      404          {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/educations/{educationId} [get]
 func (c *EducationController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	id := ctx.Params("educationId")

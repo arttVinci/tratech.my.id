@@ -20,6 +20,17 @@ func NewAchievementController(useCase *usecase.AchievementUseCase, log *logrus.L
 	}
 }
 
+// Create godoc
+// @Summary      Create achievement
+// @Tags         Achievement
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateAchievementRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.AchievementResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/achievements [post]
 func (c *AchievementController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -39,6 +50,18 @@ func (c *AchievementController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update achievement
+// @Tags         Achievement
+// @Accept       json
+// @Produce      json
+// @Param        achievementId  path      string                          true  "Achievement ID"
+// @Param        request        body      model.UpdateAchievementRequest  true  "Request body"
+// @Success      200            {object}  model.WebResponse[model.AchievementResponse]
+// @Failure      400            {object}  model.ApiErrorResponse
+// @Failure      401            {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/achievements/{achievementId} [put]
 func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -60,6 +83,16 @@ func (c *AchievementController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
+// Delete godoc
+// @Summary      Delete achievement
+// @Tags         Achievement
+// @Produce      json
+// @Param        achievementId  path      string  true  "Achievement ID"
+// @Success      200            {object}  model.WebResponse[bool]
+// @Failure      401            {object}  model.ApiErrorResponse
+// @Failure      404            {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/achievements/{achievementId} [delete]
 func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	achievemenetId := ctx.Params("achievementId")
@@ -77,7 +110,14 @@ func (c *AchievementController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
-// GetAll User Endpoint
+// GetAll godoc
+// @Summary      Get all achievements (user)
+// @Tags         Achievement
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[[]model.AchievementResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/achievements [get]
 func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -96,7 +136,14 @@ func (c *AchievementController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
-// GetAll Public Endpoint
+// GetAllByUsername godoc
+// @Summary      Get all achievements (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.AchievementResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/achievements [get]
 func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -115,7 +162,16 @@ func (c *AchievementController) GetAllByUsername(ctx *fiber.Ctx) error {
 	})
 }
 
-// Get by id user Endpoint
+// Get godoc
+// @Summary      Get achievement by ID (user)
+// @Tags         Achievement
+// @Produce      json
+// @Param        achievementId  path      string  true  "Achievement ID"
+// @Success      200            {object}  model.WebResponse[model.AchievementResponse]
+// @Failure      401            {object}  model.ApiErrorResponse
+// @Failure      404            {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/achievements/{achievementId} [get]
 func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("achievementId")
@@ -134,7 +190,15 @@ func (c *AchievementController) Get(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.AchievementResponse]{Data: response})
 }
 
-// Get Public Endpoint
+// GetByUsername godoc
+// @Summary      Get achievement by ID (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username       path      string  true  "Username"
+// @Param        achievementId  path      string  true  "Achievement ID"
+// @Success      200            {object}  model.WebResponse[model.AchievementResponse]
+// @Failure      404            {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/achievements/{achievementId} [get]
 func (c *AchievementController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	id := ctx.Params("achievementId")

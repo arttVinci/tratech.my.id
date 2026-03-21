@@ -1,8 +1,19 @@
+// @title           Tratech API
+// @version         1.0
+// @description     API untuk platform portofolio Tratech
+// @host            localhost:3000
+// @BasePath        /
+
+// @securityDefinitions.apikey  BearerAuth
+// @in                          header
+// @name                        Authorization
+// @description                 Format: Bearer <token>
 package main
 
 import (
 	"fmt"
-
+	
+	_ "tratech.my.id/server/docs"
 	"tratech.my.id/server/internal/config"
 )
 

@@ -20,6 +20,17 @@ func NewSocialController(useCase *usecase.SocialUseCase, log *logrus.Logger) *So
 	}
 }
 
+// Create godoc
+// @Summary      Create social
+// @Tags         Social
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateSocialRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.SocialResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/socials [post]
 func (c *SocialController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -39,6 +50,18 @@ func (c *SocialController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.SocialResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update social
+// @Tags         Social
+// @Accept       json
+// @Produce      json
+// @Param        socialId  path      string                     true  "Social ID"
+// @Param        request   body      model.UpdateSocialRequest  true  "Request body"
+// @Success      200       {object}  model.WebResponse[model.SocialResponse]
+// @Failure      400       {object}  model.ApiErrorResponse
+// @Failure      401       {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/socials/{socialId} [put]
 func (c *SocialController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -49,7 +72,7 @@ func (c *SocialController) Update(ctx *fiber.Ctx) error {
 	}
 
 	request.UserId = auth.ID
-	request.ID = ctx.Params("skillId")
+	request.ID = ctx.Params("socialId")
 
 	response, err := c.UseCase.Update(ctx.UserContext(), request)
 	if err != nil {
@@ -60,9 +83,19 @@ func (c *SocialController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.SocialResponse]{Data: response})
 }
 
+// Delete godoc
+// @Summary      Delete social
+// @Tags         Social
+// @Produce      json
+// @Param        socialId  path      string  true  "Social ID"
+// @Success      200       {object}  model.WebResponse[bool]
+// @Failure      401       {object}  model.ApiErrorResponse
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/socials/{socialId} [delete]
 func (c *SocialController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
-	skillId := ctx.Params("skillId")
+	skillId := ctx.Params("socialId")
 
 	request := &model.DeleteSocialRequest{
 		ID:     skillId,
@@ -82,6 +115,14 @@ func (c *SocialController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
+// GetAll godoc
+// @Summary      Get all socials (user)
+// @Tags         Social
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[[]model.SocialResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/socials [get]
 func (c *SocialController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -103,6 +144,14 @@ func (c *SocialController) GetAll(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[[]model.SocialResponse]{Data: response})
 }
 
+// GetAllByUsername godoc
+// @Summary      Get all socials (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.SocialResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/socials [get]
 func (c *SocialController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -124,9 +173,19 @@ func (c *SocialController) GetAllByUsername(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[[]model.SocialResponse]{Data: response})
 }
 
+// Get godoc
+// @Summary      Get social by ID (user)
+// @Tags         Social
+// @Produce      json
+// @Param        socialId  path      string  true  "Social ID"
+// @Success      200       {object}  model.WebResponse[model.SocialResponse]
+// @Failure      401       {object}  model.ApiErrorResponse
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/socials/{socialId} [get]
 func (c *SocialController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
-	skillId := ctx.Params("skillId")
+	skillId := ctx.Params("socialId")
 
 	request := &model.GetByIdSocialRequest{
 		ID:     skillId,

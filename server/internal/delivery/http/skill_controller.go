@@ -20,6 +20,17 @@ func NewSkillController(useCase *usecase.SkillUseCase, log *logrus.Logger) *Skil
 	}
 }
 
+// Create godoc
+// @Summary      Create skill
+// @Tags         Skill
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateSkillRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.SkillResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/skills [post]
 func (c *SkillController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -39,6 +50,18 @@ func (c *SkillController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.SkillResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update skill
+// @Tags         Skill
+// @Accept       json
+// @Produce      json
+// @Param        skillId  path      string                    true  "Skill ID"
+// @Param        request  body      model.UpdateSkillRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.SkillResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/skills/{skillId} [put]
 func (c *SkillController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -60,6 +83,16 @@ func (c *SkillController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.SkillResponse]{Data: response})
 }
 
+// Delete godoc
+// @Summary      Delete skill
+// @Tags         Skill
+// @Produce      json
+// @Param        skillId  path      string  true  "Skill ID"
+// @Success      200      {object}  model.WebResponse[bool]
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Failure      404      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/skills/{skillId} [delete]
 func (c *SkillController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	skillId := ctx.Params("skillId")
@@ -82,6 +115,14 @@ func (c *SkillController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
+// GetAll godoc
+// @Summary      Get all skills (user)
+// @Tags         Skill
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[[]model.SkillResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/skills [get]
 func (c *SkillController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -103,6 +144,14 @@ func (c *SkillController) GetAll(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[[]model.SkillResponse]{Data: response})
 }
 
+// GetAllByUsername godoc
+// @Summary      Get all skills (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.SkillResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/skills [get]
 func (c *SkillController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -124,6 +173,16 @@ func (c *SkillController) GetAllByUsername(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[[]model.SkillResponse]{Data: response})
 }
 
+// Get godoc
+// @Summary      Get skill by ID (user)
+// @Tags         Skill
+// @Produce      json
+// @Param        skillId  path      string  true  "Skill ID"
+// @Success      200      {object}  model.WebResponse[model.SkillResponse]
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Failure      404      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/skills/{skillId} [get]
 func (c *SkillController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	skillId := ctx.Params("skillId")

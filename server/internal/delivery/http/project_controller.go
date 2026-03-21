@@ -20,6 +20,17 @@ func NewProjectController(usecase *usecase.ProjectUseCase, log *logrus.Logger) *
 	}
 }
 
+// Create godoc
+// @Summary      Create project
+// @Tags         Project
+// @Accept       json
+// @Produce      json
+// @Param        request  body      model.CreateProjectRequest  true  "Request body"
+// @Success      200      {object}  model.WebResponse[model.ProjectResponse]
+// @Failure      400      {object}  model.ApiErrorResponse
+// @Failure      401      {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/projects [post]
 func (c *ProjectController) Create(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -39,6 +50,18 @@ func (c *ProjectController) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProjectResponse]{Data: response})
 }
 
+// Update godoc
+// @Summary      Update project
+// @Tags         Project
+// @Accept       json
+// @Produce      json
+// @Param        projectId  path      string                      true  "Project ID"
+// @Param        request    body      model.UpdateProjectRequest  true  "Request body"
+// @Success      200        {object}  model.WebResponse[model.ProjectResponse]
+// @Failure      400        {object}  model.ApiErrorResponse
+// @Failure      401        {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/projects/{projectId} [put]
 func (c *ProjectController) Update(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -60,6 +83,16 @@ func (c *ProjectController) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProjectResponse]{Data: response})
 }
 
+// Delete godoc
+// @Summary      Delete project
+// @Tags         Project
+// @Produce      json
+// @Param        projectId  path      string  true  "Project ID"
+// @Success      200        {object}  model.WebResponse[bool]
+// @Failure      401        {object}  model.ApiErrorResponse
+// @Failure      404        {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/projects/{projectId} [delete]
 func (c *ProjectController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -80,7 +113,14 @@ func (c *ProjectController) Delete(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[bool]{Data: true})
 }
 
-// GetAll User Endpoint
+// GetAll godoc
+// @Summary      Get all projects (user)
+// @Tags         Project
+// @Produce      json
+// @Success      200  {object}  model.WebResponse[[]model.ProjectResponse]
+// @Failure      401  {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/projects [get]
 func (c *ProjectController) GetAll(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
@@ -99,7 +139,14 @@ func (c *ProjectController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
-// GetAll Public Endpoint
+// GetAllByUsername godoc
+// @Summary      Get all projects (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username  path      string  true  "Username"
+// @Success      200       {object}  model.WebResponse[[]model.ProjectResponse]
+// @Failure      404       {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/projects [get]
 func (c *ProjectController) GetAllByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
@@ -118,7 +165,16 @@ func (c *ProjectController) GetAllByUsername(ctx *fiber.Ctx) error {
 	})
 }
 
-// Get by id user Endpoint
+// Get godoc
+// @Summary      Get project by ID (user)
+// @Tags         Project
+// @Produce      json
+// @Param        projectId  path      string  true  "Project ID"
+// @Success      200        {object}  model.WebResponse[model.ProjectResponse]
+// @Failure      401        {object}  model.ApiErrorResponse
+// @Failure      404        {object}  model.ApiErrorResponse
+// @Security     BearerAuth
+// @Router       /api/projects/{projectId} [get]
 func (c *ProjectController) Get(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 	id := ctx.Params("projectId")
@@ -137,7 +193,15 @@ func (c *ProjectController) Get(ctx *fiber.Ctx) error {
 	return ctx.JSON(model.WebResponse[*model.ProjectResponse]{Data: response})
 }
 
-// Get Public Endpoint
+// GetByUsername godoc
+// @Summary      Get project by ID (public)
+// @Tags         Public
+// @Produce      json
+// @Param        username   path      string  true  "Username"
+// @Param        projectId  path      string  true  "Project ID"
+// @Success      200        {object}  model.WebResponse[model.ProjectResponse]
+// @Failure      404        {object}  model.ApiErrorResponse
+// @Router       /api/public/{username}/projects/{projectId} [get]
 func (c *ProjectController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	id := ctx.Params("projectId")

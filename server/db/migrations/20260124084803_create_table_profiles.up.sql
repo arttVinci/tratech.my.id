@@ -20,5 +20,5 @@ CREATE TABLE profiles
         FOREIGN KEY (user_id) REFERENCES users (id)
             ON DELETE CASCADE,
 
-    INDEX idx_profile_user (user_id),
+    INDEX idx_profile_user (user_id)
 )
