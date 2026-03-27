@@ -9,6 +9,7 @@ import (
 	"tratech.my.id/server/internal/delivery/http"
 	"tratech.my.id/server/internal/delivery/http/middleware"
 	"tratech.my.id/server/internal/delivery/http/route"
+	"tratech.my.id/server/internal/pkg/storage"
 	"tratech.my.id/server/internal/repository"
 	"tratech.my.id/server/internal/usecase"
 )
@@ -22,6 +23,8 @@ type BootstrapConfig struct {
 }
 
 func Bootstrap(config *BootstrapConfig) {
+	localStorage := storage.NewLocalStorage("http://127.0.0.1:3000")
+
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
 	profileRepository := repository.NewProfileRepository()
@@ -51,6 +54,7 @@ func Bootstrap(config *BootstrapConfig) {
 	educationController := http.NewEducationController(educationUseCase, config.Log)
 	skillController := http.NewSkillController(skillUseCase, config.Log)
 	socialController := http.NewSocialController(socialUseCase, config.Log)
+	uploadController := http.NewUploadController(localStorage, config.Log)
 
 	//Setup Middleware
 	authMiddleware := middleware.AuthMiddleware(config.Config)
@@ -66,6 +70,7 @@ func Bootstrap(config *BootstrapConfig) {
 		EducationController:   educationController,
 		SkillController:       skillController,
 		SocialController:      socialController,
+		UploadController:      uploadController,
 	}
 	routeConfig.Setup()
 }

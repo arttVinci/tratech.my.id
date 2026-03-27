@@ -17,6 +17,7 @@ type RouteConfig struct {
 	EducationController   *http.EducationController
 	SkillController       *http.SkillController
 	SocialController      *http.SocialController
+	UploadController      *http.UploadController
 }
 
 func (c *RouteConfig) Setup() {
@@ -58,6 +59,8 @@ func (c *RouteConfig) SetupPublicRoute() {
 
 func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Use(c.AuthMiddleware)
+	c.App.Post("/api//upload/image", c.UploadController.UploadImage)
+
 	c.App.Delete("/api/users", c.UserController.Logout)
 	c.App.Patch("/api/users/_current", c.UserController.Update)
 	c.App.Get("/api/users/_current", c.UserController.Current)
@@ -65,7 +68,6 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Get("/api/profiles", c.ProfileController.Get)
 	c.App.Post("/api/profiles", c.ProfileController.Create)
 	c.App.Put("/api/profiles", c.ProfileController.Update)
-	c.App.Post("/api/profiles/image", c.ProfileController.HandleUploadImage)
 
 	c.App.Get("/api/achievements", c.AchievementController.GetAll)
 	c.App.Get("/api/achievements/:achievementId", c.AchievementController.Get)
