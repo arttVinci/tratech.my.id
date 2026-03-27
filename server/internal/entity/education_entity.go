@@ -14,7 +14,7 @@ type Education struct {
 	ImageUrl     string `gorm:"column:image_url;type:varchar(255)"`
 	Location     string `gorm:"column:location;type:varchar(100)"`
 
-	StartDate time.Time  `gorm:"column:start_date"`
+	StartDate *time.Time `gorm:"column:start_date"`
 	EndDate   *time.Time `gorm:"column:end_date"`
 
 	Description string `gorm:"column:description;type:text"`

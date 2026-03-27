@@ -10,7 +10,7 @@ type EducationResponse struct {
 	Grade        string     `json:"grade"`
 	ImageUrl     string     `json:"image_url"`
 	Location     string     `json:"location"`
-	StartDate    time.Time  `json:"start_date"`
+	StartDate    *time.Time `json:"start_date"`
 	EndDate      *time.Time `json:"end_date"`
 	Description  string     `json:"description"`
 }
@@ -23,7 +23,7 @@ type CreateEducationRequest struct {
 	Grade        string     `json:"grade" validate:"omitempty,max=20"`
 	ImageUrl     string     `json:"image_url" validate:"omitempty,url"`
 	Location     string     `json:"location" validate:"omitempty,max=100"`
-	StartDate    time.Time  `json:"start_date" validate:"required"`
+	StartDate    *time.Time `json:"start_date" validate:"required"`
 	EndDate      *time.Time `json:"end_date" validate:"omitempty,gtfield=StartDate"`
 	Description  string     `json:"description" validate:"omitempty,max=1000"`
 }
@@ -37,7 +37,7 @@ type UpdateEducationRequest struct {
 	Grade        string     `json:"grade" validate:"omitempty,max=20"`
 	ImageUrl     string     `json:"image_url" validate:"omitempty,url"`
 	Location     string     `json:"location" validate:"omitempty,max=100"`
-	StartDate    *time.Time `json:"start_date" validate:" Richard omitempty"`
+	StartDate    *time.Time `json:"start_date" validate:"omitempty"`
 	EndDate      *time.Time `json:"end_date" validate:"omitempty"`
 	Description  string     `json:"description" validate:"omitempty,max=1000"`
 

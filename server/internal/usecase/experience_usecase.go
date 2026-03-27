@@ -95,7 +95,7 @@ func (c *ExperienceUseCase) Update(ctx context.Context, request *model.UpdateExp
 	experience.Location = request.Location
 	experience.EmploymentType = request.EmploymentType
 	experience.LocationType = request.LocationType
-	experience.StartDate = *request.StartDate
+	experience.StartDate = request.StartDate
 	experience.EndDate = request.EndDate
 	experience.Description = request.Description
 	experience.UpdatedAt = time.Now().UnixMilli()

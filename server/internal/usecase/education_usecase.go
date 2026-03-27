@@ -95,7 +95,7 @@ func (c *EducationUseCase) Update(ctx context.Context, request *model.UpdateEduc
 	education.Location = request.Location
 	// TODO: nil check — fix before prod
 	if request.StartDate != nil {
-		education.StartDate = *request.StartDate
+		education.StartDate = request.StartDate
 	}
 	education.EndDate = request.EndDate
 	education.Description = request.Description

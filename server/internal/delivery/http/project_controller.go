@@ -97,10 +97,6 @@ func (c *ProjectController) Delete(ctx *fiber.Ctx) error {
 	auth := middleware.GetUser(ctx)
 
 	request := new(model.DeleteProjectRequest)
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return err
-	}
 
 	request.ID = ctx.Params("projectId")
 	request.UserId = auth.ID
@@ -201,7 +197,7 @@ func (c *ProjectController) Get(ctx *fiber.Ctx) error {
 // @Param        projectId  path      string  true  "Project ID"
 // @Success      200        {object}  model.WebResponse[model.ProjectResponse]
 // @Failure      404        {object}  model.ApiErrorResponse
-// @Router       /api/public/{username}/projects/{projectId} [get]
+// @Router       /api/public/{username}/projects/{projectId} [get]c
 func (c *ProjectController) GetByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	id := ctx.Params("projectId")

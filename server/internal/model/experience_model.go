@@ -11,7 +11,7 @@ type ExperienceResponse struct {
 	Location       string     `json:"location"`
 	EmploymentType string     `json:"employment_type"`
 	LocationType   string     `json:"location_type"`
-	StartDate      time.Time  `json:"start_date"`
+	StartDate      *time.Time `json:"start_date"`
 	EndDate        *time.Time `json:"end_date"`
 	Description    string     `json:"description"`
 
@@ -30,7 +30,7 @@ type CreateExperienceRequest struct {
 	EmploymentType string `json:"employment_type" validate:"omitempty,oneof=Full-time Part-time Freelance Contract Internship Self-employed"`
 	// LocationType: Remote, On-site, Hybrid
 	LocationType string     `json:"location_type" validate:"omitempty,oneof=Remote On-site Hybrid"`
-	StartDate    time.Time  `json:"start_date" validate:"required"`
+	StartDate    *time.Time `json:"start_date" validate:"required"`
 	EndDate      *time.Time `json:"end_date" validate:"omitempty,gtfield=StartDate"`
 	Description  string     `json:"description" validate:"omitempty,max=2000"`
 }

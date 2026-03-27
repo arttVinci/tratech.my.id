@@ -142,7 +142,7 @@ func (c *ProfileController) HandleUploadImage(ctx *fiber.Ctx) error {
 
 	imageUrl := fmt.Sprintf("http://127.0.0.1:3000/public/uploads/%s", uniqueName)
 
-	response := &model.ProfileImageResponse{UrlProfile: imageUrl}
+	response := &model.ProfileImageResponse{ImageUrl: imageUrl}
 	return ctx.JSON(model.WebResponse[*model.ProfileImageResponse]{Data: response})
 }
 

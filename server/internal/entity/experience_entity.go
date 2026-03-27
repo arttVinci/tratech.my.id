@@ -19,7 +19,7 @@ type Experience struct {
 	// Contoh isi: Remote, On-site, Hybrid
 	LocationType string `gorm:"column:location_type;type:varchar(50)"`
 
-	StartDate time.Time  `gorm:"column:start_date"`
+	StartDate *time.Time `gorm:"column:start_date"`
 	EndDate   *time.Time `gorm:"column:end_date"`
 
 	Description string `gorm:"column:description;type:text"`

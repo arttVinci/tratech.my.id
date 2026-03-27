@@ -36,7 +36,7 @@ type UpdateProfileRequest struct {
 	Tags     []string `json:"tags" validate:"omitempty,max=10,dive,max=20"`
 }
 type ProfileImageResponse struct {
-	UrlProfile string `json:"url_profile"`
+	ImageUrl string `json:"image_url"`
 }
 
 // Middleware
