@@ -6,6 +6,7 @@ import (
 	"mime/multipart"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -24,7 +25,31 @@ func NewLocalStorage(baseURL string) FileStorage {
 }
 
 func (s *LocalStorage) SaveLocalImage(fileHeader *multipart.FileHeader) (string, error) {
-	uniqueName := fmt.Sprintf("%d-%s", time.Now().Unix(), fileHeader.Filename)
+
+	// 1. Ambil ekstensi file (".png", ".jpg")
+	ext := filepath.Ext(fileHeader.Filename)
+
+	// 2. Ambil nama file tanpa ekstensi
+	baseName := strings.TrimSuffix(fileHeader.Filename, ext)
+
+	// 3. Bersihkan nama (hilangkan spasi, jadikan lowercase)
+	cleanBaseName := strings.ToLower(strings.ReplaceAll(baseName, " ", ""))
+
+	// 4. Autocut jika kepanjangan > dari 50 karakter
+	maxLength := 15
+
+	// Konversi ke []rune agar aman jika ada karakter non-ASCII (seperti huruf beraksen/kanji)
+	runeBaseName := []rune(cleanBaseName)
+	if len(runeBaseName) > maxLength {
+		cleanBaseName = string(runeBaseName[:maxLength])
+	}
+
+	// 5. Ekstensi juga di-lowercase biar seragam (opsional)
+	cleanExt := strings.ToLower(ext)
+
+	// 6. Gabungkan kembali dengan format baru
+	uniqueName := fmt.Sprintf("IMG-%d-%s%s", time.Now().Unix(), cleanBaseName, cleanExt)
+
 	saveDir := "./public/uploads"
 	savePath := filepath.Join(saveDir, uniqueName)
 

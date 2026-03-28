@@ -11,6 +11,7 @@ import (
 
 func AuthMiddleware(viper *viper.Viper) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
+
 		authHeader := ctx.Get("Authorization")
 		if authHeader == "" {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{

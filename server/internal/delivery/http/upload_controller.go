@@ -37,7 +37,7 @@ func (c *UploadController) UploadImage(ctx *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "Gagal membaca form data")
 	}
 
-	// 2. Ambil semua file dengan key "images" (Sesuai dengan FE kamu)
+	// 2. Ambil semua file dengan key "images" (Sesuai dengan FE)
 	files := form.File["images"]
 	if len(files) == 0 {
 		return fiber.NewError(fiber.StatusBadRequest, "File gambar tidak ditemukan")
