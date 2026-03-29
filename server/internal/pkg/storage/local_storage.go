@@ -36,9 +36,9 @@ func (s *LocalStorage) SaveLocalImage(fileHeader *multipart.FileHeader) (string,
 	cleanBaseName := strings.ToLower(strings.ReplaceAll(baseName, " ", ""))
 
 	// 4. Autocut jika kepanjangan > dari 50 karakter
-	maxLength := 15
+	maxLength := 1
 
-	// Konversi ke []rune agar aman jika ada karakter non-ASCII (seperti huruf beraksen/kanji)
+	// Konversi ke []rune agar aman jika ada karakter non-ASCII (seperti huruf beraksen/kanji)	`
 	runeBaseName := []rune(cleanBaseName)
 	if len(runeBaseName) > maxLength {
 		cleanBaseName = string(runeBaseName[:maxLength])

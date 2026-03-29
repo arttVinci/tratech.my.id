@@ -93,6 +93,10 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
+	// cek validasi token sama ga kalau ga return gagal register token tidak tidak valid
+
+	// jika valid lanjut create ke table
+
 	total, err := c.UserRepository.CountById(tx, request.Username)
 	if err != nil {
 		c.Log.Warnf("Failed count user from database : %+v", err)
