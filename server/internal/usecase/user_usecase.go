@@ -19,6 +19,8 @@ import (
 	"tratech.my.id/server/internal/entity"
 	"tratech.my.id/server/internal/model"
 	"tratech.my.id/server/internal/model/converter"
+	"tratech.my.id/server/internal/pkg/mail"
+	"tratech.my.id/server/internal/pkg/utils"
 	"tratech.my.id/server/internal/repository"
 )
 
@@ -29,6 +31,7 @@ type UserUseCase struct {
 	Validate       *validator.Validate
 	UserRepository *repository.UserRepository
 	Viper          *viper.Viper
+	Resend         *mail.Resend
 }
 
 func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validate, UserRepo *repository.UserRepository, Viper *viper.Viper) *UserUseCase {
@@ -274,4 +277,12 @@ func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(jwtSecret))
+}
+
+func (c *UserUseCase) CreateVerificationCode(ctx context.Context, request *model.SendOTPRequest) (bool, error) {
+	otpCode, err := utils.Generate6Digit()
+	if err != nil {
+		c.Log.Warnf("Gagal generate OTP: %v", err)
+		return false, fiber.NewError(fiber.StatusInternalServerError, "Gagal membuat kode keamanan")
+	}
 }
