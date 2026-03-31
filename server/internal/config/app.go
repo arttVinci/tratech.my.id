@@ -9,6 +9,7 @@ import (
 	"tratech.my.id/server/internal/delivery/http"
 	"tratech.my.id/server/internal/delivery/http/middleware"
 	"tratech.my.id/server/internal/delivery/http/route"
+	"tratech.my.id/server/internal/pkg/mail"
 	"tratech.my.id/server/internal/pkg/storage"
 	"tratech.my.id/server/internal/repository"
 	"tratech.my.id/server/internal/usecase"
@@ -24,6 +25,7 @@ type BootstrapConfig struct {
 
 func Bootstrap(config *BootstrapConfig) {
 	localStorage := storage.NewLocalStorage("http://127.0.0.1:3000")
+	resend := mail.NewResend(config.Log)
 
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
@@ -36,7 +38,7 @@ func Bootstrap(config *BootstrapConfig) {
 	socialRepository := repository.NewSocialRepository()
 
 	//Setup UseCase
-	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config)
+	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config, resend)
 	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, achievementRepository, projectRepository, educationRepository, experienceRepository)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)

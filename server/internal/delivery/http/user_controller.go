@@ -157,3 +157,20 @@ func (c *UserController) Logout(ctx *fiber.Ctx) error {
 
 	return ctx.JSON(model.WebResponse[bool]{Data: response})
 }
+
+func (c *UserController) RequestOTP(ctx *fiber.Ctx) error {
+	request := new(model.SendOTPRequest)
+	err := ctx.BodyParser(request)
+	if err != nil {
+		c.Log.Warnf("Failed to parse request body : %+v", err)
+		return fiber.ErrBadRequest
+	}
+
+	response, err := c.UseCase.CreateVerificationCode(ctx.UserContext(), request)
+	if err != nil {
+		c.Log.Warnf("Failed to Create Verification Code : %+v", err)
+		return err
+	}
+
+	return ctx.JSON(model.WebResponse[bool]{Data: response})
+}

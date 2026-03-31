@@ -36,13 +36,21 @@ type UserUseCase struct {
 	Resend                      *mail.Resend
 }
 
-func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validate, UserRepo *repository.UserRepository, Viper *viper.Viper) *UserUseCase {
+func NewUserUseCase(
+	DB *gorm.DB,
+	Log *logrus.Logger,
+	validate *validator.Validate,
+	UserRepo *repository.UserRepository,
+	Viper *viper.Viper,
+	Resend *mail.Resend,
+) *UserUseCase {
 	return &UserUseCase{
 		DB:             DB,
 		Log:            Log,
 		Validate:       validate,
 		UserRepository: UserRepo,
 		Viper:          Viper,
+		Resend:         Resend,
 	}
 }
 
