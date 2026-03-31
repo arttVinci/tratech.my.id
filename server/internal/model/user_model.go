@@ -20,6 +20,8 @@ type RegisterUserRequest struct {
 	Password string `json:"password" validate:"required,min=8,max=100"`         // Min 8 karakter
 	Email    string `json:"email" validate:"required,email"`                    // Validasi format email wajib
 	Phone    string `json:"phone" validate:"omitempty,numeric,min=10,max=15"`   // Validasi nomor telepon
+
+	OtpCode string `json:"otp_code" validate:"required,len=6"`
 }
 
 type LoginUserRequest struct {

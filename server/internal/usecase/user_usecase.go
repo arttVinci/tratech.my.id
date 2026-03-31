@@ -12,6 +12,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
@@ -26,12 +27,13 @@ import (
 
 // TODO(post-prod): UserRepository jadi interface untuk testability
 type UserUseCase struct {
-	DB             *gorm.DB
-	Log            *logrus.Logger
-	Validate       *validator.Validate
-	UserRepository *repository.UserRepository
-	Viper          *viper.Viper
-	Resend         *mail.Resend
+	DB                          *gorm.DB
+	Log                         *logrus.Logger
+	Validate                    *validator.Validate
+	UserRepository              *repository.UserRepository
+	EmailVerificationRepository *repository.EmailVerificationRepository
+	Viper                       *viper.Viper
+	Resend                      *mail.Resend
 }
 
 func NewUserUseCase(DB *gorm.DB, Log *logrus.Logger, validate *validator.Validate, UserRepo *repository.UserRepository, Viper *viper.Viper) *UserUseCase {
@@ -96,9 +98,10 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		return nil, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
 	}
 
-	// cek validasi token sama ga kalau ga return gagal register token tidak tidak valid
-
-	// jika valid lanjut create ke table
+	if err := c.validateOTP(tx, request.Email, request.OtpCode); err != nil {
+		c.Log.Warnf("Failed Validate OTP Code: %+v", err)
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Your OTP code is invalid")
+	}
 
 	total, err := c.UserRepository.CountById(tx, request.Username)
 	if err != nil {
@@ -141,6 +144,10 @@ func (c *UserUseCase) Create(ctx context.Context, request *model.RegisterUserReq
 		c.Log.Errorf("Failed to generate JWT for user %s: %v", user.ID, err)
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Failed to generate token")
 	}
+
+	oldOtp := new(entity.EmailVerification)
+	_ = c.EmailVerificationRepository.FindByEmail(tx, oldOtp, request.Email)
+	_ = c.EmailVerificationRepository.Delete(tx, oldOtp)
 
 	if err := tx.Commit().Error; err != nil {
 		c.Log.Warnf("Failed commit transaction : %+v", err)
@@ -280,9 +287,76 @@ func (c *UserUseCase) generateJWT(user *entity.User) (string, error) {
 }
 
 func (c *UserUseCase) CreateVerificationCode(ctx context.Context, request *model.SendOTPRequest) (bool, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		c.Log.Warnf("Invalid request body : %+v", err)
+		return false, fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
+	}
+
 	otpCode, err := utils.Generate6Digit()
 	if err != nil {
 		c.Log.Warnf("Gagal generate OTP: %v", err)
 		return false, fiber.NewError(fiber.StatusInternalServerError, "Gagal membuat kode keamanan")
 	}
+
+	oldOtp := new(entity.EmailVerification)
+
+	errOtp := c.EmailVerificationRepository.FindByEmail(tx, oldOtp, request.Email)
+
+	if errOtp == nil {
+		if err := c.EmailVerificationRepository.Delete(tx, oldOtp); err != nil {
+			c.Log.WithError(err).Error("error deleting oldOtp")
+			return false, fiber.NewError(fiber.StatusInternalServerError, "Failed to process verification")
+		}
+		c.Log.Infof("Old OTP for %s deleted successfully", request.Email)
+	}
+
+	emailVerification := &entity.EmailVerification{
+		ID:        uuid.NewString(),
+		Email:     request.Email,
+		OtpCode:   otpCode,
+		ExpiredAt: time.Now().Add(15 * time.Minute),
+	}
+
+	if err := c.EmailVerificationRepository.Create(tx, emailVerification); err != nil {
+		c.Log.WithError(err).Error("Failed create email verification otp")
+		return false, fiber.NewError(fiber.StatusInternalServerError, "Failed create email verification otp")
+	}
+
+	if err := c.Resend.SendOtpViaResend(request.Username, request.Email, otpCode); err != nil {
+		c.Log.Warnf("Failed to send email otp verification: %v", err)
+		return false, fiber.NewError(fiber.StatusInternalServerError, "Failed to send email otp verification")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		c.Log.Warnf("Failed commit transaction : %+v", err)
+		return false, fiber.NewError(fiber.StatusInternalServerError, "Failed to Create Verification Email Code")
+	}
+
+	return true, nil
+}
+
+func (c *UserUseCase) validateOTP(tx *gorm.DB, email string, inputCode string) error {
+	otpRecord := new(entity.EmailVerification)
+
+	if err := c.EmailVerificationRepository.FindByEmail(tx, otpRecord, email); err != nil {
+		c.Log.Warnf("OTP not found for email: %s", email)
+		return fiber.NewError(fiber.StatusBadRequest, "Kode OTP tidak ditemukan, silakan minta kode baru")
+	}
+
+	// Cek apakah kodenya cocok
+	if otpRecord.OtpCode != inputCode {
+		c.Log.Warnf("Invalid OTP code for email: %s", email)
+		return fiber.NewError(fiber.StatusBadRequest, "Kode OTP tidak valid")
+	}
+
+	// Cek apakah kodenya udah basi (Expired)
+	if time.Now().After(otpRecord.ExpiredAt) {
+		c.Log.Warnf("Expired OTP code for email: %s", email)
+		return fiber.NewError(fiber.StatusBadRequest, "Kode OTP sudah kadaluarsa")
+	}
+
+	return nil
 }
