@@ -34,6 +34,7 @@ func (c *RouteConfig) Setup() {
 
 func (c *RouteConfig) SetupGuestRoute() {
 	c.App.Post("/api/users", c.UserController.Register)
+	c.App.Post("/api/users/_otp", c.UserController.RequestOTP)
 	c.App.Post("/api/users/_login", c.UserController.Login)
 }
 
