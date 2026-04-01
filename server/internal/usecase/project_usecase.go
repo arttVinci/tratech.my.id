@@ -44,7 +44,7 @@ func (c *ProjectUseCase) Create(ctx context.Context, request *model.CreateProjec
 		ID:          uuid.NewString(),
 		UserId:      request.UserId,
 		Title:       request.Title,
-		ImageUrl:    request.Image,
+		ImageUrl:    request.ImageUrl,
 		Description: request.Description,
 		LinkUrl:     request.LinkUrl,
 		Challenge:   request.Challenges,
@@ -85,7 +85,7 @@ func (c *ProjectUseCase) Update(ctx context.Context, request *model.UpdateProjec
 
 	project.Title = request.Title
 	project.Description = request.Description
-	project.ImageUrl = request.Image
+	project.ImageUrl = request.ImageUrl
 	project.LinkUrl = request.LinkUrl
 	project.Challenge = request.Challenges
 	project.Solution = request.Solution

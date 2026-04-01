@@ -10,7 +10,7 @@ func ProjectToResponse(project *entity.Project) *model.ProjectResponse {
 		ID:          project.ID,
 		Title:       project.Title,
 		Description: project.Description,
-		Image:       project.ImageUrl,
+		ImageUrl:    project.ImageUrl,
 		LinkUrl:     project.LinkUrl,
 		IsFeatured:  project.IsFeatured,
 		Challenges:  project.Challenge,

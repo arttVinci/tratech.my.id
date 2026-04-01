@@ -24,7 +24,6 @@ func NewResend(log *logrus.Logger, config *viper.Viper) *Resend {
 	}
 }
 
-// 1. Struct buat nampung data yang mau di-inject ke HTML
 type OTPTemplateData struct {
 	LogoURL   string
 	InstName  string
@@ -55,7 +54,6 @@ func (p *Resend) SendOtpViaResend(username string, toEmail string, otpCode strin
 		Year:      fmt.Sprintf("%d", time.Now().Year()),
 	}
 
-	// 3. String HTML Template dari lu (Pakai backtick)
 	const emailTemplate = `
 	<!DOCTYPE html>
 	<html lang="id">
@@ -124,7 +122,6 @@ func (p *Resend) SendOtpViaResend(username string, toEmail string, otpCode strin
 	</body>
 	</html>`
 
-	// 4. Proses Parse dan Execute HTML
 	t, err := template.New("otp").Parse(emailTemplate)
 	if err != nil {
 		p.Log.Warnf("Failed to parse HTML template: %v", err)
@@ -143,7 +140,7 @@ func (p *Resend) SendOtpViaResend(username string, toEmail string, otpCode strin
 		From:    from,
 		To:      []string{toEmail},
 		Subject: "Your Account Verification Code",
-		Html:    bodyBuffer.String(), // Pakai hasil render template
+		Html:    bodyBuffer.String(),
 		Text:    fmt.Sprintf("Halo %s! Kode OTP Anda adalah: %s. Berlaku selama 15 menit.", username, otpCode),
 	}
 

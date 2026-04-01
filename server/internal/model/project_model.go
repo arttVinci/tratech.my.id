@@ -14,7 +14,7 @@ type ProjectResponse struct {
 	ID          string           `json:"id"`
 	Title       string           `json:"title"`
 	Description string           `json:"description"`
-	Image       string           `json:"image"`
+	ImageUrl    string           `json:"image_url"`
 	LinkUrl     string           `json:"link_url"`
 	IsFeatured  bool             `json:"featured"`
 	Challenges  string           `json:"challenges"`
@@ -31,7 +31,7 @@ type CreateProjectRequest struct {
 	UserId      string `json:"-" validate:"required"`
 	Title       string `json:"title" validate:"required,min=3,max=100"`
 	Description string `json:"description" validate:"required,max=2000"`
-	Image       string `json:"image" validate:"omitempty,url"`
+	ImageUrl    string `json:"image_url" validate:"omitempty,url"`
 	LinkUrl     string `json:"link_url" validate:"omitempty,url"`
 	IsFeatured  bool   `json:"featured"`
 	Challenges  string `json:"challenges" validate:"omitempty,max=3000"`
@@ -47,7 +47,7 @@ type UpdateProjectRequest struct {
 	UserId      string `json:"-" validate:"required"`
 	Title       string `json:"title" validate:"omitempty,min=3,max=100"`
 	Description string `json:"description" validate:"omitempty,max=2000"`
-	Image       string `json:"image" validate:"omitempty,url"`
+	ImageUrl    string `json:"image_url" validate:"omitempty,url"`
 	LinkUrl     string `json:"link_url" validate:"omitempty,url"`
 	IsFeatured  bool   `json:"featured" validate:"omitempty"`
 	Challenges  string `json:"challenges" validate:"omitempty,max=3000"`
