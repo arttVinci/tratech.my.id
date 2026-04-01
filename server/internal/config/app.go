@@ -25,7 +25,7 @@ type BootstrapConfig struct {
 
 func Bootstrap(config *BootstrapConfig) {
 	localStorage := storage.NewLocalStorage("http://127.0.0.1:3000")
-	resend := mail.NewResend(config.Log)
+	resend := mail.NewResend(config.Log, config.Config)
 
 	//Setup Repository
 	userRepository := repository.NewUserRepository(config.Log)
@@ -36,9 +36,10 @@ func Bootstrap(config *BootstrapConfig) {
 	educationRepository := repository.NewEducationRepository()
 	skillRepository := repository.NewSkillRepository()
 	socialRepository := repository.NewSocialRepository()
+	emailVerificationRepository := repository.NewEmailVerificationRepository()
 
 	//Setup UseCase
-	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, config.Config, resend)
+	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, emailVerificationRepository, config.Config, resend)
 	profileUseCase := usecase.NewProfileUseCase(config.DB, config.Log, config.Validate, profileRepository, achievementRepository, projectRepository, educationRepository, experienceRepository)
 	achievementUseCase := usecase.NewAchievementUseCase(config.DB, config.Log, config.Validate, achievementRepository)
 	projectUseCase := usecase.NewProjectUsecase(config.DB, config.Log, config.Validate, projectRepository)

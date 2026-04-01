@@ -13,12 +13,14 @@ import (
 )
 
 type Resend struct {
-	Log *logrus.Logger
+	Log    *logrus.Logger
+	Config *viper.Viper
 }
 
-func NewResend(log *logrus.Logger) *Resend {
+func NewResend(log *logrus.Logger, config *viper.Viper) *Resend {
 	return &Resend{
-		Log: log,
+		Log:    log,
+		Config: config,
 	}
 }
 
@@ -34,8 +36,8 @@ type OTPTemplateData struct {
 }
 
 func (p *Resend) SendOtpViaResend(username string, toEmail string, otpCode string) error {
-	apiKey := viper.GetString("resend.api_key")
-	from := viper.GetString("resend.email")
+	apiKey := p.Config.GetString("resend.api_key")
+	from := p.Config.GetString("resend.email")
 
 	if apiKey == "" || from == "" {
 		p.Log.Warnf("failed get api key or email sender from config")
@@ -45,8 +47,8 @@ func (p *Resend) SendOtpViaResend(username string, toEmail string, otpCode strin
 	// 2. Siapin data dinamisnya
 	data := OTPTemplateData{
 		LogoURL:   "https://tratech.my.id/logo.png",
-		InstName:  "Tratech",
-		Tagline:   "Tech Portfolio System",
+		InstName:  "Portofy",
+		Tagline:   "Portfolio System",
 		Username:  username,
 		OTPCode:   otpCode,
 		ExpiryMin: "15",
@@ -140,7 +142,7 @@ func (p *Resend) SendOtpViaResend(username string, toEmail string, otpCode strin
 	params := &resend.SendEmailRequest{
 		From:    from,
 		To:      []string{toEmail},
-		Subject: "🔑 Kode Verifikasi Tratech",
+		Subject: "Your Account Verification Code",
 		Html:    bodyBuffer.String(), // Pakai hasil render template
 		Text:    fmt.Sprintf("Halo %s! Kode OTP Anda adalah: %s. Berlaku selama 15 menit.", username, otpCode),
 	}

@@ -41,16 +41,18 @@ func NewUserUseCase(
 	Log *logrus.Logger,
 	validate *validator.Validate,
 	UserRepo *repository.UserRepository,
+	emailVerificationRepository *repository.EmailVerificationRepository,
 	Viper *viper.Viper,
 	Resend *mail.Resend,
 ) *UserUseCase {
 	return &UserUseCase{
-		DB:             DB,
-		Log:            Log,
-		Validate:       validate,
-		UserRepository: UserRepo,
-		Viper:          Viper,
-		Resend:         Resend,
+		DB:                          DB,
+		Log:                         Log,
+		Validate:                    validate,
+		UserRepository:              UserRepo,
+		EmailVerificationRepository: emailVerificationRepository,
+		Viper:                       Viper,
+		Resend:                      Resend,
 	}
 }
 
@@ -313,7 +315,7 @@ func (c *UserUseCase) CreateVerificationCode(ctx context.Context, request *model
 
 	errOtp := c.EmailVerificationRepository.FindByEmail(tx, oldOtp, request.Email)
 
-	if errOtp == nil {
+	if errOtp != nil {
 		if err := c.EmailVerificationRepository.Delete(tx, oldOtp); err != nil {
 			c.Log.WithError(err).Error("error deleting oldOtp")
 			return false, fiber.NewError(fiber.StatusInternalServerError, "Failed to process verification")
