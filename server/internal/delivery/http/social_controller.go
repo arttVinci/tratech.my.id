@@ -130,10 +130,10 @@ func (c *SocialController) GetAll(ctx *fiber.Ctx) error {
 		UserId: auth.ID,
 	}
 
-	if err := ctx.BodyParser(request); err != nil {
-		c.Log.WithError(err).Error("error parsing request body")
-		return err
-	}
+	//if err := ctx.BodyParser(request); err != nil {
+	//	c.Log.WithError(err).Error("error parsing request body")
+	//	return err
+	//}
 
 	response, err := c.UseCase.GetAll(ctx.UserContext(), request)
 	if err != nil {
