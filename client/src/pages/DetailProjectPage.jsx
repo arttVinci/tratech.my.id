@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MoveLeft, ExternalLink, FolderOpen } from "lucide-react";
+import { MoveLeft, ExternalLink, FolderOpen, Camera, Zap, Lightbulb, Sparkles, ChevronRight } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { projectsData } from "../data/ProjectsData";
 import ProjectTechStack from "../components/ProjectTechStack";
@@ -89,7 +89,7 @@ export default function DetailProjectPage() {
         className="space-y-4 mt-8 md:mt-10 mb-8 md:mb-10"
       >
         <h3 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-          <span className="text-cyan-400">📸</span>
+          <Camera className="w-5 h-5 text-cyan-400" />
           Interface Showcase
         </h3>
         <ImageGallery images={project.gallery} />
@@ -98,7 +98,7 @@ export default function DetailProjectPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <GlowCard className="h-full">
           <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
-            <span className="text-orange-400">⚡</span>
+            <Zap className="w-5 h-5 text-orange-400" />
             Challenges
           </h3>
           <p className="text-gray-300 text-sm md:text-base leading-relaxed">
@@ -108,7 +108,7 @@ export default function DetailProjectPage() {
 
         <GlowCard className="h-full">
           <h3 className="text-lg font-bold text-white flex items-center gap-2 pb-4">
-            <span className="text-green-400">💡</span>
+            <Lightbulb className="w-5 h-5 text-green-400" />
             Solution
           </h3>
           <p className="text-gray-300 text-sm md:text-base leading-relaxed">
@@ -119,7 +119,7 @@ export default function DetailProjectPage() {
 
       <GlowCard certi={true} className={"rounded-2xl md:rounded-3xl mt-6"}>
         <h3 className="text-lg md:text-xl font-bold text-white flex items-center gap-2 mb-6">
-          <span className="text-cyan-400 animate-pulse">✨</span>
+          <Sparkles className="w-5 h-5 text-cyan-400 animate-pulse" />
           <span className="relative">Key Features</span>
         </h3>
 
@@ -151,9 +151,7 @@ export default function DetailProjectPage() {
                     }}
                     className="relative flex items-start gap-3 md:gap-4 text-gray-300 hover:text-white transition-all duration-300 group/item text-sm md:text-base"
                   >
-                    <span className="text-cyan-400 mt-1 group-hover/item:translate-x-1 transition-transform shrink-0">
-                      ▹
-                    </span>
+                    <ChevronRight className="w-4 h-4 text-cyan-400 mt-1 group-hover/item:translate-x-1 transition-transform shrink-0" />
 
                     <span className="leading-relaxed">{item}</span>
                   </motion.li>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { Menu, Hammer, X } from "lucide-react";
+import { Menu, Hammer, X, Rocket } from "lucide-react";
 import { MdVerified } from "react-icons/md";
 
 export default function MainLayout() {
@@ -113,7 +113,7 @@ export default function MainLayout() {
                   <p className="text-zinc-400 text-sm leading-relaxed">
                     Fitur ini sedang dalam pengembangan oleh developers.
                     <br />
-                    Nantikan update selanjutnya! 🚀
+                    Nantikan update selanjutnya! <Rocket className="w-4 h-4 inline-block text-cyan-400" />
                   </p>
                 </div>
               </div>
