@@ -3,9 +3,11 @@ export const certificatesData = [
     id: 11,
     image: "/images/certificate/sertif-go.png",
     title: "Programming With Go-Lang: Fundamental, OOP, Database, Web, RESTful API",
-    organization: "Udemy",
+    organization: "Coursera",
     issuedDate: "April 2026",
-    IdCredential: "",
+    credentialUrl:
+      "https://www.coursera.org/account/accomplishments/specialization/DG1673M87PBV",
+    IdCredential: "DG1673M87PBV",
   },
   {
     id: 1,
