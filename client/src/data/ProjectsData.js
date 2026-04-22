@@ -19,6 +19,105 @@ import { MdPayment } from "react-icons/md";
 
 export const projectsData = [
   {
+    id: 5, // ID berikutnya setelah Dekatku
+    image: "/images/projects/portofy/home-page.png",
+    title: "Portofy",
+    description:
+      "Portofy adalah platform SaaS (Software as a Service) yang memungkinkan siapa pun untuk membangun portofolio profesional secara online tanpa perlu keahlian coding. Platform ini dirancang khusus untuk kebutuhan kreator dan profesional di Indonesia dengan dukungan kecerdasan buatan (AI) untuk optimasi konten dan analisis kelayakan profil.",
+    tags: ["Go", "React", "TypeScript", "MySQL", "AI", "Clean Architecture"],
+    githubUrl: "https://github.com/putrarizky/portofy.git", // Placeholder berdasarkan nama penyusun
+    liveUrl: "https://portofy.net",
+    techStack: [
+      { name: "Go", Icon: SiGo, color: "#00ADD8" },
+      { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
+      { name: "React", Icon: SiReact, color: "#61DAFB" },
+      { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+      { name: "AI", Icon: SiDependabot, color: "#412991" },
+      { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+    ],
+    gallery: [
+      {
+        id: 1,
+        url: "/images/projects/portofy/home-page.png",
+        caption: "Home Page",
+      },
+      {
+        id: 2,
+        url: "/images/projects/portofy/login-page.png",
+        caption: "Login Page",
+      },
+      {
+        id: 3,
+        url: "/images/projects/portofy/register-page.png",
+        caption: "Register Page",
+      },
+      {
+        id: 4,
+        url: "/images/projects/portofy/dashboard.png",
+        caption: "Dashboard",
+      },
+      {
+        id: 5,
+        url: "/images/projects/portofy/about-page.png",
+        caption: "About Page",
+      },
+      {
+        id: 6,
+        url: "/images/projects/portofy/education-page.png",
+        caption: "Education Page",
+      },
+      {
+        id: 7,
+        url: "/images/projects/portofy/experience-page.png",
+        caption: "Experience Page",
+      },
+      {
+        id: 8,
+        url: "/images/projects/portofy/architecture.png",
+        caption: "Architecture",
+      },
+    ],
+    features: [
+      {
+        title: "AI-Powered Content Generation",
+        key: [
+          "AI Description Generator untuk menghasilkan teks profesional secara otomatis.",
+          "CV/Resume Parser untuk mengekstrak informasi dan auto-fill profil.",
+          "AI Consultation & Career Advisor untuk saran pengembangan portofolio.",
+        ],
+      },
+      {
+        title: "Advanced Portfolio Analytics",
+        key: [
+          "Portfolio Score untuk mengukur kelayakan portofolio.",
+          "Recommendation Engine untuk saran perbaikan konten spesifik.",
+          "Analisis kesesuaian dengan standar industri yang dituju.",
+        ],
+      },
+      {
+        title: "No-Code Customization",
+        key: [
+          "Editor Drag-and-drop yang intuitif tanpa perlu coding.",
+          "Preview real-time di perangkat desktop dan mobile.",
+          "Kustomisasi penuh pada warna, font, dan tata letak template.",
+        ],
+      },
+      {
+        title: "Professional Infrastructure",
+        key: [
+          "Penyediaan sub-domain gratis (username.portofy.net).",
+          "Dukungan integrasi Custom Domain untuk pengguna premium.",
+          "Hosting yang dikelola sepenuhnya oleh platform.",
+        ],
+      },
+    ],
+    challenges:
+      "Membangun platform yang mampu melakukan analisis konten secara akurat menggunakan AI sambil memastikan arsitektur tetap maintainable untuk jangka panjang.",
+    solution:
+      "Mengimplementasikan Clean Architecture dengan pemisahan layer yang jelas (Presentation, Delivery, Use Case, Repository) serta mengintegrasikan berbagai layanan AI API untuk pemrosesan data teks dan dokumen secara efisien.",
+    featured: true,
+  },
+  {
     id: 1,
     image: "/images/projects/dekatku/project1.png",
     title: "Dekatku",
@@ -110,7 +209,7 @@ export const projectsData = [
       "Integrating accurate geolocation with AI recommendations while maintaining fast performance across different devices and network conditions.",
     solution:
       "Implemented efficient caching strategies, optimized database queries, and used lazy loading for images to ensure smooth user experience.",
-    featured: true,
+    featured: false,
   },
   {
     id: 2,
@@ -206,7 +305,7 @@ export const projectsData = [
       "Mengintegrasikan frontend yang kaya akan animasi interaktif dengan data dinamis dari backend, serta mengelola struktur project monorepo (Client & Server) agar tetap terorganisir dan performa tetap kencang.",
     solution:
       "Menerapkan pemisahan direktori yang tegas antara Client dan Server, menggunakan Docker Compose untuk orkestrasi service di local development, dan mengoptimalkan endpoint API.",
-    featured: true,
+    featured: false,
   },
   {
     id: 3,
