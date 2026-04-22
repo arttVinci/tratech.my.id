@@ -1,5 +1,13 @@
 export const certificatesData = [
   {
+    id: 11,
+    image: "/images/certificate/sertif-go.png",
+    title: "Programming With Go-Lang: Fundamental, OOP, Database, Web, RESTful API",
+    organization: "Udemy",
+    issuedDate: "April 2026",
+    IdCredential: "",
+  },
+  {
     id: 1,
     image: "/images/certificate/serti2.jpg",
     title: "Innovation AI For UMKN, IMPHNEN x Kolosal.ai Hackathon",
